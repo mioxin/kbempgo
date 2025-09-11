@@ -12,8 +12,13 @@ import (
 )
 
 type HttpClientPool interface {
-	Get(int) *req.Client
-	Push(*req.Client) error
+	//  chanal implementation
+	//	Get(int) *req.Client
+	//	Push(*req.Client) error
+
+	//  sync.Pool implementation
+	Get() *req.Client
+	Push(*req.Client)
 }
 
 type Item interface {
@@ -52,7 +57,7 @@ func (w *Worker) Get(ctx context.Context, in <-chan string, cliPool HttpClientPo
 	}()
 
 	// get client from pool
-	cli = cliPool.Get(w.Gl.Debug)
+	cli = cliPool.Get()
 	cli.SetBaseURL(w.Gl.KbUrl)
 
 	for r := range in {

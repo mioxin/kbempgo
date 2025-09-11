@@ -33,7 +33,8 @@ func (e *employCommand) Run(gl *Globals) error {
 	razdCh := make(chan string)
 	isData := make(chan struct{})
 
-	clientsPool := clientpool.NewClientsPool(e.Workers)
+	//	clientsPool := clientpool.NewClientsPool(e.Workers)
+	clientsPool := clientpool.NewClientPool(gl.Debug)
 
 	// init request workers
 	pool := make([]*Worker, e.Workers)
