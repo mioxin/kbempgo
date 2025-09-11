@@ -1,0 +1,55 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:alpine
+    container_name: pg
+    environment:
+      POSTGRES_DB: "wwwint"
+      POSTGRES_USER: "kb"
+      POSTGRES_PASSWORD: "123456"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+      - ~/pg-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kb -d wwwint"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 4G
+
+  adminer:
+    container_name: pgadm
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+  postgres_exporter:
+    container_name: pgexporter
+    image: prometheuscommunity/postgres-exporter:v0.10.1
+    environment:
+      DATA_SOURCE_URI: "db:5432/wwwint?sslmode=disable"
+      DATA_SOURCE_USER: "kb"
+      DATA_SOURCE_PASS: "123456"
+      PG_EXPORTER_EXTEND_QUERY_PATH: "/etc/postgres_exporter/queries.yaml"
+    volumes:
+      - ./queries.yaml:/etc/postgres_exporter/queries.yaml:ro
+    ports:
+      - "9187:9187"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: 500M
+#    networks:
+#      - postgres
+
