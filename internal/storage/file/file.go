@@ -7,6 +7,7 @@ import (
 	"log/slog"
 	"os"
 	"path/filepath"
+	"sync"
 
 	"github.com/mioxin/kbempgo/internal/models"
 )
@@ -16,7 +17,7 @@ type FileStore[T models.Item] struct {
 	BaseDir       string
 	wrDep, wrSotr *bufio.Writer
 	flD, flS      *os.File
-	// mt            sync.Mutex
+	mt            sync.Mutex
 }
 
 func NewFileStore[T models.Item](fname string) (*FileStore[T], error) {
@@ -55,8 +56,8 @@ func (f *FileStore[T]) Save(item T) (err error) {
 	}
 	b = append(b, "\n"...)
 
-	// f.mt.Lock()
-	// defer f.mt.Unlock()
+	f.mt.Lock()
+	defer f.mt.Unlock()
 
 	if item.IsSotr() {
 		_, err = f.wrSotr.Write(b)
