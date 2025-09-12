@@ -9,6 +9,7 @@ import (
 
 	"github.com/imroc/req/v3"
 	"github.com/mioxin/kbempgo/internal/models"
+	"github.com/mioxin/kbempgo/internal/utils"
 )
 
 type HttpClientPool interface {
@@ -164,7 +165,12 @@ func (w *Worker) Dispatcher(ctx context.Context, out chan<- string, isData <-cha
 func (w *Worker) PrepareItem(item Item) error {
 
 	if item.IsSotr() {
-
+		dep := item.(*models.Dep)
+		sotr := utils.ParseSotr(dep.Text)
+		sotr.Children = dep.Children
+		sotr.Idr = dep.Idr
+		sotr.ParentId = dep.Parent
+		item = sotr
 	}
 	err := w.Gl.store.Save(item)
 	return err
