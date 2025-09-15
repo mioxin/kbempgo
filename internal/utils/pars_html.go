@@ -22,8 +22,7 @@ func findBetween(s, start, end string) string {
 }
 
 // parsing by find string index
-func ParseSotr(htmlStr string) *models.Sotr {
-	unescaped := html.UnescapeString(htmlStr)
+func ParseSotr(unescaped string) *models.Sotr {
 
 	// Tabnum
 	tabnum := findBetween(unescaped, `data-tabnum="`, `"`)
@@ -57,13 +56,36 @@ func ParseSotr(htmlStr string) *models.Sotr {
 
 	return &models.Sotr{
 		Tabnum: tabnum,
-		Fio:    fio,
+		Name:   fio,
 		Phone:  phone,
 		Mobile: mobile,
 		Email:  email,
 		Avatar: avatar,
 		Grade:  grade,
 	}
+}
+
+// parsing mid name
+func ParseMidName(sotr *models.Sotr, unescaped string) string {
+	slText := strings.Split(unescaped, "</div><div class=sotr_td3")
+
+	for _, t := range slText {
+		// Avatar
+		avatar := findBetween(t, `alt="" src="`, `"`)
+		// Cut avatar query-param
+		if idx := strings.Index(avatar, "?"); idx != -1 {
+			avatar = avatar[:idx]
+		}
+		// FIO
+		fio := findBetween(t, `onclick="searchG('`, `', 'sotrSearchList')`)
+		fio = strings.TrimSpace(fio)
+		mid, ok := strings.CutPrefix(fio, sotr.Name)
+		// slog.Debug("PARSE MIDNAME:", "mid", mid, "fio", fio, "avatar", avatar, "sotr.avatar", sotr.Avatar)
+		if ok && avatar == sotr.Avatar {
+			return strings.TrimSpace(mid)
+		}
+	}
+	return ""
 }
 
 // parsing by regexp
@@ -88,7 +110,7 @@ func ParseSotrRe(htmlStr string) (*models.Sotr, error) {
 
 	return &models.Sotr{
 		Tabnum: tabnum,
-		Fio:    fio,
+		Name:   fio,
 		Phone:  phone,
 		Mobile: mobile,
 		Email:  email,

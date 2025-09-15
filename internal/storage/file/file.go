@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"encoding/json"
 	"fmt"
-	"log/slog"
 	"os"
 	"path/filepath"
 	"sync"
@@ -61,10 +60,10 @@ func (f *FileStore[T]) Save(item T) (err error) {
 
 	if item.IsSotr() {
 		_, err = f.wrSotr.Write(b)
-		slog.Debug("sotr", "item", item)
+		// slog.Debug("Save to file sotr:", "item", item)
 	} else {
 		_, err = f.wrDep.Write(b)
-		slog.Debug("dep", "item", item)
+		// slog.Debug("Save to file dep:", "item", item)
 	}
 
 	return

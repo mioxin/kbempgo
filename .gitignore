@@ -22,7 +22,8 @@ profile.cov
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
-.kbemp-store/
+.*
+!.gitignore
 
 # Go workspace file
 go.work
@@ -30,7 +31,6 @@ go.work.sum
 
 # env file
 .env
-.tmp/
 kb.yaml
 kb.yml
 

@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/alecthomas/kong"
+	"github.com/mioxin/kbempgo/internal/clientpool"
 	"github.com/mioxin/kbempgo/internal/storage"
 	"github.com/mioxin/kbempgo/pkg/kongyaml"
 )
@@ -15,19 +16,22 @@ import (
 type Globals struct {
 	KbUrl           string          `name:"url" placeholder:"URL" help:"Base Url"`
 	ConfigFile      kong.ConfigFlag `name:"config-file" short:"c" type:"existingfile" help:"Config file location"`
-	OpTimeout       time.Duration   `name:"op-timeout" default:"1000s" help:"timeout for Main getting"`
-	WaitDataTimeout time.Duration   `name:"wait-timeout" default:"5s" help:"timeout for waiting data in dispatcher of worker"`
+	OpTimeout       time.Duration   `name:"op-timeout" default:"1600s" help:"timeout for Main getting"`
+	HttpReqTimeout  time.Duration   `name:"req-timeout" default:"7s" help:"Http request timeout for worker"`
+	WaitDataTimeout time.Duration   `name:"wait-timeout" default:"20s" help:"timeout for waiting data in dispatcher of worker"`
 	Debug           int             `name:"debug" short:"d" type:"counter" help:"Enable debug"`
 	UrlRazd         string          `name:"razd" env:"KB_URL_RAZD" help:"Url of section"`
 	UrlSotr         string          `name:"sotr" env:"KB_URL_SOTR" help:"Url of employer"`
 	UrlFio          string          `name:"fio" env:"KB_URL_FIO" help:"Url of employer full nane"`
 	DbUrl           string          `name:"db" env:"KB_DB_URL" help:"DB connection string"`
+	Avatars         string          `name:"avatars" env:"KB_AVATARS" help:"Directory for avatar images"`
 
-	lgInitOnce sync.Once          `kong:"-"`
-	log        *slog.Logger       `kong:"-"`
-	ctx        context.Context    `kong:"-"`
-	cf         context.CancelFunc `kong:"-"`
-	store      storage.Store      `kong:"-"`
+	lgInitOnce  sync.Once          `kong:"-"`
+	log         *slog.Logger       `kong:"-"`
+	ctx         context.Context    `kong:"-"`
+	cf          context.CancelFunc `kong:"-"`
+	store       storage.Store      `kong:"-"`
+	clientsPool HttpClientPool     `kong:"-"`
 }
 
 // Done must be called on exit via defer
@@ -82,6 +86,9 @@ func Main() {
 		}),
 		kong.DefaultEnvars("KB"),
 	)
+
+	//	clientsPool := clientpool.NewClientsPool(e.Workers)
+	cli.Globals.clientsPool = clientpool.NewClientPool(cli.Globals.Debug)
 
 	cli.Globals.store, err = storage.NewStore(cli.DbUrl)
 	kctx.FatalIfErrorf(err, "create file storage")

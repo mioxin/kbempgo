@@ -5,23 +5,19 @@ import (
 	"log/slog"
 	"sync"
 	"sync/atomic"
-
-	"github.com/mioxin/kbempgo/internal/clientpool"
+	"time"
 )
 
 const ()
 
 type employCommand struct {
-	Glob     *Globals
-	Workers  int          `name:"workers" short:"w" default:"3" env:"KB_WORKERS" help:"Number of workers"`
-	Limit    int          `name:"limit" short:"l" default:"90" env:"KB_LIMIT" help:"Limit of data for get. If =0 then no limit."`
-	RootRazd string       `name:"rootr" env:"KB_ROOT_RAZD" help:"Name of root section"`
-	Lg       *slog.Logger `kong:"-"`
-	Counter  atomic.Int32 `kong:"-"`
-}
-
-type ErrorMessage struct {
-	Message string `json:"message"`
+	Glob        *Globals
+	Workers     int          `name:"workers" short:"w" default:"5" env:"KB_WORKERS" help:"Number of workers"`
+	Limit       int          `name:"limit" short:"l" default:"0" env:"KB_LIMIT" help:"Limit of data for get. If =0 then no limit."`
+	RootRazd    string       `name:"rootr" env:"KB_ROOT_RAZD" help:"Name of root section"`
+	Lg          *slog.Logger `kong:"-"`
+	DepsCounter atomic.Int32 `kong:"-"`
+	SotrCounter atomic.Int32 `kong:"-"`
 }
 
 func (e *employCommand) Run(gl *Globals) error {
@@ -30,11 +26,7 @@ func (e *employCommand) Run(gl *Globals) error {
 	gl.InitLog()
 	e.Lg = gl.log.With("cmd", "employ")
 	ctx := e.Glob.Context()
-	razdCh := make(chan string)
-	isData := make(chan struct{})
-
-	//	clientsPool := clientpool.NewClientsPool(e.Workers)
-	clientsPool := clientpool.NewClientPool(gl.Debug)
+	razdCh := make(chan string, 10)
 
 	// init request workers
 	pool := make([]*Worker, e.Workers)
@@ -49,27 +41,41 @@ func (e *employCommand) Run(gl *Globals) error {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			w.Get(ctx, razdCh, clientsPool, isData, int32(e.Limit), &(e.Counter))
+			w.Get(ctx, razdCh, int32(e.Limit), &(e.DepsCounter), &(e.SotrCounter))
 		}()
 
 		// start dispatcher
 		wgD.Add(1)
 		go func() {
 			defer wgD.Done()
-			w.Dispatcher(ctx, razdCh, isData)
+			w.Dispatcher(ctx, razdCh)
 		}()
 	}
 
-	// Close Chanal after end of Dispatchers
+	// Close Chanal if empty
 	go func() {
-		wgD.Wait()
-		close(razdCh)
+		defer close(razdCh)
+		timer := time.NewTicker(e.Glob.WaitDataTimeout)
+
+		for {
+			select {
+			case <-e.Glob.ctx.Done():
+			case <-timer.C:
+				if len(razdCh) == 0 {
+					e.Lg.Info("Chanal razd is empty too long time: Timer cancel")
+					e.Glob.cf()
+					return
+				}
+			}
+		}
 	}()
 
 	// Start root section
 	razdCh <- e.RootRazd
 
+	wgD.Wait()
 	wg.Wait()
 	e.Lg.Debug("Stop wait group... Close depsCh.")
+	e.Lg.Info("Collected.", "sotr", e.SotrCounter.Load(), "deps", e.DepsCounter.Load())
 	return nil
 }

@@ -7,7 +7,7 @@ type Item interface {
 }
 
 type Dep struct {
-	// Id       int    `json:"id,omitempty"`
+	Id       int    `json:"uid,omitempty"`
 	Idr      string `json:"id"`
 	Parent   string `json:"parent"`
 	Text     string `json:"text"`
@@ -20,10 +20,11 @@ func (d *Dep) IsSotr() bool {
 }
 
 type Sotr struct {
-	// Id       int       `json:"id,omitempty"`
+	Id       int       `json:"uid,omitempty"`
 	Idr      string    `json:"id"`
 	Tabnum   string    `json:"tabnum"`
-	Fio      string    `json:"fio"`
+	Name     string    `json:"name"`
+	MidName  string    `json:"mid_name"`
 	Phone    string    `json:"phone"`
 	Mobile   string    `json:"mobile"`
 	Email    string    `json:"email"`
