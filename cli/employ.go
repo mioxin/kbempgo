@@ -13,7 +13,7 @@ const ()
 type employCommand struct {
 	Glob        *Globals
 	Workers     int          `name:"workers" short:"w" default:"5" env:"KB_WORKERS" help:"Number of workers"`
-	Limit       int          `name:"limit" short:"l" default:"0" env:"KB_LIMIT" help:"Limit of data for get. If =0 then no limit."`
+	Limit       int          `name:"limit" short:"l" default:"100" env:"KB_LIMIT" help:"Limit of data for get. If =0 then no limit."`
 	RootRazd    string       `name:"rootr" env:"KB_ROOT_RAZD" help:"Name of root section"`
 	Lg          *slog.Logger `kong:"-"`
 	DepsCounter atomic.Int32 `kong:"-"`
@@ -27,6 +27,7 @@ func (e *employCommand) Run(gl *Globals) error {
 	e.Lg = gl.log.With("cmd", "employ")
 	ctx := e.Glob.Context()
 	razdCh := make(chan string, 10)
+	avatarCh := make(chan string, 10)
 
 	// init request workers
 	pool := make([]*Worker, e.Workers)
@@ -38,31 +39,37 @@ func (e *employCommand) Run(gl *Globals) error {
 	var wg sync.WaitGroup
 	var wgD sync.WaitGroup
 	for _, w := range pool {
-		wg.Add(1)
+		wg.Add(2)
 		go func() {
 			defer wg.Done()
-			w.Get(ctx, razdCh, int32(e.Limit), &(e.DepsCounter), &(e.SotrCounter))
+			w.GetRazd(ctx, razdCh, int32(e.Limit), &(e.DepsCounter), &(e.SotrCounter))
+		}()
+
+		go func() {
+			defer wg.Done()
+			w.GetAvatar(ctx, avatarCh, int32(e.Limit), &(e.DepsCounter), &(e.SotrCounter))
 		}()
 
 		// start dispatcher
 		wgD.Add(1)
 		go func() {
 			defer wgD.Done()
-			w.Dispatcher(ctx, razdCh)
+			w.Dispatcher(ctx, razdCh, avatarCh)
 		}()
 	}
 
-	// Close Chanal if empty
+	// Close Chanals if empty
 	go func() {
 		defer close(razdCh)
+		defer close(avatarCh)
 		timer := time.NewTicker(e.Glob.WaitDataTimeout)
 
 		for {
 			select {
 			case <-e.Glob.ctx.Done():
 			case <-timer.C:
-				if len(razdCh) == 0 {
-					e.Lg.Info("Chanal razd is empty too long time: Timer cancel")
+				if len(razdCh) == 0 && len(avatarCh) == 0 {
+					e.Lg.Info("Chanals razd&avatar is empty too long time: Timer cancel")
 					e.Glob.cf()
 					return
 				}

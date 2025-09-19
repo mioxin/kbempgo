@@ -7,6 +7,9 @@ import (
 	"html"
 	"log/slog"
 	"net/url"
+	"os"
+	"path/filepath"
+	"strings"
 	"sync"
 	"sync/atomic"
 
@@ -34,30 +37,33 @@ type Item interface {
 }
 
 type Worker struct {
-	mu     sync.Mutex
-	Name   string
-	Queue  *list.List
-	Gl     *Globals
-	isData chan struct{}
-	Lg     *slog.Logger
+	mu          sync.Mutex
+	Name        string
+	QueueDep    *list.List
+	QueueAvatar *list.List
+	Gl          *Globals
+	isData      chan struct{}
+	isDataA     chan struct{}
+	Lg          *slog.Logger
 }
 
 func NewWorker(gl *Globals, name string) *Worker {
 	lg := gl.log.With("worker", name)
 	isData := make(chan struct{})
+	isDataA := make(chan struct{})
 
 	return &Worker{Name: name,
-		Queue:  list.New(),
-		Gl:     gl,
-		Lg:     lg,
-		isData: isData,
+		QueueDep:    list.New(),
+		QueueAvatar: list.New(),
+		Gl:          gl,
+		Lg:          lg,
+		isData:      isData,
+		isDataA:     isDataA,
 	}
 }
 
-func (w *Worker) Get(ctx context.Context, in <-chan string, limit int32, depsCount *atomic.Int32, sotrCount *atomic.Int32) {
-	var (
-		errMsg ErrorMessage
-	)
+func (w *Worker) GetRazd(ctx context.Context, in <-chan string, limit int32, depsCount *atomic.Int32, sotrCount *atomic.Int32) {
+	var errMsg ErrorMessage
 
 	w.Lg.Info("Worker: Start Getting...")
 
@@ -124,7 +130,7 @@ func (w *Worker) Get(ctx context.Context, in <-chan string, limit int32, depsCou
 
 				if !d.IsSotr() {
 					w.mu.Lock()
-					w.Queue.PushBack(d.Idr)
+					w.QueueDep.PushBack(d.Idr)
 					w.mu.Unlock()
 
 					depsCount.Add(1)
@@ -145,64 +151,100 @@ func (w *Worker) Get(ctx context.Context, in <-chan string, limit int32, depsCou
 
 			}
 		}
-		w.Lg.Debug("Worker Len of Queue:", "len", w.Queue.Len())
+		w.Lg.Debug("Worker Len of QueueDep:", "len", w.QueueDep.Len())
 
 	}
 }
 
 // Dispatcher wolking accross worker queues for forwarding idr/avatar to worker input chanal
-func (w *Worker) Dispatcher(ctx context.Context, out chan<- string) {
+func (w *Worker) Dispatcher(ctx context.Context, out, outA chan<- string) {
+	var (
+		count, lenQ int
+		s           string
+	)
 
-	count := 0
-	s := ""
+	send2chan := func(q *list.List, outCh chan<- string) (ok bool) {
 
-	for {
-		// if the dispatcher faster a workers then isData indicate new data in the queue
-		if w.Queue.Len() == 0 {
-			w.Lg.Debug("Dispatcher. Waiting data from Queue...")
-			select {
-			case _, ok := <-w.isData:
-				if !ok {
-					return
-				}
-				if w.Queue.Len() == 0 {
-					w.Lg.Info("Dispatcher error isData when Queue len =0")
-					continue
-				}
+		ok = true
+		w.mu.Lock()
+		lenQ = q.Len()
+		w.mu.Unlock()
 
-			case <-ctx.Done():
-				w.Lg.Info("Dispatcher: cancel" + ctx.Err().Error())
-				return
-			}
+		if lenQ == 0 {
+			w.Lg.Info("Dispatcher error isData when QueueDep len =0")
+			return
 		}
-		w.Lg.Debug("Dispatcher. Get new data from Queue...")
+		w.Lg.Debug("Dispatcher. Get new data from QueueDep...")
 		// get data from queue
 		w.mu.Lock()
-		s = w.Queue.Remove(w.Queue.Front()).(string)
+		s = q.Remove(q.Front()).(string)
 		w.mu.Unlock()
 
 		// send data to out chanal (razdCh)
 		select {
-		case out <- s:
+		case outCh <- s:
 			count++
-			w.Lg.Info("Dispatcher: Get from queue", "dep count", count, "razd", s)
+			w.Lg.Info("Dispatcher: Get from queue", "count", count, "data", s)
 		case <-ctx.Done():
 			w.Lg.Info("Dispatcher: " + ctx.Err().Error())
+			return false
+		}
+
+		return
+	}
+
+	for {
+		// if the dispatcher faster a workers then isData indicate new data in the queue
+		// if w.QueueDep.Len() == 0 {
+		w.Lg.Debug("Dispatcher. Getting data from Queues...")
+		select {
+		case _, ok := <-w.isData:
+			if !ok {
+				return
+			}
+			if !send2chan(w.QueueDep, out) {
+				return
+			}
+
+		case _, ok := <-w.isDataA:
+			if !ok {
+				return
+			}
+			if !send2chan(w.QueueAvatar, outA) {
+				return
+			}
+
+		case <-ctx.Done():
+			w.Lg.Info("Dispatcher: cancel" + ctx.Err().Error())
 			return
 		}
+		// }
 	}
 }
 
+// define the item as a deps or an employee and save one
 func (w *Worker) PrepareItem(cli *req.Client, item Item) error {
 	dep := item.(*models.Dep)
 	dep.Text = html.UnescapeString(dep.Text)
 	if item.IsSotr() {
 
 		sotr := utils.ParseSotr(dep.Text)
+
+		// send url Avatar image to queue for download
+		w.mu.Lock()
+		w.QueueAvatar.PushBack(sotr.Avatar)
+		w.mu.Unlock()
+
+		select {
+		case w.isDataA <- struct{}{}:
+		default:
+		}
+
 		sotr.Children = dep.Children
 		sotr.Idr = dep.Idr
 		sotr.ParentId = dep.Parent
 
+		// define the middle name of employee
 		text, err := w.getMiddleName(w.Gl.ctx, cli, sotr.Name)
 		if err != nil {
 			w.Lg.Error(err.Error())
@@ -238,7 +280,7 @@ func (w *Worker) getMiddleName(ctx context.Context, cli *req.Client, shortName s
 	}
 
 	if err != nil { // Error handling.
-		err = fmt.Errorf("Get Middle name: error handling %w", err)
+		err = fmt.Errorf("get middle name: error handling %w", err)
 		w.Lg.Debug("Get Middle name error: raw content", "resp dump", resp.Dump()) // Record raw content when error occurs.
 	}
 
@@ -251,4 +293,75 @@ func (w *Worker) getMiddleName(ctx context.Context, cli *req.Client, shortName s
 		// w.Lg.Debug("Get middle name text", "size", n, "short name", shortName)
 	}
 	return (body), err
+}
+
+func (w *Worker) GetAvatar(ctx context.Context, in <-chan string, limit int32, depsCount *atomic.Int32, sotrCount *atomic.Int32) {
+	var errMsg ErrorMessage
+
+	w.Lg.Info("Worker avatar: Start Getting...")
+
+	var cli *req.Client
+	defer func() {
+		w.Gl.clientsPool.Push(cli)
+		w.Lg.Info("Worker avatar: END")
+	}()
+
+	// get client from pool
+	cli = w.Gl.clientsPool.Get()
+	cli.SetBaseURL(w.Gl.KbUrl).
+		SetTimeout(w.Gl.HttpReqTimeout)
+
+	callback := func(info req.DownloadInfo) {
+		if info.Response.Response != nil {
+			fmt.Printf("downloaded %.2f%% (%s)\n", float64(info.DownloadedSize)/float64(info.Response.ContentLength)*100.0, info.Response.Request.URL.String())
+		}
+	}
+
+	for ava := range in {
+
+		cnt := depsCount.Load() + sotrCount.Load()
+		if limit > 0 && cnt > limit {
+			w.Lg.Info("Worker avatar: Count limited", "count", cnt)
+			w.Gl.Done()
+			return
+		}
+
+		w.Lg.Debug("Worker avatar:", "avatar", ava)
+
+		filename := filepath.Join(w.Gl.Avatars, ava)
+		f, err := os.Stat(filename)
+
+		if err == nil && !f.IsDir() {
+			r := cli.Head(ava).
+				Do()
+
+			if r.Err != nil {
+				fmt.Println(r.Err.Error(), ava)
+			}
+			if r.ContentLength == f.Size() {
+				w.Lg.Debug("Worker avatar: Skip existing >>>", "file", ava)
+				continue
+			}
+		}
+
+		fl, _ := strings.CutPrefix(ava, "/")
+
+		resp, err := cli.R().
+			SetErrorResult(&errMsg). // Unmarshal response body into errMsg automatically if status code >= 400.
+			SetOutputFile(fl).
+			SetDownloadCallback(callback).
+			Get(ava)
+		if err != nil { // Error handling.
+			w.Lg.Error("Worker avatar:", "error handling", err)
+		}
+
+		if resp.IsErrorState() { // Status code >= 400.
+			w.Lg.Error("Worker avatar:", "err", errMsg.Message) // Record error message returned.
+		}
+
+		if resp.IsSuccessState() { // Status code is between 200 and 299.
+			w.Lg.Info("Worker avatar: downloaded", "avatar", ava, "syze", resp.ContentLength)
+		}
+		w.Lg.Debug("Worker avatar: Len of QueueAvatar", "len", w.QueueAvatar.Len())
+	}
 }
