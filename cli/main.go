@@ -17,7 +17,7 @@ type Globals struct {
 	KbUrl           string          `name:"url" placeholder:"URL" help:"Base Url"`
 	ConfigFile      kong.ConfigFlag `name:"config-file" short:"c" type:"existingfile" help:"Config file location"`
 	OpTimeout       time.Duration   `name:"op-timeout" default:"1600s" help:"timeout for Main getting"`
-	HttpReqTimeout  time.Duration   `name:"req-timeout" default:"7s" help:"Http request timeout for worker"`
+	HttpReqTimeout  time.Duration   `name:"req-timeout" default:"10s" help:"Http request timeout for worker"`
 	WaitDataTimeout time.Duration   `name:"wait-timeout" default:"20s" help:"timeout for waiting data in dispatcher of worker"`
 	Debug           int             `name:"debug" short:"d" type:"counter" help:"Enable debug"`
 	UrlRazd         string          `name:"razd" env:"KB_URL_RAZD" help:"Url of section"`

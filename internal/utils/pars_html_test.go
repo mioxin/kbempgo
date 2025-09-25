@@ -136,13 +136,13 @@ func TestCheckSotr(t *testing.T) {
 
 		for scan.Scan() {
 			str = html.UnescapeString(scan.Text())
-			tabnum := findBetween(str, `onclick="opencard('`, `')"`)
+			tabnum := FindBetween(str, `onclick="opencard('`, `')"`)
 
 			if tabnum == "" {
 				continue
 			}
-			fio := findBetween(str, `class="ln4">`, `</a>`)
-			dep := findBetween(str, `color:#666;">`, `</span>`)
+			fio := FindBetween(str, `class="ln4">`, `</a>`)
+			dep := FindBetween(str, `color:#666;">`, `</span>`)
 
 			_, ok := users[tabnum]
 			if ok {

@@ -8,7 +8,7 @@ import (
 	"github.com/mioxin/kbempgo/internal/models"
 )
 
-func findBetween(s, start, end string) string {
+func FindBetween(s, start, end string) string {
 	i := strings.Index(s, start)
 	if i < 0 {
 		return ""
@@ -25,33 +25,33 @@ func findBetween(s, start, end string) string {
 func ParseSotr(unescaped string) *models.Sotr {
 
 	// Tabnum
-	tabnum := findBetween(unescaped, `data-tabnum="`, `"`)
+	tabnum := FindBetween(unescaped, `data-tabnum="`, `"`)
 
 	// Avatar
-	avatar := findBetween(unescaped, `<img src="`, `"`)
+	avatar := FindBetween(unescaped, `<img src="`, `"`)
 	// Cut avatar query-param
 	if idx := strings.Index(avatar, "?"); idx != -1 {
 		avatar = avatar[:idx]
 	}
 
 	// FIO
-	fio := findBetween(unescaped, `<td width="300" class="s_1">`, `<span`)
+	fio := FindBetween(unescaped, `<td width="300" class="s_1">`, `<span`)
 	fio = strings.TrimSpace(fio)
 
 	// Phone
-	phone := findBetween(unescaped, `<span class="s_3">вн</span> <b>`, "</b>")
+	phone := FindBetween(unescaped, `<span class="s_3">вн</span> <b>`, "</b>")
 	phone = strings.TrimSpace(phone)
 
 	// Mobile
-	mobile := findBetween(unescaped, `<td width="130" class="s_2">`, "</td>")
+	mobile := FindBetween(unescaped, `<td width="130" class="s_2">`, "</td>")
 	mobile = strings.TrimSpace(mobile)
 
 	// Email
-	email := findBetween(unescaped, `<a href="mailto:`, `"`)
+	email := FindBetween(unescaped, `<a href="mailto:`, `"`)
 	email = strings.TrimSpace(email)
 
 	// Grade
-	grade := findBetween(unescaped, `<td colspan="4"class="s_4">`, "</td>")
+	grade := FindBetween(unescaped, `<td colspan="4"class="s_4">`, "</td>")
 	grade = strings.TrimSpace(grade)
 
 	return &models.Sotr{
@@ -71,13 +71,13 @@ func ParseMidName(sotr *models.Sotr, unescaped string) string {
 
 	for _, t := range slText {
 		// Avatar
-		avatar := findBetween(t, `alt="" src="`, `"`)
+		avatar := FindBetween(t, `alt="" src="`, `"`)
 		// Cut avatar query-param
 		if idx := strings.Index(avatar, "?"); idx != -1 {
 			avatar = avatar[:idx]
 		}
 		// FIO
-		fio := findBetween(t, `onclick="searchG('`, `', 'sotrSearchList')`)
+		fio := FindBetween(t, `onclick="searchG('`, `', 'sotrSearchList')`)
 		fio = strings.TrimSpace(fio)
 		mid, ok := strings.CutPrefix(fio, sotr.Name)
 		// slog.Debug("PARSE MIDNAME:", "mid", mid, "fio", fio, "avatar", avatar, "sotr.avatar", sotr.Avatar)
