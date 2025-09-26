@@ -9,29 +9,10 @@ import (
 
 func TestGetFileCollection(t *testing.T) {
 	fexpected := map[string]avatarInfo{
-		"54747": {
-			ActualName: "54747.jpg",
-			Num:        1,
-			Size:       8013,
-			Hash:       "a39277ae8e0480b1",
-		},
-		"54755": {
-			ActualName: "54755.jpg",
-			Num:        1,
-			Size:       32993,
-			Hash:       "1a213a9dd0b41bbd",
-		},
-		"54760": {
-			ActualName: "54760 (2).jpg",
-			Num:        2,
-			Size:       7747,
-			Hash:       "b60b5bb476455012",
-		},
-		"54877": {
-			ActualName: "54877 (2).jpg",
-			Num:        2,
-			Size:       10486,
-			Hash:       "937da1369f46513a"},
+		"54747": {ActualName: "54747.jpg", Num: 1, Size: 29, Hash: "7549da98ec1383ce"},
+		"54755": {ActualName: "54755.jpg", Num: 1, Size: 29, Hash: "001d9c68e09e3b2f"},
+		"54760": {ActualName: "54760 (2).jpg", Num: 2, Size: 33, Hash: "a1b99ab927a22f02"},
+		"54877": {ActualName: "54877 (2).jpg", Num: 2, Size: 33, Hash: "23974fabd80666c1"},
 	}
 
 	e := &employCommand{

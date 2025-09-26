@@ -90,24 +90,6 @@ type ClientPool struct {
 	pool sync.Pool
 }
 
-/*
-curl 'https://my.kaspi.kz/modules/sotr_view/give_me_deps.php?id=razd1.2.919' \
-  -H 'Accept: * /*' \
-  -H 'Accept-Language: ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7' \
-  -H 'Connection: keep-alive' \
-  -b 'PHPSESSID=88ae87fcac04e76c600c14d250e041a4; ssaid=bcf81880-7c02-11f0-91d1-fde5c8f9f783; test.user.group=26; redirected=true; test.user.group_exp=76; test.user.group_exp2=13; __tld__=null; NSC_nz.lbtqj.la-443=ffffffff091900d245525d5f4f58455e445a4a423660' \
-  -H 'DNT: 1' \
-  -H 'Referer: https://my.kaspi.kz/?type=1297&path=1.2.919' \
-  -H 'Sec-Fetch-Dest: empty' \
-  -H 'Sec-Fetch-Mode: cors' \
-  -H 'Sec-Fetch-Site: same-origin' \
-  -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36' \
-  -H 'X-Requested-With: XMLHttpRequest' \
-  -H 'sec-ch-ua: "Chromium";v="140", "Not=A?Brand";v="24", "Google Chrome";v="140"' \
-  -H 'sec-ch-ua-mobile: ?0' \
-  -H 'sec-ch-ua-platform: "Windows"'
-*/
-
 func NewClientPool(debLevel int) *ClientPool {
 	return &ClientPool{
 		pool: sync.Pool{
