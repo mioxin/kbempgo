@@ -1,4 +1,4 @@
-package cli
+package worker
 
 import (
 	"container/list"
@@ -15,9 +15,19 @@ import (
 	"time"
 
 	"github.com/imroc/req/v3"
+	"github.com/mioxin/kbempgo/internal/config"
 	"github.com/mioxin/kbempgo/internal/models"
 	"github.com/mioxin/kbempgo/internal/utils"
 )
+
+type Task struct {
+	Data string
+	Num  int
+}
+
+func NewTask(data string) *Task {
+	return &Task{data, 0}
+}
 
 type ErrorMessage struct {
 	Message string `json:"message"`
@@ -25,16 +35,6 @@ type ErrorMessage struct {
 
 // retry get razd if empty one
 const TryLimit int = 3
-
-type HttpClientPool interface {
-	//  chanal implementation
-	//	Get(int) *req.Client
-	//	Push(*req.Client) error
-
-	//  sync.Pool implementation
-	Get() *req.Client
-	Push(*req.Client)
-}
 
 type Item interface {
 	IsSotr() bool
@@ -45,24 +45,24 @@ type Worker struct {
 	Name        string
 	QueueDep    *list.List
 	QueueAvatar *list.List
-	Gl          *Globals
-	isData      chan struct{}
-	isDataA     chan struct{}
+	Gl          *config.Globals
+	IsData      chan struct{}
+	IsDataA     chan struct{}
 	Lg          *slog.Logger
 }
 
-func NewWorker(gl *Globals, name string) *Worker {
-	lg := gl.log.With("worker", name)
+func NewWorker(gl *config.Globals, name string) *Worker {
+	lg := gl.Log.With("worker", name)
 	isData := make(chan struct{}, 1500)
-	isDataA := make(chan struct{}, 1500)
+	IsDataA := make(chan struct{}, 1500)
 
 	return &Worker{Name: name,
 		QueueDep:    list.New(),
 		QueueAvatar: list.New(),
 		Gl:          gl,
 		Lg:          lg,
-		isData:      isData,
-		isDataA:     isDataA,
+		IsData:      isData,
+		IsDataA:     IsDataA,
 	}
 }
 
@@ -75,12 +75,12 @@ func (w *Worker) GetRazd(ctx context.Context, in chan Task, limit int32, depsCou
 
 	var cli *req.Client
 	defer func() {
-		w.Gl.clientsPool.Push(cli)
+		w.Gl.ClientsPool.Push(cli)
 		w.Lg.Info("Worker: END")
 	}()
 
 	// get client from pool
-	cli = w.Gl.clientsPool.Get()
+	cli = w.Gl.ClientsPool.Get()
 	cli.SetBaseURL(w.Gl.KbUrl).
 		SetTimeout(w.Gl.HttpReqTimeout)
 
@@ -153,7 +153,7 @@ func (w *Worker) GetRazd(ctx context.Context, in chan Task, limit int32, depsCou
 					depsCount.Add(1)
 
 					select {
-					case w.isData <- struct{}{}:
+					case w.IsData <- struct{}{}:
 					default:
 					}
 
@@ -265,7 +265,7 @@ func (w *Worker) PrepareItem(cli *req.Client, item Item) error {
 		w.mu.Unlock()
 
 		select {
-		case w.isDataA <- struct{}{}:
+		case w.IsDataA <- struct{}{}:
 		default:
 		}
 
@@ -287,7 +287,7 @@ func (w *Worker) PrepareItem(cli *req.Client, item Item) error {
 
 		item = sotr
 	}
-	err := w.Gl.store.Save(item)
+	err := w.Gl.Store.Save(item)
 	return err
 }
 
@@ -317,7 +317,7 @@ func (w *Worker) getMiddleName(cli *req.Client, shortName string) (string, error
 }
 
 func (w *Worker) GetAvatar(ctx context.Context, in <-chan Task, limit int32,
-	depsCount *atomic.Int32, sotrCount *atomic.Int32, fileCollection map[string]avatarInfo) {
+	depsCount *atomic.Int32, sotrCount *atomic.Int32, fileCollection map[string]AvatarInfo) {
 
 	var errMsg ErrorMessage
 
@@ -325,12 +325,12 @@ func (w *Worker) GetAvatar(ctx context.Context, in <-chan Task, limit int32,
 
 	var cli *req.Client
 	defer func() {
-		w.Gl.clientsPool.Push(cli)
+		w.Gl.ClientsPool.Push(cli)
 		w.Lg.Info("Worker avatar: END")
 	}()
 
 	// get client from pool
-	cli = w.Gl.clientsPool.Get()
+	cli = w.Gl.ClientsPool.Get()
 	cli.SetBaseURL(w.Gl.KbUrl).
 		SetTimeout(w.Gl.HttpReqTimeout)
 

@@ -8,19 +8,39 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
-	"sync"
 	"testing"
-	"time"
 
 	"github.com/imroc/req/v3"
-	"github.com/mioxin/kbempgo/internal/clientpool"
 	"github.com/mioxin/kbempgo/internal/models"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
 var (
-	str         string = "\u003cdiv data-tabnum=\"1000380\"  class=\"sotr_block\"\u003e\r\n\t\t\t\t\t\t  \u003ctable cellpadding=\"0\" cellspacing=\"0\" width=100%\u003e\r\n\t\t\t\t\t\t\t  \u003ctr onMouseOver=\"tr_over(this)\" onMouseOut=\"tr_out(this)\" onClick=\"click_tr(this)\"\u003e\u003ctd\u003e\r\n\t\t\t\t\t\t\t\t  \u003ctable\u003e\r\n\t\t\t\t\t\t\t\t\t  \u003ctr\u003e\u003ctd height=5/\u003e\u003c/tr\u003e\r\n\t\t\t\t\t\t\t\t\t  \u003ctr\u003e\r\n\t\t\t\t\t\t\t\t\t\t  \u003ctd width=\"5\"rowspan=2/\u003e\r\n\t\t\t\t\t\t\t\t\t\t  \u003ctd width=\"35\" rowspan=\"2\"\u003e\u003cimg src=\"/avatar/1000380.jpg?v=KMS6TdPNde\" width=30\u003e\u003c/td\u003e\r\n\t\t\t\t\t\t\t\t\t\t  \u003ctd width=\"300\" class=\"s_1\"\u003eГасХХХХХХ Ольга\u003cspan class=\"s_1_1\"\u003e\u003c/span\u003e \u003cspan class=\"s_1_2\"\u003e\u003c/span\u003e\u003c/td\u003e\r\n\r\n\t\t\t\t\t\t\t\t\t\t  \u003ctd width=\"200\" class=\"s_2\"\u003e\u003cspan class=\"s_3\"\u003eвн\u003c/span\u003e \u003cb\u003e100-11-11\u003c/b\u003e\u003c/td\u003e\r\n\t\t\t\t\t\t\t\t\t\t  \u003ctd width=\"130\" class=\"s_2\"\u003e+7 (701) 872-11-11,+7 (701) 911-01-11\u003c/td\u003e\r\n\t\t\t\t\t\t\t\t\t\t  \u003ctd width=\"300\" class=\"s_2\"\u003e\u003ca href=\"mailto:Olga.Gasxxxxxx@xxxxx.kz\" class=\"ln7\"\u003eOlga.Gasxxxxxx@xxxxx.kz\u003c/a\u003e\u003c/td\u003e\r\n                                          \u003ctd width=\"50\" rowspan=\"2\"\u003e\u003cspan\u003e\u003c/span\u003e\u003c/td\u003e\r\n                                          \u003ctd width=\"50\" rowspan=\"2\"\u003e\u003ca href=\"?type=1788#/map/30/2378\" target=\"_blank\" class=sotr_ln2\u003e\u003cimg title=\"Место на карте\" src=\"../image/sotr_point_ico.png\"\u003e\u003c/a\u003e\u003c/td\u003e\r\n\t\t\t\t\t\t\t\t\t  \u003c/tr\u003e\r\n\t\t\t\t\t\t\t\t\t  \u003ctr\u003e\r\n\t\t\t\t\t\t\t\t\t\t  \u003ctd colspan=\"4\"class=\"s_4\"\u003eГлавный бухгалтер\u003c/td\u003e\r\n\t\t\t\t\t\t\t\t\t  \u003c/tr\u003e\r\n\t\t\t\t\t\t\t\t\t  \u003ctr\u003e\u003ctd height=5/\u003e\u003c/tr\u003e\r\n\t\t\t\t\t\t\t\t  \u003c/table\u003e\r\n\t\t\t\t\t\t\t  \u003c/td\u003e\u003c/tr\u003e\r\n\t\t\t\t\t\t  \u003c/table\u003e\r\n\t\t\t\t\t  \u003c/div\u003e"
+	sotrText string = `<div data-tabnum="1000380"  class="sotr_block">
+						  <table cellpadding="0" cellspacing="0" width=100%>
+							  <tr onMouseOver="tr_over(this)" onMouseOut="tr_out(this)" onClick="click_tr(this)"><td>
+								  <table>
+									  <tr><td height=5/></tr>
+									  <tr>
+										  <td width="5"rowspan=2/>
+										  <td width="35" rowspan="2"><img src="/avatar/1000380.jpg?v=KMS6TdPNde" width=30></td>
+										  <td width="300" class="s_1">ГасХХХХХХ Ольга<span class="s_1_1"></span> <span class="s_1_2"></span></td>
+
+										  <td width="200" class="s_2"><span class="s_3">вн</span> <b>400-11-27</b></td>
+										  <td width="130" class="s_2"></td>
+										  <td width="300" class="s_2"><a href="mailto:Olga.Gasxxxxxx@xxxxx.kz" class="ln7">Olga.Gasxxxxxx@xxxxx.kz</a></td>
+                                          <td width="50" rowspan="2"><span><i style='font-size: 18px; color:rgb(204, 204, 204); margin:0;' class='icon-home' title='Работает удаленно'></i></span></td>
+                                          <td width="50" rowspan="2"><a href="?type=1788#/map/30/2378" target="_blank" class=sotr_ln2><img title="Место на карте" src="../image/sotr_point_ico.png"></a></td>
+									  </tr>
+									  <tr>
+										  <td colspan="4"class="s_4">Главный бухгалтер</td>
+									  </tr>
+									  <tr><td height=5/></tr>
+								  </table>
+							  </td></tr>
+						  </table>
+					  </div>`
 	midNameText string = `<div class=sotr_td3 onclick="searchG('Антропов Виталий Витальевич', 'sotrSearchList');">
 					<table>
 						<tr>
@@ -51,8 +71,8 @@ var (
 	expect *models.Sotr = &models.Sotr{
 		Tabnum: "1000380",
 		Name:   "ГасХХХХХХ Ольга",
-		Phone:  "100-11-11",
-		Mobile: "+7 (701) 872-11-11,+7 (701) 911-01-11",
+		Phone:  "400-11-27",
+		Mobile: "", // "+7 (701) 872-11-11,+7 (701) 911-01-11",
 		Email:  "Olga.Gasxxxxxx@xxxxx.kz",
 		Avatar: "/avatar/1000380.jpg",
 		Grade:  "Главный бухгалтер",
@@ -61,14 +81,14 @@ var (
 )
 
 func TestParseSotrRe(t *testing.T) {
-	sotr, err := ParseSotrRe(str)
+	sotr, err := ParseSotrRe(sotrText)
 
 	require.NoError(t, err)
 	assert.Equal(t, expect, sotr)
 }
 
 func TestParseSotr(t *testing.T) {
-	sotr := ParseSotr(str)
+	sotr := ParseSotr(sotrText)
 
 	assert.Equal(t, expect, sotr)
 }
@@ -81,13 +101,13 @@ func TestParseMidName(t *testing.T) {
 
 func BenchmarkParseSotrRegexp(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		_, _ = ParseSotrRe(str)
+		_, _ = ParseSotrRe(sotrText)
 	}
 }
 
 func BenchmarkParseSotrStrings(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		_ = ParseSotr(str)
+		_ = ParseSotr(sotrText)
 	}
 }
 
@@ -135,14 +155,14 @@ func TestCheckSotr(t *testing.T) {
 		scan.Split(onDiv)
 
 		for scan.Scan() {
-			str = html.UnescapeString(scan.Text())
-			tabnum := FindBetween(str, `onclick="opencard('`, `')"`)
+			sotrText = html.UnescapeString(scan.Text())
+			tabnum := FindBetween(sotrText, `onclick="opencard('`, `')"`)
 
 			if tabnum == "" {
 				continue
 			}
-			fio := FindBetween(str, `class="ln4">`, `</a>`)
-			dep := FindBetween(str, `color:#666;">`, `</span>`)
+			fio := FindBetween(sotrText, `class="ln4">`, `</a>`)
+			dep := FindBetween(sotrText, `color:#666;">`, `</span>`)
 
 			_, ok := users[tabnum]
 			if ok {
@@ -168,7 +188,7 @@ func TestCheckSotr(t *testing.T) {
 func getSotr() (map[string]*models.Sotr, error) {
 
 	users := make(map[string]*models.Sotr, 1000)
-	file, err := os.Open("../../.kbemp-store/sotr.json")
+	file, err := os.Open("../../.tmp/sotr.json")
 	if err != nil {
 		return nil, err
 	}
@@ -197,38 +217,38 @@ type ErrorMessage struct {
 	Message string `json:"message"`
 }
 
-func TestCheckAvater(t *testing.T) {
-	wg := &sync.WaitGroup{}
+// func TestCheckAvater(t *testing.T) {
+// 	wg := &sync.WaitGroup{}
 
-	workers := 20
-	clientsPool := clientpool.NewClientsPool(workers, 1)
+// 	workers := 20
+// 	clientsPool := clientpool.NewClientsPool(workers, 1)
 
-	users, err := getSotr()
-	require.NoError(t, err)
-	require.Less(t, 0, len(users))
+// 	users, err := getSotr()
+// 	require.NoError(t, err)
+// 	require.Less(t, 0, len(users))
 
-	count := 1
-	for name, u := range users {
-		// if count > 10 {
-		// 	break
-		// }
-		cli := clientsPool.Get()
-		cli.SetBaseURL("https://my.kaspi.kz").
-			SetTimeout(5 * time.Second).
-			SetOutputDirectory("../../.kbemp-store")
+// 	count := 1
+// 	for name, u := range users {
+// 		// if count > 10 {
+// 		// 	break
+// 		// }
+// 		cli := clientsPool.Get()
+// 		cli.SetBaseURL("https://my.kaspi.kz").
+// 			SetTimeout(5 * time.Second).
+// 			SetOutputDirectory("../../.kbemp-store")
 
-		wg.Add(1)
+// 		wg.Add(1)
 
-		go func() {
-			defer clientsPool.Push(cli)
-			defer wg.Done()
-			download(cli, u, name, count)
-		}()
+// 		go func() {
+// 			defer clientsPool.Push(cli)
+// 			defer wg.Done()
+// 			download(cli, u, name, count)
+// 		}()
 
-		count++
-	}
-	wg.Wait()
-}
+// 		count++
+// 	}
+// 	wg.Wait()
+// }
 
 func download(cli *req.Client, u *models.Sotr, name string, count int) {
 	var errMsg ErrorMessage
