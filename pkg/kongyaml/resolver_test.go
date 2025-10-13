@@ -51,5 +51,4 @@ func TestLoader(t *testing.T) {
 			assert.Equal(t, tc.expected, ncli)
 		})
 	}
-
 }

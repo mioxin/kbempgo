@@ -20,19 +20,20 @@ type FileStore[T models.Item] struct {
 }
 
 func NewFileStore[T models.Item](fname string) (*FileStore[T], error) {
-
 	err := os.MkdirAll(fname, 0750)
 	if err != nil {
 		return nil, err
 	}
 
 	fPath := filepath.Join(string(fname), "dep.json")
+
 	flD, err := os.OpenFile(fPath, os.O_WRONLY|os.O_CREATE, 0644)
 	if err != nil {
 		return nil, err
 	}
 
 	fPath = filepath.Join(string(fname), "sotr.json")
+
 	flS, err := os.OpenFile(fPath, os.O_WRONLY|os.O_CREATE, 0644)
 	if err != nil {
 		return nil, err
@@ -48,11 +49,11 @@ func NewFileStore[T models.Item](fname string) (*FileStore[T], error) {
 }
 
 func (f *FileStore[T]) Save(item T) (err error) {
-
 	b, err := json.Marshal(item)
 	if err != nil {
 		return
 	}
+
 	b = append(b, "\n"...)
 
 	f.mt.Lock()
@@ -70,12 +71,25 @@ func (f *FileStore[T]) Save(item T) (err error) {
 }
 
 func (f *FileStore[T]) Close() (err error) {
-	f.wrDep.Flush()
-	f.wrSotr.Flush()
-	err = f.flD.Close()
-	err1 := f.flS.Close()
-	if err1 != nil {
-		err = fmt.Errorf("%w; %w", err, err1)
+	e := f.wrDep.Flush()
+	if e != nil {
+		err = fmt.Errorf("%w; %w", err, e)
 	}
+
+	e1 := f.wrSotr.Flush()
+	if e1 != nil {
+		err = fmt.Errorf("%w; %w", err, e1)
+	}
+
+	e2 := f.flD.Close()
+	if e2 != nil {
+		err = fmt.Errorf("%w; %w", err, e2)
+	}
+
+	e3 := f.flS.Close()
+	if e3 != nil {
+		err = fmt.Errorf("%w; %w", err, e3)
+	}
+
 	return
 }

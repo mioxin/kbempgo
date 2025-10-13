@@ -1,0 +1,89 @@
+/*
+ * Kbempgo Stor API
+ */
+
+syntax = "proto3";
+
+package kb.v1;
+option go_package = "github.com/mioxin/kbempgo/api/kbemp/v1;kbv1";
+
+import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
+// import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "validate/validate.proto";
+
+// Stor service provides an interface to storage for kbemp data.
+service Stor {
+  // GetDep returns department data
+  rpc GetDepBy(Idr) returns (Item) {
+    option (google.api.http) = {
+      get : "/api/stor/v1/dep/{idr}"
+    };
+  }
+
+  // GetSotr returns employee data
+  rpc GetSotrByTabnum(Tabnum) returns (Sotr) {
+    option (google.api.http) = {
+      get : "/api/stor/v1/employee/{tabnum}"
+    };
+  }
+
+  rpc GetSotrByFio(Fio) returns (Sotr) {
+    option (google.api.http) = {
+      get : "/api/stor/v1/employee/{fio}"
+    };
+  }
+
+  // Save updates Item data
+  rpc Save(Item) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post : "/api/stor/v1/save"
+      body : "*"
+      additional_bindings {
+        put : "/api/stor/v1/save"
+        body : "*"
+      }
+      additional_bindings {
+        patch : "/api/stor/v1/save"
+        body : "*"
+      }
+    };
+  }
+}
+
+message Item {
+  uint64 id = 1;
+  string idr = 2;
+  string parent = 3;
+  string text = 4;
+  bool children = 5;
+}
+
+message Idr { string idr = 1; }
+
+message Tabnum { string tabnum = 1; }
+
+message Fio { string fio = 1; }
+
+message Sotr {
+  uint64 id = 1;
+  string idr = 2;
+  string tabnum = 3;
+  string name = 4;
+  string mid_name = 5;
+  string phone = 6;
+  string mobile = 7;
+  string email = 8 [ (validate.rules).string.email = true ];
+  string avatar = 9;
+  string grade = 10;
+  bool children = 11;
+  string parent_id = 12;
+  repeated History hist = 13;
+}
+
+message History {
+  google.protobuf.Timestamp date = 1;
+  string field = 2;
+  string old_value = 3;
+}

@@ -13,17 +13,19 @@ func FindBetween(s, start, end string) string {
 	if i < 0 {
 		return ""
 	}
+
 	i += len(start)
+
 	j := strings.Index(s[i:], end)
 	if j < 0 {
 		return ""
 	}
+
 	return s[i : i+j]
 }
 
 // parsing by find string index
 func ParseSotr(unescaped string) *models.Sotr {
-
 	// Tabnum
 	tabnum := FindBetween(unescaped, `data-tabnum="`, `"`)
 
@@ -85,6 +87,7 @@ func ParseMidName(sotr *models.Sotr, unescaped string) string {
 			return strings.TrimSpace(mid)
 		}
 	}
+
 	return ""
 }
 
@@ -124,5 +127,6 @@ func findFirst(re *regexp.Regexp, s string) string {
 	if len(m) > 1 {
 		return m[1]
 	}
+
 	return ""
 }

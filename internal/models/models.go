@@ -35,6 +35,7 @@ type Sotr struct {
 	Hist     []History `json:"history"`
 }
 
+// IsSotr indicate sotr node
 func (d *Sotr) IsSotr() bool {
 	return !d.Children
 }

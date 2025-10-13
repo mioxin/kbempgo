@@ -25,6 +25,7 @@ func NewAvatarInfo(path string) (AvatarInfo, error) {
 		err      error
 		num      int
 	)
+
 	sNum := ""
 
 	fileInfo, err = os.Stat(path)
@@ -47,22 +48,22 @@ func NewAvatarInfo(path string) (AvatarInfo, error) {
 	if err != nil {
 		return AvatarInfo{}, err
 	}
+
 	return AvatarInfo{
 		ActualName: fileInfo.Name(),
 		Num:        num,
 		Size:       fileInfo.Size(),
 		Hash:       hash,
 	}, nil
-
 }
 
-// hashFile calculate xxHash of file
+// HashFile calculate xxHash of file
 func HashFile(filePath string) (string, error) {
 	file, err := os.Open(filePath)
 	if err != nil {
 		return "", fmt.Errorf("failed open file %s: %w", filePath, err)
 	}
-	defer file.Close()
+	defer file.Close() // nolint
 
 	hasher := xxhash.New()
 	if _, err := io.Copy(hasher, file); err != nil {
@@ -70,5 +71,6 @@ func HashFile(filePath string) (string, error) {
 	}
 
 	hash := fmt.Sprintf("%x", hasher.Sum(nil))
+
 	return hash, nil
 }

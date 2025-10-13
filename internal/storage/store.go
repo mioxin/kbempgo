@@ -8,6 +8,7 @@ import (
 	"github.com/mioxin/kbempgo/internal/storage/file"
 )
 
+// Store is persistent storage
 type Store interface {
 	Save(item models.Item) error
 	Close() error
@@ -17,6 +18,7 @@ func NewStore(source string) (st Store, err error) {
 	if source == "" {
 		return nil, fmt.Errorf("error create Store, source is empty")
 	}
+
 	dbType := strings.Split(source, ":")[0]
 	switch dbType {
 	case "postgresql":
@@ -27,9 +29,11 @@ func NewStore(source string) (st Store, err error) {
 			err = fmt.Errorf("error create Store, invalid source, 'file://' not found (%s)", source)
 			break
 		}
+
 		st, err = file.NewFileStore[models.Item](s)
 	default:
 		err = fmt.Errorf("error create Store, invalid db type in the source \"%v\" (%s)", dbType, source)
 	}
+
 	return st, err
 }

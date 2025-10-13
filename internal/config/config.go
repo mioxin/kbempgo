@@ -55,6 +55,7 @@ func (gl *Globals) Context() context.Context {
 	if gl.Ctx == nil {
 		gl.Ctx, gl.Cf = context.WithTimeout(context.Background(), gl.OpTimeout)
 	}
+
 	return gl.Ctx
 }
 
@@ -65,5 +66,4 @@ func (gl *Globals) InitLog() {
 			slog.SetLogLoggerLevel(slog.LevelDebug)
 		}
 	})
-
 }

@@ -29,7 +29,6 @@ type employCommand struct {
 }
 
 func (e *employCommand) Run(gl *config.Globals) error {
-
 	e.Glob = gl
 	gl.InitLog()
 	e.Lg = gl.Log.With("cmd", "employ")
@@ -50,29 +49,39 @@ func (e *employCommand) Run(gl *config.Globals) error {
 
 	// start request workers
 	var wg sync.WaitGroup
+
 	var wgD sync.WaitGroup
+
 	for _, w := range pool {
 		wg.Add(2)
+
 		go func() {
 			defer wg.Done()
+
 			w.GetRazd(ctx, razdCh, int32(e.Limit), &(e.DepsCounter), &(e.SotrCounter))
 		}()
 
 		go func() {
 			defer wg.Done()
+
 			w.GetAvatar(ctx, avatarCh, int32(e.Limit), &(e.DepsCounter), &(e.SotrCounter), fileCollection)
 		}()
 
 		// start dispatcher Deps
 		wgD.Add(1)
+
 		go func() {
 			defer wgD.Done()
+
 			w.Dispatcher(ctx, w.QueueDep, razdCh, w.IsData)
 		}()
+
 		// start dispatcher Avatar
 		wgD.Add(1)
+
 		go func() {
 			defer wgD.Done()
+
 			w.Dispatcher(ctx, w.QueueAvatar, avatarCh, w.IsDataA)
 		}()
 	}
@@ -81,6 +90,7 @@ func (e *employCommand) Run(gl *config.Globals) error {
 	go func() {
 		defer close(razdCh)
 		defer close(avatarCh)
+
 		timer := time.NewTicker(e.Glob.WaitDataTimeout)
 
 		for {
@@ -90,6 +100,7 @@ func (e *employCommand) Run(gl *config.Globals) error {
 				if len(razdCh) == 0 && len(avatarCh) == 0 {
 					e.Lg.Info("Chanals razd&avatar is empty too long time: Timer cancel")
 					e.Glob.Cf()
+
 					return
 				}
 			}
@@ -103,6 +114,7 @@ func (e *employCommand) Run(gl *config.Globals) error {
 	wg.Wait()
 	e.Lg.Debug("Stop wait group... Close depsCh.")
 	e.Lg.Info("Collected.", "sotr", e.SotrCounter.Load(), "deps", e.DepsCounter.Load())
+
 	return nil
 }
 
@@ -111,6 +123,7 @@ func (e *employCommand) getFileCollection() (fColection map[string]wrk.AvatarInf
 		num             int
 		key, sNum, hash string
 	)
+
 	fColection = make(map[string]wrk.AvatarInfo, 1000)
 
 	mywalkFunc := func(path string, info os.FileInfo, err error) error {
@@ -124,6 +137,7 @@ func (e *employCommand) getFileCollection() (fColection map[string]wrk.AvatarInf
 
 		num = 1
 		slNum := strings.Split(strings.Split(info.Name(), ".")[0], " ")
+
 		key = slNum[0]
 		if len(slNum) > 1 {
 			sNum = utils.FindBetween(slNum[1], "(", ")")
@@ -140,6 +154,7 @@ func (e *employCommand) getFileCollection() (fColection map[string]wrk.AvatarInf
 			if err != nil {
 				return err
 			}
+
 			fColection[key] = wrk.AvatarInfo{
 				ActualName: info.Name(),
 				Num:        num,
@@ -147,9 +162,9 @@ func (e *employCommand) getFileCollection() (fColection map[string]wrk.AvatarInf
 				Hash:       hash,
 			}
 		}
+
 		return nil
 	}
-
 	if err = filepath.Walk(e.Glob.Avatars, mywalkFunc); err != nil {
 		err = fmt.Errorf("get avatar colection: %w", err)
 	}

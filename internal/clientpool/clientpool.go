@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"html"
+	"math"
 	"strconv"
 	"sync"
 	"time"
@@ -11,12 +12,11 @@ import (
 	"github.com/imroc/req/v3"
 )
 
-// Http clients pool based on chanal. Clients will created up to max value seted in constructor
+// ClientsPool is Http clients pool based on chanal. Clients will created up to max value seted in constructor
 type ClientsPool chan *req.Client
 
-// Http clients pool based on chanal. Count is a max number of clients in the pool
+// NewClientsPool create Http clients pool based on chanal. Count is a max number of clients in the pool
 func NewClientsPool(count, debLevel int) ClientsPool {
-
 	ch := make(chan *req.Client, count)
 	for range count {
 		hdrs := map[string]string{
@@ -52,11 +52,18 @@ func NewClientsPool(count, debLevel int) ClientsPool {
 						}
 					}
 				}
-				return 2 * time.Second // Otherwise, sleep 2 seconds
+
+				sleep := 0.01 * math.Exp2(float64(attempt))
+
+				return time.Duration(math.Min(2, sleep)) * time.Second
 			}).
 			AddCommonRetryHook(func(resp *req.Response, err error) {
 				req := resp.Request.RawRequest
-				fmt.Println("Retry request:", req.Method, req.URL, "; time: ", resp.TotalTime())
+				if err != nil {
+					fmt.Println("Retry request:", req.Method, req.URL, "; err: ", err)
+				} else {
+					fmt.Println("Retry request:", req.Method, req.URL, "; time: ", resp.TotalTime())
+				}
 			}).
 			AddCommonRetryCondition(func(resp *req.Response, err error) bool {
 				return err != nil || resp.StatusCode >= 500
@@ -66,30 +73,37 @@ func NewClientsPool(count, debLevel int) ClientsPool {
 			cli = cli.EnableDumpAll(). // Dump all requests.
 							EnableDebugLog()
 		}
+
 		ch <- cli
 	}
+
 	return ch
 }
 
+// Get client from pool
 func (p ClientsPool) Get() *req.Client {
 	return <-p
 }
 
+// Push return client to pool after use one
 func (p ClientsPool) Push(cli *req.Client) (err error) {
 	select {
 	case p <- cli:
 	default:
 		cli.CloseIdleConnections()
+
 		err = errors.New("failed return http Client to pool")
 	}
+
 	return err
 }
 
-// Http clients pool based on a sync.Pool
+// ClientPool is Http clients pool based on a sync.Pool
 type ClientPool struct {
 	pool sync.Pool
 }
 
+// NewClientPool
 func NewClientPool(debLevel int) *ClientPool {
 	return &ClientPool{
 		pool: sync.Pool{
@@ -126,7 +140,10 @@ func NewClientPool(debLevel int) *ClientPool {
 								}
 							}
 						}
-						return 2 * time.Second // Otherwise, sleep 2 seconds
+
+						sleep := 0.01 * math.Exp2(float64(attempt))
+
+						return time.Duration(math.Min(2, sleep)) * time.Second
 					}).
 					AddCommonRetryHook(func(resp *req.Response, err error) {
 						req := resp.Request.RawRequest
@@ -140,16 +157,19 @@ func NewClientPool(debLevel int) *ClientPool {
 					cli = cli.EnableDumpAll(). // Dump all requests.
 									EnableDebugLog()
 				}
+
 				return cli
 			},
 		},
 	}
 }
 
+// get
 func (p *ClientPool) Get() *req.Client {
 	return p.pool.Get().(*req.Client)
 }
 
+// Push
 func (p *ClientPool) Push(cli *req.Client) {
 	p.pool.Put(cli)
 }

@@ -10,6 +10,7 @@
 *.tar
 *.gz
 meta-*.json
+lint-report.*
 
 # Test binary, built with `go test -c`
 *.test

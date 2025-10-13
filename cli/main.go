@@ -19,10 +19,12 @@ type CLI struct {
 	News     newsCommand   `cmd:"" aliases:"news" help:"Get news and comments."`
 }
 
+// Main CLI func
 func Main() {
 	var err error
 	// defer zap.S().Sync() // nolint
 	start := time.Now()
+
 	defer func() {
 		fmt.Println("Time:", time.Since(start))
 	}()
@@ -40,14 +42,15 @@ func Main() {
 	)
 
 	//	clientsPool := clientpool.NewClientsPool(e.Workers)
-	cli.Globals.ClientsPool = clientpool.NewClientPool(cli.Globals.Debug)
+	cli.ClientsPool = clientpool.NewClientPool(cli.Debug)
 
-	cli.Globals.Store, err = storage.NewStore(cli.DbUrl)
+	cli.Store, err = storage.NewStore(cli.DbUrl)
 	kctx.FatalIfErrorf(err, "create file storage")
 
 	defer func() {
-		cli.Globals.Log.Info("Close storage")
-		if err := cli.Globals.Store.Close(); err != nil {
+		cli.Log.Info("Close storage")
+
+		if err := cli.Store.Close(); err != nil {
 			kctx.FatalIfErrorf(err)
 		}
 	}()

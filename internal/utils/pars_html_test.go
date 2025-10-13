@@ -18,50 +18,50 @@ import (
 
 var (
 	sotrText string = `<div data-tabnum="1000380"  class="sotr_block">
-						  <table cellpadding="0" cellspacing="0" width=100%>
-							  <tr onMouseOver="tr_over(this)" onMouseOut="tr_out(this)" onClick="click_tr(this)"><td>
-								  <table>
-									  <tr><td height=5/></tr>
-									  <tr>
-										  <td width="5"rowspan=2/>
-										  <td width="35" rowspan="2"><img src="/avatar/1000380.jpg?v=KMS6TdPNde" width=30></td>
-										  <td width="300" class="s_1">ГасХХХХХХ Ольга<span class="s_1_1"></span> <span class="s_1_2"></span></td>
+  <table cellpadding="0" cellspacing="0" width=100%>
+	  <tr onMouseOver="tr_over(this)" onMouseOut="tr_out(this)" onClick="click_tr(this)"><td>
+		  <table>
+			  <tr><td height=5/></tr>
+			  <tr>
+				  <td width="5"rowspan=2/>
+				  <td width="35" rowspan="2"><img src="/avatar/1000380.jpg?v=KMS6TdPNde" width=30></td>
+				  <td width="300" class="s_1">ГасХХХХХХ Ольга<span class="s_1_1"></span> <span class="s_1_2"></span></td>
 
-										  <td width="200" class="s_2"><span class="s_3">вн</span> <b>400-11-27</b></td>
-										  <td width="130" class="s_2"></td>
-										  <td width="300" class="s_2"><a href="mailto:Olga.Gasxxxxxx@xxxxx.kz" class="ln7">Olga.Gasxxxxxx@xxxxx.kz</a></td>
-                                          <td width="50" rowspan="2"><span><i style='font-size: 18px; color:rgb(204, 204, 204); margin:0;' class='icon-home' title='Работает удаленно'></i></span></td>
-                                          <td width="50" rowspan="2"><a href="?type=1788#/map/30/2378" target="_blank" class=sotr_ln2><img title="Место на карте" src="../image/sotr_point_ico.png"></a></td>
-									  </tr>
-									  <tr>
-										  <td colspan="4"class="s_4">Главный бухгалтер</td>
-									  </tr>
-									  <tr><td height=5/></tr>
-								  </table>
-							  </td></tr>
-						  </table>
-					  </div>`
+				  <td width="200" class="s_2"><span class="s_3">вн</span> <b>400-11-27</b></td>
+				  <td width="130" class="s_2"></td>
+				  <td width="300" class="s_2"><a href="mailto:Olga.Gasxxxxxx@xxxxx.kz" class="ln7">Olga.Gasxxxxxx@xxxxx.kz</a></td>
+                                    <td width="50" rowspan="2"><span><i style='font-size: 18px; color:rgb(204, 204, 204); margin:0;' class='icon-home' title='Работает удаленно'></i></span></td>
+                                    <td width="50" rowspan="2"><a href="?type=1788#/map/30/2378" target="_blank" class=sotr_ln2><img title="Место на карте" src="../image/sotr_point_ico.png"></a></td>
+			  </tr>
+			  <tr>
+				  <td colspan="4"class="s_4">Главный бухгалтер</td>
+				  </tr>
+				  <tr><td height=5/></tr>
+			  </table>
+		  </td></tr>
+	  </table>
+  </div>`
 	midNameText string = `<div class=sotr_td3 onclick="searchG('Антропов Виталий Витальевич', 'sotrSearchList');">
-					<table>
-						<tr>
-						    <td rowspan="2"><img width="26" style="margin-right: 4px; border-radius: 3px;" alt="" src="/avatar/99996324.jpg?v=YI2A7EeWq5" /></td>
-							<td class="s_1"><span style="background:#fdff90">Антропов</span> Виталий Витальевич</td>
-						</tr>
-						<tr>
-							<td class="s_3"><span class="s_3"></span> <b></b></td>
-						</tr>
-					</table>
-				</div><div class=sotr_td3 onclick="searchG('Антропов Антон Викторович', 'sotrSearchList');">
-					<table>
-						<tr>
-						    <td rowspan="2"><img width="26" style="margin-right: 4px; border-radius: 3px;" alt="" src="/avatar/12227.jpg?v=RpewGpkwpQ" /></td>
-							<td class="s_1"><span style="background:#fdff90">Антропов</span> Антон Викторович</td>
-						</tr>
-						<tr>
-							<td class="s_3"><span class="s_3">вн</span> <b>408-250</b></td>
-						</tr>
-					</table>
-				</div><div class=s_1 style="border-bottom: 1px solid #eeeeee; cursor: pointer; display: flex; align-items: center;justify-content: space-around;padding: 15px 0;"><span class="s_1">← Сюда некуда</span> <span class="s_1">Туда некуда  →</span> </div>`
+	<table>
+		<tr>
+		    <td rowspan="2"><img width="26" style="margin-right: 4px; border-radius: 3px;" alt="" src="/avatar/99996324.jpg?v=YI2A7EeWq5" /></td>
+			<td class="s_1"><span style="background:#fdff90">Антропов</span> Виталий Витальевич</td>
+		</tr>
+		<tr>
+			<td class="s_3"><span class="s_3"></span> <b></b></td>
+		</tr>
+	</table>
+</div><div class=sotr_td3 onclick="searchG('Антропов Антон Викторович', 'sotrSearchList');">
+	<table>
+		<tr>
+		    <td rowspan="2"><img width="26" style="margin-right: 4px; border-radius: 3px;" alt="" src="/avatar/12227.jpg?v=RpewGpkwpQ" /></td>
+			<td class="s_1"><span style="background:#fdff90">Антропов</span> Антон Викторович</td>
+		</tr>
+		<tr>
+			<td class="s_3"><span class="s_3">вн</span> <b>408-250</b></td>
+		</tr>
+	</table>
+</div><div class=s_1 style="border-bottom: 1px solid #eeeeee; cursor: pointer; display: flex; align-items: center;justify-content: space-around;padding: 15px 0;"><span class="s_1">← Сюда некуда</span> <span class="s_1">Туда некуда  →</span> </div>`
 
 	sotr models.Sotr = models.Sotr{
 		Name:   "Антропов Антон",
@@ -96,7 +96,6 @@ func TestParseSotr(t *testing.T) {
 func TestParseMidName(t *testing.T) {
 	mid := ParseMidName(&sotr, midNameText)
 	assert.Equal(t, expectedMidName, mid)
-
 }
 
 func BenchmarkParseSotrRegexp(b *testing.B) {
@@ -127,7 +126,6 @@ var fname []string = []string{
 }
 
 func TestCheckSotr(t *testing.T) {
-
 	users, err := getSotr()
 	require.NoError(t, err)
 	require.Less(t, 0, len(users))
@@ -138,6 +136,7 @@ func TestCheckSotr(t *testing.T) {
 			if !atEOF {
 				return 0, nil, nil
 			}
+
 			return 0, data, bufio.ErrFinalToken
 		}
 		// Otherwise, return the token before .
@@ -148,7 +147,7 @@ func TestCheckSotr(t *testing.T) {
 		file, err := os.Open(fn)
 		require.NoError(t, err)
 
-		defer file.Close()
+		defer file.Close() // nolint
 
 		scan := bufio.NewScanner(file)
 
@@ -161,6 +160,7 @@ func TestCheckSotr(t *testing.T) {
 			if tabnum == "" {
 				continue
 			}
+
 			fio := FindBetween(sotrText, `class="ln4">`, `</a>`)
 			dep := FindBetween(sotrText, `color:#666;">`, `</span>`)
 
@@ -177,39 +177,46 @@ func TestCheckSotr(t *testing.T) {
 	}
 
 	count := 1
+
 	for i, fn := range fname {
 		if i > 12 {
 			break
 		}
+
 		count = lookFIO(count, fn)
 	}
 }
 
 func getSotr() (map[string]*models.Sotr, error) {
-
 	users := make(map[string]*models.Sotr, 1000)
+
 	file, err := os.Open("../../.tmp/sotr.json")
 	if err != nil {
 		return nil, err
 	}
 
-	defer file.Close()
+	defer file.Close() // nolint
 
 	scan := bufio.NewScanner(file)
 
 	for scan.Scan() {
 		text := scan.Text()
+
 		if err := scan.Err(); err != nil {
 			fmt.Println("reading standard input:", err)
 		}
+
 		user := models.Sotr{}
+
 		err := json.Unmarshal([]byte(text), &user)
 		if err != nil {
 			fmt.Printf("err unmarshall: %v\n", err)
 			continue
 		}
+
 		users[user.Tabnum] = &user
 	}
+
 	return users, nil
 }
 
@@ -263,6 +270,7 @@ func download(cli *req.Client, u *models.Sotr, name string, count int) {
 		if r.Err != nil {
 			fmt.Println(r.Err.Error(), u.Avatar)
 		}
+
 		if r.ContentLength == f.Size() {
 			fmt.Println(count, ": >>>Skip existing file:", u.Avatar)
 			return
@@ -291,8 +299,6 @@ func download(cli *req.Client, u *models.Sotr, name string, count int) {
 	}
 
 	if resp.IsSuccessState() { // Status code is between 200 and 299.
-
 		fmt.Printf("%d: %s  %s %d byte\n", count, name, u.Avatar, resp.ContentLength)
 	}
-
 }

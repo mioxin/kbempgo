@@ -9,9 +9,12 @@ import (
 	"github.com/goccy/go-yaml"
 )
 
+// Loader ...
 func Loader(r io.Reader) (kong.Resolver, error) {
 	values := make(map[string]any)
+
 	err := yaml.NewDecoder(r).Decode(&values)
+
 	if err != nil && err != io.EOF {
 		// NOTE(vermakov): masking of EOF required to be able to read empty yamls
 		//                 (e.g. sample file where all options commented out)
