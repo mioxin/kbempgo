@@ -23,9 +23,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Stor_GetDepBy_FullMethodName        = "/kb.v1.Stor/GetDepBy"
+	Stor_GetDepByIdr_FullMethodName     = "/kb.v1.Stor/GetDepByIdr"
 	Stor_GetSotrByTabnum_FullMethodName = "/kb.v1.Stor/GetSotrByTabnum"
 	Stor_GetSotrByFio_FullMethodName    = "/kb.v1.Stor/GetSotrByFio"
+	Stor_GetSotrByMobile_FullMethodName = "/kb.v1.Stor/GetSotrByMobile"
 	Stor_Save_FullMethodName            = "/kb.v1.Stor/Save"
 )
 
@@ -36,10 +37,11 @@ const (
 // Stor service provides an interface to storage for kbemp data.
 type StorClient interface {
 	// GetDep returns department data
-	GetDepBy(ctx context.Context, in *Idr, opts ...grpc.CallOption) (*Item, error)
+	GetDepByIdr(ctx context.Context, in *QueryString, opts ...grpc.CallOption) (*Item, error)
 	// GetSotr returns employee data
-	GetSotrByTabnum(ctx context.Context, in *Tabnum, opts ...grpc.CallOption) (*Sotr, error)
-	GetSotrByFio(ctx context.Context, in *Fio, opts ...grpc.CallOption) (*Sotr, error)
+	GetSotrByTabnum(ctx context.Context, in *QueryString, opts ...grpc.CallOption) (*Sotr, error)
+	GetSotrByFio(ctx context.Context, in *QueryString, opts ...grpc.CallOption) (*Sotr, error)
+	GetSotrByMobile(ctx context.Context, in *QueryString, opts ...grpc.CallOption) (*Sotrs, error)
 	// Save updates Item data
 	Save(ctx context.Context, in *Item, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
@@ -52,17 +54,17 @@ func NewStorClient(cc grpc.ClientConnInterface) StorClient {
 	return &storClient{cc}
 }
 
-func (c *storClient) GetDepBy(ctx context.Context, in *Idr, opts ...grpc.CallOption) (*Item, error) {
+func (c *storClient) GetDepByIdr(ctx context.Context, in *QueryString, opts ...grpc.CallOption) (*Item, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(Item)
-	err := c.cc.Invoke(ctx, Stor_GetDepBy_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, Stor_GetDepByIdr_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *storClient) GetSotrByTabnum(ctx context.Context, in *Tabnum, opts ...grpc.CallOption) (*Sotr, error) {
+func (c *storClient) GetSotrByTabnum(ctx context.Context, in *QueryString, opts ...grpc.CallOption) (*Sotr, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(Sotr)
 	err := c.cc.Invoke(ctx, Stor_GetSotrByTabnum_FullMethodName, in, out, cOpts...)
@@ -72,10 +74,20 @@ func (c *storClient) GetSotrByTabnum(ctx context.Context, in *Tabnum, opts ...gr
 	return out, nil
 }
 
-func (c *storClient) GetSotrByFio(ctx context.Context, in *Fio, opts ...grpc.CallOption) (*Sotr, error) {
+func (c *storClient) GetSotrByFio(ctx context.Context, in *QueryString, opts ...grpc.CallOption) (*Sotr, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(Sotr)
 	err := c.cc.Invoke(ctx, Stor_GetSotrByFio_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storClient) GetSotrByMobile(ctx context.Context, in *QueryString, opts ...grpc.CallOption) (*Sotrs, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Sotrs)
+	err := c.cc.Invoke(ctx, Stor_GetSotrByMobile_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -99,10 +111,11 @@ func (c *storClient) Save(ctx context.Context, in *Item, opts ...grpc.CallOption
 // Stor service provides an interface to storage for kbemp data.
 type StorServer interface {
 	// GetDep returns department data
-	GetDepBy(context.Context, *Idr) (*Item, error)
+	GetDepByIdr(context.Context, *QueryString) (*Item, error)
 	// GetSotr returns employee data
-	GetSotrByTabnum(context.Context, *Tabnum) (*Sotr, error)
-	GetSotrByFio(context.Context, *Fio) (*Sotr, error)
+	GetSotrByTabnum(context.Context, *QueryString) (*Sotr, error)
+	GetSotrByFio(context.Context, *QueryString) (*Sotr, error)
+	GetSotrByMobile(context.Context, *QueryString) (*Sotrs, error)
 	// Save updates Item data
 	Save(context.Context, *Item) (*emptypb.Empty, error)
 	mustEmbedUnimplementedStorServer()
@@ -115,14 +128,17 @@ type StorServer interface {
 // pointer dereference when methods are called.
 type UnimplementedStorServer struct{}
 
-func (UnimplementedStorServer) GetDepBy(context.Context, *Idr) (*Item, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetDepBy not implemented")
+func (UnimplementedStorServer) GetDepByIdr(context.Context, *QueryString) (*Item, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDepByIdr not implemented")
 }
-func (UnimplementedStorServer) GetSotrByTabnum(context.Context, *Tabnum) (*Sotr, error) {
+func (UnimplementedStorServer) GetSotrByTabnum(context.Context, *QueryString) (*Sotr, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSotrByTabnum not implemented")
 }
-func (UnimplementedStorServer) GetSotrByFio(context.Context, *Fio) (*Sotr, error) {
+func (UnimplementedStorServer) GetSotrByFio(context.Context, *QueryString) (*Sotr, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSotrByFio not implemented")
+}
+func (UnimplementedStorServer) GetSotrByMobile(context.Context, *QueryString) (*Sotrs, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSotrByMobile not implemented")
 }
 func (UnimplementedStorServer) Save(context.Context, *Item) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Save not implemented")
@@ -148,26 +164,26 @@ func RegisterStorServer(s grpc.ServiceRegistrar, srv StorServer) {
 	s.RegisterService(&Stor_ServiceDesc, srv)
 }
 
-func _Stor_GetDepBy_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Idr)
+func _Stor_GetDepByIdr_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryString)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(StorServer).GetDepBy(ctx, in)
+		return srv.(StorServer).GetDepByIdr(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Stor_GetDepBy_FullMethodName,
+		FullMethod: Stor_GetDepByIdr_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StorServer).GetDepBy(ctx, req.(*Idr))
+		return srv.(StorServer).GetDepByIdr(ctx, req.(*QueryString))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Stor_GetSotrByTabnum_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Tabnum)
+	in := new(QueryString)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -179,13 +195,13 @@ func _Stor_GetSotrByTabnum_Handler(srv interface{}, ctx context.Context, dec fun
 		FullMethod: Stor_GetSotrByTabnum_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StorServer).GetSotrByTabnum(ctx, req.(*Tabnum))
+		return srv.(StorServer).GetSotrByTabnum(ctx, req.(*QueryString))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Stor_GetSotrByFio_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Fio)
+	in := new(QueryString)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -197,7 +213,25 @@ func _Stor_GetSotrByFio_Handler(srv interface{}, ctx context.Context, dec func(i
 		FullMethod: Stor_GetSotrByFio_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StorServer).GetSotrByFio(ctx, req.(*Fio))
+		return srv.(StorServer).GetSotrByFio(ctx, req.(*QueryString))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Stor_GetSotrByMobile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryString)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorServer).GetSotrByMobile(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Stor_GetSotrByMobile_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorServer).GetSotrByMobile(ctx, req.(*QueryString))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -228,8 +262,8 @@ var Stor_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*StorServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetDepBy",
-			Handler:    _Stor_GetDepBy_Handler,
+			MethodName: "GetDepByIdr",
+			Handler:    _Stor_GetDepByIdr_Handler,
 		},
 		{
 			MethodName: "GetSotrByTabnum",
@@ -238,6 +272,10 @@ var Stor_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetSotrByFio",
 			Handler:    _Stor_GetSotrByFio_Handler,
+		},
+		{
+			MethodName: "GetSotrByMobile",
+			Handler:    _Stor_GetSotrByMobile_Handler,
 		},
 		{
 			MethodName: "Save",

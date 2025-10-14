@@ -16,24 +16,31 @@ import "validate/validate.proto";
 // Stor service provides an interface to storage for kbemp data.
 service Stor {
   // GetDep returns department data
-  rpc GetDepBy(Idr) returns (Item) {
+  rpc GetDepByIdr(QueryString) returns (Item) {
     option (google.api.http) = {
-      get : "/api/stor/v1/dep/{idr}"
+      get : "/api/stor/v1/dep/{str}"
     };
   }
 
   // GetSotr returns employee data
-  rpc GetSotrByTabnum(Tabnum) returns (Sotr) {
+  rpc GetSotrByTabnum(QueryString) returns (Sotr) {
     option (google.api.http) = {
-      get : "/api/stor/v1/employee/{tabnum}"
+      get : "/api/stor/v1/employee/tabnum/{str}"
     };
   }
 
-  rpc GetSotrByFio(Fio) returns (Sotr) {
+  rpc GetSotrByFio(QueryString) returns (Sotr) {
     option (google.api.http) = {
-      get : "/api/stor/v1/employee/{fio}"
+      get : "/api/stor/v1/employee/fio/{str}"
     };
   }
+
+  rpc GetSotrByMobile(QueryString) returns (Sotrs) {
+    option (google.api.http) = {
+      get : "/api/stor/v1/employee/mobile/{str}"
+    };
+  }
+
 
   // Save updates Item data
   rpc Save(Item) returns (google.protobuf.Empty) {
@@ -60,11 +67,11 @@ message Item {
   bool children = 5;
 }
 
-message Idr { string idr = 1; }
+message Items {
+  repeated Item items = 1;
+}
 
-message Tabnum { string tabnum = 1; }
-
-message Fio { string fio = 1; }
+message QueryString { string str = 1; }
 
 message Sotr {
   uint64 id = 1;
@@ -86,4 +93,8 @@ message History {
   google.protobuf.Timestamp date = 1;
   string field = 2;
   string old_value = 3;
+}
+
+message Sotrs {
+  repeated Sotr sotrs = 1;
 }

@@ -6,17 +6,16 @@ import (
 	"fmt"
 	"html"
 	"os"
-	"path/filepath"
 	"strings"
 	"testing"
 
-	"github.com/imroc/req/v3"
 	"github.com/mioxin/kbempgo/internal/models"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
 var (
+	MainURL  string = "https://my.kaspi.kz"
 	sotrText string = `<div data-tabnum="1000380"  class="sotr_block">
   <table cellpadding="0" cellspacing="0" width=100%>
 	  <tr onMouseOver="tr_over(this)" onMouseOut="tr_out(this)" onClick="click_tr(this)"><td>
@@ -98,6 +97,35 @@ func TestParseMidName(t *testing.T) {
 	assert.Equal(t, expectedMidName, mid)
 }
 
+type TestCase struct {
+	name     string
+	text     string
+	expected Mobile
+}
+
+func TestParseMobile(t *testing.T) {
+	tc := []TestCase{
+		{
+			name:     "Mobile exists",
+			text:     `{"success": true, "data": "+7 (775) 912-50-60"}`,
+			expected: Mobile{Data: "+7 (775) 912-50-60", Success: true},
+		},
+		{
+			name:     "Mobile not exists",
+			text:     `{"success": true, "data": "+7 (775) 912-50-60"}`,
+			expected: Mobile{Data: "+7 (775) 912-50-60", Success: true},
+		},
+	}
+
+	for _, tst := range tc {
+		t.Run(tst.name, func(t *testing.T) {
+			mob, ok := ParseMobile(tst.text)
+			assert.NoError(t, ok)
+			assert.Equal(t, tst.expected, *mob)
+		})
+	}
+}
+
 func BenchmarkParseSotrRegexp(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		_, _ = ParseSotrRe(sotrText)
@@ -126,7 +154,7 @@ var fname []string = []string{
 }
 
 func TestCheckSotr(t *testing.T) {
-	users, err := getSotr()
+	users, err := getSotr("../../.tmp/sotr.json")
 	require.NoError(t, err)
 	require.Less(t, 0, len(users))
 
@@ -187,10 +215,10 @@ func TestCheckSotr(t *testing.T) {
 	}
 }
 
-func getSotr() (map[string]*models.Sotr, error) {
+func getSotr(f string) (map[string]*models.Sotr, error) {
 	users := make(map[string]*models.Sotr, 1000)
 
-	file, err := os.Open("../../.tmp/sotr.json")
+	file, err := os.Open(f)
 	if err != nil {
 		return nil, err
 	}
@@ -240,7 +268,7 @@ type ErrorMessage struct {
 // 		// 	break
 // 		// }
 // 		cli := clientsPool.Get()
-// 		cli.SetBaseURL("https://my.kaspi.kz").
+// 		cli.SetBaseURL(MainURL).
 // 			SetTimeout(5 * time.Second).
 // 			SetOutputDirectory("../../.kbemp-store")
 
@@ -257,48 +285,149 @@ type ErrorMessage struct {
 // 	wg.Wait()
 // }
 
-func download(cli *req.Client, u *models.Sotr, name string, count int) {
-	var errMsg ErrorMessage
+// func download(cli *req.Client, u *models.Sotr, name string, count int) {
+// 	var errMsg ErrorMessage
 
-	filename := filepath.Join("../../.kbemp-store", u.Avatar)
-	f, err := os.Stat(filename)
+// 	filename := filepath.Join("../../.kbemp-store", u.Avatar)
+// 	f, err := os.Stat(filename)
 
-	if err == nil && !f.IsDir() {
-		r := cli.Head(u.Avatar).
-			Do()
+// 	if err == nil && !f.IsDir() {
+// 		r := cli.Head(u.Avatar).
+// 			Do()
 
-		if r.Err != nil {
-			fmt.Println(r.Err.Error(), u.Avatar)
-		}
+// 		if r.Err != nil {
+// 			fmt.Println(r.Err.Error(), u.Avatar)
+// 		}
 
-		if r.ContentLength == f.Size() {
-			fmt.Println(count, ": >>>Skip existing file:", u.Avatar)
-			return
-		}
-	}
+// 		if r.ContentLength == f.Size() {
+// 			fmt.Println(count, ": >>>Skip existing file:", u.Avatar)
+// 			return
+// 		}
+// 	}
 
-	callback := func(info req.DownloadInfo) {
-		if info.Response.Response != nil {
-			fmt.Printf("downloaded %.2f%% (%s)\n", float64(info.DownloadedSize)/float64(info.Response.ContentLength)*100.0, info.Response.Request.URL.String())
-		}
-	}
+// 	callback := func(info req.DownloadInfo) {
+// 		if info.Response.Response != nil {
+// 			fmt.Printf("downloaded %.2f%% (%s)\n", float64(info.DownloadedSize)/float64(info.Response.ContentLength)*100.0, info.Response.Request.URL.String())
+// 		}
+// 	}
 
-	fl, _ := strings.CutPrefix(u.Avatar, "/")
+// 	fl, _ := strings.CutPrefix(u.Avatar, "/")
 
-	resp, err := cli.R().
-		SetErrorResult(&errMsg). // Unmarshal response body into errMsg automatically if status code >= 400.
-		SetOutputFile(fl).
-		SetDownloadCallback(callback).
-		Get(u.Avatar)
-	if err != nil { // Error handling.
-		fmt.Println("Worker:", "error handling", err)
-	}
+// 	resp, err := cli.R().
+// 		SetErrorResult(&errMsg). // Unmarshal response body into errMsg automatically if status code >= 400.
+// 		SetOutputFile(fl).
+// 		SetDownloadCallback(callback).
+// 		Get(u.Avatar)
+// 	if err != nil { // Error handling.
+// 		fmt.Println("Worker:", "error handling", err)
+// 	}
 
-	if resp.IsErrorState() { // Status code >= 400.
-		fmt.Println("Worker:", "err", errMsg.Message) // Record error message returned.
-	}
+// 	if resp.IsErrorState() { // Status code >= 400.
+// 		fmt.Println("Worker:", "err", errMsg.Message) // Record error message returned.
+// 	}
 
-	if resp.IsSuccessState() { // Status code is between 200 and 299.
-		fmt.Printf("%d: %s  %s %d byte\n", count, name, u.Avatar, resp.ContentLength)
-	}
-}
+// 	if resp.IsSuccessState() { // Status code is between 200 and 299.
+// 		fmt.Printf("%d: %s  %s %d byte\n", count, name, u.Avatar, resp.ContentLength)
+// 	}
+// }
+
+// func TestUpdateMobile(t *testing.T) {
+// 	var (
+// 		errMsg ErrorMessage
+// 		mt     sync.Mutex
+// 	)
+// 	fPath := filepath.Join("../../.kbemp-store", "sotr.json")
+
+// 	flS, err := os.OpenFile(fPath, os.O_WRONLY|os.O_CREATE, 0644)
+// 	if err != nil {
+// 		fmt.Println(err)
+// 		return
+// 	}
+// 	defer func() {
+// 		e := flS.Close()
+// 		if e != nil {
+// 			fmt.Printf("%v\n", e)
+// 		}
+// 	}()
+
+// 	wrSotr := bufio.NewWriter(flS)
+// 	defer func() {
+// 		e1 := wrSotr.Flush()
+// 		if e1 != nil {
+// 			fmt.Printf("%v\n", e1)
+// 		}
+// 	}()
+
+// 	wg := &sync.WaitGroup{}
+
+// 	workers := 20
+// 	clientsPool := clientpool.NewClientsPool(workers, 1)
+
+// 	users, err := getSotr("../../.tmp/sotr.json")
+// 	require.NoError(t, err)
+// 	require.Less(t, 0, len(users))
+
+// 	count := 1
+// 	for name, u := range users {
+// 		// if count > 10 {
+// 		// 	break
+// 		// }
+// 		cli := clientsPool.Get()
+// 		cli.SetBaseURL(MainURL).
+// 			SetTimeout(5 * time.Second)
+
+// 		wg.Add(1)
+
+// 		go func() {
+// 			defer clientsPool.Push(cli)
+// 			defer wg.Done()
+// 			resp, err := cli.R().
+// 				SetErrorResult(&errMsg). // Unmarshal response body into errMsg automatically if status code >= 400.
+// 				Get("/modules/employee_card/functions.php?task=showMobile&s_tab_num=" + u.Tabnum)
+
+// 			if err != nil { // Error handling.
+// 				fmt.Println("Worker:", "error handling", err)
+// 			}
+
+// 			if resp.IsErrorState() { // Status code >= 400.
+// 				fmt.Println("Worker:", "err", errMsg.Message) // Record error message returned.
+// 			}
+
+// 			if resp.IsSuccessState() { // Status code is between 200 and 299.
+// 				text := resp.String()
+// 				mob, err := ParseMobile(text)
+// 				if err != nil {
+// 					fmt.Printf("error parsing: %v, name: %s, text %s\n", err, name, text) // Record error message returned.
+// 				}
+// 				u.Mobile = mob.Data
+
+// 				err = saveUser(wrSotr, u, &mt)
+
+// 				// str, err := json.Marshal(u)
+// 				if err != nil {
+// 					fmt.Printf("error marshal: %v, user %v\n", err, u) // Record error message returned.
+// 				}
+// 				// fmt.Sprintf("%s\n", str)
+// 			}
+// 		}()
+
+// 		count++
+// 	}
+// 	wg.Wait()
+// }
+
+// func saveUser(wrSotr io.Writer, u *models.Sotr, mt *sync.Mutex) (err error) {
+// 	b, err := json.Marshal(u)
+// 	if err != nil {
+// 		return
+// 	}
+
+// 	b = append(b, "\n"...)
+
+// 	mt.Lock()
+// 	defer mt.Unlock()
+
+// 	_, err = wrSotr.Write(b)
+
+// 	return
+// }

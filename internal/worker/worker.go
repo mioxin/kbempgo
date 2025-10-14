@@ -204,9 +204,7 @@ func (w *Worker) Dispatcher(ctx context.Context, queue *list.List, out chan<- Ta
 		// w.Lg.Debug("Dispatcher. Get new data from Queue...")
 		// get data from queue
 		w.mu.Lock()
-
 		s = q.Remove(q.Front()).(string)
-
 		w.mu.Unlock()
 
 		// send data to out chanal (razdCh)
@@ -215,13 +213,10 @@ func (w *Worker) Dispatcher(ctx context.Context, queue *list.List, out chan<- Ta
 			count++
 		case <-ctx.Done():
 			w.mu.Lock()
-
 			lenQ = q.Len()
-
 			w.mu.Unlock()
 
 			w.Lg.Info("Dispatcher: general cancel:", "err", ctx.Err().Error(), "QueueLen", lenQ) // , "DepsQueueLen", lenQD)
-
 			ok = false
 
 			return
@@ -248,18 +243,14 @@ func (w *Worker) Dispatcher(ctx context.Context, queue *list.List, out chan<- Ta
 			}
 
 			w.mu.Lock()
-
 			lenQ := queue.Len()
-
 			w.mu.Unlock()
 
 			w.Lg.Info("Dispatcher: Get from queue", "count", count, "data", s, "QueueLen", lenQ, "time", time.Since(timeStart))
 
 		case <-ctx.Done():
 			w.mu.Lock()
-
 			lenQ := queue.Len()
-
 			w.mu.Unlock()
 
 			w.Lg.Debug("Dispatcher: general cancel in loop:", "err", ctx.Err().Error(), "QueueLen", lenQ, "IsData", len(isData)) // , "DepsQueueLen", lenQD, "DepsIsData", len(w.isData))
@@ -293,7 +284,7 @@ func (w *Worker) PrepareItem(cli *req.Client, item Item) error {
 		sotr.ParentId = dep.Parent
 
 		// define the middle name of employee
-		text, err := w.getMiddleName(cli, sotr.Name)
+		text, err := w.getData(cli, w.Gl.UrlFio, sotr.Name)
 		if err != nil {
 			w.Lg.Error("Get middle name:", "err", err.Error())
 		} else {
@@ -304,6 +295,27 @@ func (w *Worker) PrepareItem(cli *req.Client, item Item) error {
 			w.Lg.Warn("Middle name not found", "short_name", sotr.Name)
 		}
 
+		// define mobile phone
+		if sotr.Mobile == "" {
+			text, err = w.getData(cli, w.Gl.UrlMobile, sotr.Tabnum)
+		}
+
+		var mob *utils.Mobile
+
+		if err != nil {
+			w.Lg.Error("Mobile not found", "sotr_name", sotr.Name+sotr.MidName, "tabnum", sotr.Tabnum, "err", err)
+		} else {
+			mob, err = utils.ParseMobile(text)
+
+			if err != nil {
+				w.Lg.Error("Mobile parsing", "sotr_name", sotr.Name+sotr.MidName, "text", text, "err", err)
+			} else if !mob.Success {
+				w.Lg.Warn("Mobile get unsuccess", "sotr_name", sotr.Name+sotr.MidName, "tabnum", sotr.Tabnum, "responce", text)
+			}
+
+			sotr.Mobile = mob.Data
+		}
+
 		item = sotr
 	}
 
@@ -312,7 +324,33 @@ func (w *Worker) PrepareItem(cli *req.Client, item Item) error {
 	return err
 }
 
-func (w *Worker) getMiddleName(cli *req.Client, shortName string) (string, error) {
+// func (w *Worker) getMiddleName(cli *req.Client, shortName string) (string, error) {
+// 	var (
+// 		errMsg ErrorMessage
+// 		body   string // []byte
+// 	)
+
+// 	resp, err := cli.R().
+// 		SetErrorResult(&errMsg). // Unmarshal response body into errMsg automatically if status code >= 400.
+// 		Get(w.Gl.UrlFio + url.PathEscape(shortName))
+// 	if err != nil { // Error handling.
+// 		err = fmt.Errorf("get middle name: error handling %w", err)
+
+// 		w.Lg.Debug("Get Middle name error: raw content", "resp_dump", resp.Dump()) // Record raw content when error occurs.
+// 	}
+
+// 	if resp.IsErrorState() { // Status code >= 400.
+// 		w.Lg.Error(errMsg.Message) // Record error message returned.
+// 	}
+
+// 	if resp.IsSuccessState() { // Status code is between 200 and 299.
+// 		body = resp.String()
+// 	}
+
+// 	return (body), err
+// }
+
+func (w *Worker) getData(cli *req.Client, ajaxUrl, query string) (string, error) {
 	var (
 		errMsg ErrorMessage
 		body   string // []byte
@@ -320,11 +358,11 @@ func (w *Worker) getMiddleName(cli *req.Client, shortName string) (string, error
 
 	resp, err := cli.R().
 		SetErrorResult(&errMsg). // Unmarshal response body into errMsg automatically if status code >= 400.
-		Get(w.Gl.UrlFio + url.PathEscape(shortName))
+		Get(ajaxUrl + url.PathEscape(query))
 	if err != nil { // Error handling.
-		err = fmt.Errorf("get middle name: error handling %w", err)
+		err = fmt.Errorf("get mobile: error handling %w", err)
 
-		w.Lg.Debug("Get Middle name error: raw content", "resp_dump", resp.Dump()) // Record raw content when error occurs.
+		w.Lg.Debug("Get Mobile error: raw content", "resp_dump", resp.Dump()) // Record raw content when error occurs.
 	}
 
 	if resp.IsErrorState() { // Status code >= 400.

@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"encoding/json"
 	"html"
 	"regexp"
 	"strings"
@@ -89,6 +90,19 @@ func ParseMidName(sotr *models.Sotr, unescaped string) string {
 	}
 
 	return ""
+}
+
+type Mobile struct {
+	Data    string
+	Success bool
+}
+
+// parsing mobile
+func ParseMobile(unescaped string) (*Mobile, error) {
+	m := new(Mobile)
+	err := json.Unmarshal([]byte(unescaped), m)
+
+	return m, err
 }
 
 // parsing by regexp
