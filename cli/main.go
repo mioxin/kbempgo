@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/alecthomas/kong"
-	"github.com/mioxin/kbempgo/internal/clientpool"
 	"github.com/mioxin/kbempgo/internal/config"
+	httpclient "github.com/mioxin/kbempgo/internal/http_client"
 	"github.com/mioxin/kbempgo/internal/storage"
 	"github.com/mioxin/kbempgo/pkg/kongyaml"
 )
@@ -42,7 +42,8 @@ func Main() {
 	)
 
 	//	clientsPool := clientpool.NewClientsPool(e.Workers)
-	cli.ClientsPool = clientpool.NewClientPool(cli.Debug)
+	// cli.ClientsPool = clientpool.NewClientPool(cli.Debug)
+	cli.ClientsPool = httpclient.NewHTTPClient(cli.Debug)
 
 	cli.Store, err = storage.NewStore(cli.DbUrl)
 	kctx.FatalIfErrorf(err, "create file storage")

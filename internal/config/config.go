@@ -35,12 +35,13 @@ type Globals struct {
 	Avatars         string          `name:"scrape-avatars" env:"KB_AVATARS" help:"Directory for avatar images"`
 	DbUrl           string          `name:"db" env:"KB_DB_URL" help:"DB connection string"`
 
-	lgInitOnce  sync.Once          `kong:"-"`
-	Log         *slog.Logger       `kong:"-"`
-	Ctx         context.Context    `kong:"-"`
-	Cf          context.CancelFunc `kong:"-"`
-	Store       storage.Store      `kong:"-"`
-	ClientsPool HttpClientPool     `kong:"-"`
+	lgInitOnce sync.Once          `kong:"-"`
+	Log        *slog.Logger       `kong:"-"`
+	Ctx        context.Context    `kong:"-"`
+	Cf         context.CancelFunc `kong:"-"`
+	Store      storage.Store      `kong:"-"`
+	// ClientsPool HttpClientPool     `kong:"-"`
+	ClientsPool *req.Client `kong:"-"`
 }
 
 // Done must be called on exit via defer

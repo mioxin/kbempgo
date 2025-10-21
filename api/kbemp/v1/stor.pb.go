@@ -28,7 +28,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type Item struct {
+type Dep struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            uint64                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	Idr           string                 `protobuf:"bytes,2,opt,name=idr,proto3" json:"idr,omitempty"`
@@ -39,20 +39,20 @@ type Item struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *Item) Reset() {
-	*x = Item{}
+func (x *Dep) Reset() {
+	*x = Dep{}
 	mi := &file_stor_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *Item) String() string {
+func (x *Dep) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*Item) ProtoMessage() {}
+func (*Dep) ProtoMessage() {}
 
-func (x *Item) ProtoReflect() protoreflect.Message {
+func (x *Dep) ProtoReflect() protoreflect.Message {
 	mi := &file_stor_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -64,67 +64,67 @@ func (x *Item) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Item.ProtoReflect.Descriptor instead.
-func (*Item) Descriptor() ([]byte, []int) {
+// Deprecated: Use Dep.ProtoReflect.Descriptor instead.
+func (*Dep) Descriptor() ([]byte, []int) {
 	return file_stor_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *Item) GetId() uint64 {
+func (x *Dep) GetId() uint64 {
 	if x != nil {
 		return x.Id
 	}
 	return 0
 }
 
-func (x *Item) GetIdr() string {
+func (x *Dep) GetIdr() string {
 	if x != nil {
 		return x.Idr
 	}
 	return ""
 }
 
-func (x *Item) GetParent() string {
+func (x *Dep) GetParent() string {
 	if x != nil {
 		return x.Parent
 	}
 	return ""
 }
 
-func (x *Item) GetText() string {
+func (x *Dep) GetText() string {
 	if x != nil {
 		return x.Text
 	}
 	return ""
 }
 
-func (x *Item) GetChildren() bool {
+func (x *Dep) GetChildren() bool {
 	if x != nil {
 		return x.Children
 	}
 	return false
 }
 
-type Items struct {
+type Deps struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Items         []*Item                `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
+	Deps          []*Dep                 `protobuf:"bytes,1,rep,name=Deps,proto3" json:"Deps,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *Items) Reset() {
-	*x = Items{}
+func (x *Deps) Reset() {
+	*x = Deps{}
 	mi := &file_stor_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *Items) String() string {
+func (x *Deps) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*Items) ProtoMessage() {}
+func (*Deps) ProtoMessage() {}
 
-func (x *Items) ProtoReflect() protoreflect.Message {
+func (x *Deps) ProtoReflect() protoreflect.Message {
 	mi := &file_stor_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -136,14 +136,14 @@ func (x *Items) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Items.ProtoReflect.Descriptor instead.
-func (*Items) Descriptor() ([]byte, []int) {
+// Deprecated: Use Deps.ProtoReflect.Descriptor instead.
+func (*Deps) Descriptor() ([]byte, []int) {
 	return file_stor_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *Items) GetItems() []*Item {
+func (x *Deps) GetDeps() []*Dep {
 	if x != nil {
-		return x.Items
+		return x.Deps
 	}
 	return nil
 }
@@ -441,15 +441,16 @@ var File_stor_proto protoreflect.FileDescriptor
 const file_stor_proto_rawDesc = "" +
 	"\n" +
 	"\n" +
-	"stor.proto\x12\x05kb.v1\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x17validate/validate.proto\"p\n" +
-	"\x04Item\x12\x0e\n" +
+	"stor.proto\x12\x05kb.v1\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x17validate/validate.proto\"o\n" +
+	"\x03Dep\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x04R\x02id\x12\x10\n" +
 	"\x03idr\x18\x02 \x01(\tR\x03idr\x12\x16\n" +
 	"\x06parent\x18\x03 \x01(\tR\x06parent\x12\x12\n" +
 	"\x04text\x18\x04 \x01(\tR\x04text\x12\x1a\n" +
-	"\bchildren\x18\x05 \x01(\bR\bchildren\"*\n" +
-	"\x05Items\x12!\n" +
-	"\x05items\x18\x01 \x03(\v2\v.kb.v1.ItemR\x05items\"\x1f\n" +
+	"\bchildren\x18\x05 \x01(\bR\bchildren\"&\n" +
+	"\x04Deps\x12\x1e\n" +
+	"\x04Deps\x18\x01 \x03(\v2\n" +
+	".kb.v1.DepR\x04Deps\"\x1f\n" +
 	"\vQueryString\x12\x10\n" +
 	"\x03str\x18\x01 \x01(\tR\x03str\"\xc7\x02\n" +
 	"\x04Sotr\x12\x0e\n" +
@@ -472,13 +473,15 @@ const file_stor_proto_rawDesc = "" +
 	"\x05field\x18\x02 \x01(\tR\x05field\x12\x1b\n" +
 	"\told_value\x18\x03 \x01(\tR\boldValue\"*\n" +
 	"\x05Sotrs\x12!\n" +
-	"\x05sotrs\x18\x01 \x03(\v2\v.kb.v1.SotrR\x05sotrs2\xec\x03\n" +
-	"\x04Stor\x12N\n" +
-	"\vGetDepByIdr\x12\x12.kb.v1.QueryString\x1a\v.kb.v1.Item\"\x1e\x82\xd3\xe4\x93\x02\x18\x12\x16/api/stor/v1/dep/{str}\x12^\n" +
+	"\x05sotrs\x18\x01 \x03(\v2\v.kb.v1.SotrR\x05sotrs2\xea\x03\n" +
+	"\x04Stor\x12M\n" +
+	"\vGetDepByIdr\x12\x12.kb.v1.QueryString\x1a\n" +
+	".kb.v1.Dep\"\x1e\x82\xd3\xe4\x93\x02\x18\x12\x16/api/stor/v1/dep/{str}\x12^\n" +
 	"\x0fGetSotrByTabnum\x12\x12.kb.v1.QueryString\x1a\v.kb.v1.Sotr\"*\x82\xd3\xe4\x93\x02$\x12\"/api/stor/v1/employee/tabnum/{str}\x12X\n" +
 	"\fGetSotrByFio\x12\x12.kb.v1.QueryString\x1a\v.kb.v1.Sotr\"'\x82\xd3\xe4\x93\x02!\x12\x1f/api/stor/v1/employee/fio/{str}\x12_\n" +
-	"\x0fGetSotrByMobile\x12\x12.kb.v1.QueryString\x1a\f.kb.v1.Sotrs\"*\x82\xd3\xe4\x93\x02$\x12\"/api/stor/v1/employee/mobile/{str}\x12y\n" +
-	"\x04Save\x12\v.kb.v1.Item\x1a\x16.google.protobuf.Empty\"L\x82\xd3\xe4\x93\x02F:\x01*Z\x16:\x01*\x1a\x11/api/stor/v1/saveZ\x16:\x01*2\x11/api/stor/v1/save\"\x11/api/stor/v1/saveB-Z+github.com/mioxin/kbempgo/api/kbemp/v1;kbv1b\x06proto3"
+	"\x0fGetSotrByMobile\x12\x12.kb.v1.QueryString\x1a\f.kb.v1.Sotrs\"*\x82\xd3\xe4\x93\x02$\x12\"/api/stor/v1/employee/mobile/{str}\x12x\n" +
+	"\x04Save\x12\n" +
+	".kb.v1.Dep\x1a\x16.google.protobuf.Empty\"L\x82\xd3\xe4\x93\x02F:\x01*Z\x16:\x01*\x1a\x11/api/stor/v1/saveZ\x16:\x01*2\x11/api/stor/v1/save\"\x11/api/stor/v1/saveB-Z+github.com/mioxin/kbempgo/api/kbemp/v1;kbv1b\x06proto3"
 
 var (
 	file_stor_proto_rawDescOnce sync.Once
@@ -494,8 +497,8 @@ func file_stor_proto_rawDescGZIP() []byte {
 
 var file_stor_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_stor_proto_goTypes = []any{
-	(*Item)(nil),                  // 0: kb.v1.Item
-	(*Items)(nil),                 // 1: kb.v1.Items
+	(*Dep)(nil),                   // 0: kb.v1.Dep
+	(*Deps)(nil),                  // 1: kb.v1.Deps
 	(*QueryString)(nil),           // 2: kb.v1.QueryString
 	(*Sotr)(nil),                  // 3: kb.v1.Sotr
 	(*History)(nil),               // 4: kb.v1.History
@@ -504,7 +507,7 @@ var file_stor_proto_goTypes = []any{
 	(*emptypb.Empty)(nil),         // 7: google.protobuf.Empty
 }
 var file_stor_proto_depIdxs = []int32{
-	0, // 0: kb.v1.Items.items:type_name -> kb.v1.Item
+	0, // 0: kb.v1.Deps.Deps:type_name -> kb.v1.Dep
 	4, // 1: kb.v1.Sotr.hist:type_name -> kb.v1.History
 	6, // 2: kb.v1.History.date:type_name -> google.protobuf.Timestamp
 	3, // 3: kb.v1.Sotrs.sotrs:type_name -> kb.v1.Sotr
@@ -512,8 +515,8 @@ var file_stor_proto_depIdxs = []int32{
 	2, // 5: kb.v1.Stor.GetSotrByTabnum:input_type -> kb.v1.QueryString
 	2, // 6: kb.v1.Stor.GetSotrByFio:input_type -> kb.v1.QueryString
 	2, // 7: kb.v1.Stor.GetSotrByMobile:input_type -> kb.v1.QueryString
-	0, // 8: kb.v1.Stor.Save:input_type -> kb.v1.Item
-	0, // 9: kb.v1.Stor.GetDepByIdr:output_type -> kb.v1.Item
+	0, // 8: kb.v1.Stor.Save:input_type -> kb.v1.Dep
+	0, // 9: kb.v1.Stor.GetDepByIdr:output_type -> kb.v1.Dep
 	3, // 10: kb.v1.Stor.GetSotrByTabnum:output_type -> kb.v1.Sotr
 	3, // 11: kb.v1.Stor.GetSotrByFio:output_type -> kb.v1.Sotr
 	5, // 12: kb.v1.Stor.GetSotrByMobile:output_type -> kb.v1.Sotrs

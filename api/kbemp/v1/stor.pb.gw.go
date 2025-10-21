@@ -193,7 +193,7 @@ func local_request_Stor_GetSotrByMobile_0(ctx context.Context, marshaler runtime
 
 func request_Stor_Save_0(ctx context.Context, marshaler runtime.Marshaler, client StorClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq Item
+		protoReq Dep
 		metadata runtime.ServerMetadata
 	)
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
@@ -208,7 +208,7 @@ func request_Stor_Save_0(ctx context.Context, marshaler runtime.Marshaler, clien
 
 func local_request_Stor_Save_0(ctx context.Context, marshaler runtime.Marshaler, server StorServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq Item
+		protoReq Dep
 		metadata runtime.ServerMetadata
 	)
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
@@ -220,7 +220,7 @@ func local_request_Stor_Save_0(ctx context.Context, marshaler runtime.Marshaler,
 
 func request_Stor_Save_1(ctx context.Context, marshaler runtime.Marshaler, client StorClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq Item
+		protoReq Dep
 		metadata runtime.ServerMetadata
 	)
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
@@ -235,7 +235,7 @@ func request_Stor_Save_1(ctx context.Context, marshaler runtime.Marshaler, clien
 
 func local_request_Stor_Save_1(ctx context.Context, marshaler runtime.Marshaler, server StorServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq Item
+		protoReq Dep
 		metadata runtime.ServerMetadata
 	)
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
@@ -247,7 +247,7 @@ func local_request_Stor_Save_1(ctx context.Context, marshaler runtime.Marshaler,
 
 func request_Stor_Save_2(ctx context.Context, marshaler runtime.Marshaler, client StorClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq Item
+		protoReq Dep
 		metadata runtime.ServerMetadata
 	)
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
@@ -262,7 +262,7 @@ func request_Stor_Save_2(ctx context.Context, marshaler runtime.Marshaler, clien
 
 func local_request_Stor_Save_2(ctx context.Context, marshaler runtime.Marshaler, server StorServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq Item
+		protoReq Dep
 		metadata runtime.ServerMetadata
 	)
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {

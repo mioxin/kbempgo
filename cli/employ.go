@@ -36,6 +36,7 @@ func (e *employCommand) Run(gl *config.Globals) error {
 	razdCh := make(chan wrk.Task, 10)
 	avatarCh := make(chan wrk.Task, 10)
 
+	// fileCollection is map of existing avatar files info for define new avatars
 	fileCollection, err := e.getFileCollection()
 	if err != nil {
 		return err

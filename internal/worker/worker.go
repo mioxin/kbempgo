@@ -77,14 +77,17 @@ func (w *Worker) GetRazd(ctx context.Context, in chan Task, limit int32, depsCou
 	var cli *req.Client
 
 	defer func() {
-		w.Gl.ClientsPool.Push(cli)
+		// w.Gl.ClientsPool.Push(cli)
 		w.Lg.Info("Worker: END")
 	}()
 
 	// get client from pool
-	cli = w.Gl.ClientsPool.Get()
+	// cli = w.Gl.ClientsPool.Get()
+	cli = w.Gl.ClientsPool
+
 	cli.SetBaseURL(w.Gl.KbUrl).
-		SetTimeout(w.Gl.HttpReqTimeout)
+		SetTimeout(w.Gl.HttpReqTimeout).
+		SetLogger(&ReqLogger{Logger: *w.Lg})
 
 	for r := range in {
 		cnt := depsCount.Load() + sotrCount.Load()
@@ -310,7 +313,7 @@ func (w *Worker) PrepareItem(cli *req.Client, item Item) error {
 			if err != nil {
 				w.Lg.Error("Mobile parsing", "sotr_name", sotr.Name+sotr.MidName, "text", text, "err", err)
 			} else if !mob.Success {
-				w.Lg.Warn("Mobile get unsuccess", "sotr_name", sotr.Name+sotr.MidName, "tabnum", sotr.Tabnum, "responce", text)
+				w.Lg.Warn("Mobile get unsuccess", "sotr_name", sotr.Name+sotr.MidName, "tabnum", sotr.Tabnum, "responce", html.UnescapeString(text))
 			}
 
 			sotr.Mobile = mob.Data
@@ -323,32 +326,6 @@ func (w *Worker) PrepareItem(cli *req.Client, item Item) error {
 
 	return err
 }
-
-// func (w *Worker) getMiddleName(cli *req.Client, shortName string) (string, error) {
-// 	var (
-// 		errMsg ErrorMessage
-// 		body   string // []byte
-// 	)
-
-// 	resp, err := cli.R().
-// 		SetErrorResult(&errMsg). // Unmarshal response body into errMsg automatically if status code >= 400.
-// 		Get(w.Gl.UrlFio + url.PathEscape(shortName))
-// 	if err != nil { // Error handling.
-// 		err = fmt.Errorf("get middle name: error handling %w", err)
-
-// 		w.Lg.Debug("Get Middle name error: raw content", "resp_dump", resp.Dump()) // Record raw content when error occurs.
-// 	}
-
-// 	if resp.IsErrorState() { // Status code >= 400.
-// 		w.Lg.Error(errMsg.Message) // Record error message returned.
-// 	}
-
-// 	if resp.IsSuccessState() { // Status code is between 200 and 299.
-// 		body = resp.String()
-// 	}
-
-// 	return (body), err
-// }
 
 func (w *Worker) getData(cli *req.Client, ajaxUrl, query string) (string, error) {
 	var (
@@ -385,14 +362,14 @@ func (w *Worker) GetAvatar(_ context.Context, in <-chan Task, limit int32,
 	var cli *req.Client
 
 	defer func() {
-		w.Gl.ClientsPool.Push(cli)
 		w.Lg.Info("Worker avatar: END")
 	}()
 
-	// get client from pool
-	cli = w.Gl.ClientsPool.Get()
+	cli = w.Gl.ClientsPool
+
 	cli.SetBaseURL(w.Gl.KbUrl).
-		SetTimeout(w.Gl.HttpReqTimeout)
+		SetTimeout(w.Gl.HttpReqTimeout).
+		SetLogger(&ReqLogger{Logger: *w.Lg})
 
 	callback := func(info req.DownloadInfo) {
 		if info.Response.Response != nil {

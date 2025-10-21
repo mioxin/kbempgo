@@ -16,7 +16,7 @@ import "validate/validate.proto";
 // Stor service provides an interface to storage for kbemp data.
 service Stor {
   // GetDep returns department data
-  rpc GetDepByIdr(QueryString) returns (Item) {
+  rpc GetDepByIdr(QueryString) returns (Dep) {
     option (google.api.http) = {
       get : "/api/stor/v1/dep/{str}"
     };
@@ -42,8 +42,8 @@ service Stor {
   }
 
 
-  // Save updates Item data
-  rpc Save(Item) returns (google.protobuf.Empty) {
+  // Save updates Dep data
+  rpc Save(Dep) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       post : "/api/stor/v1/save"
       body : "*"
@@ -59,7 +59,7 @@ service Stor {
   }
 }
 
-message Item {
+message Dep {
   uint64 id = 1;
   string idr = 2;
   string parent = 3;
@@ -67,8 +67,8 @@ message Item {
   bool children = 5;
 }
 
-message Items {
-  repeated Item items = 1;
+message Deps {
+  repeated Dep Deps = 1;
 }
 
 message QueryString { string str = 1; }

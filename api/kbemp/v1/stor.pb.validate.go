@@ -35,21 +35,21 @@ var (
 	_ = sort.Sort
 )
 
-// Validate checks the field values on Item with the rules defined in the proto
+// Validate checks the field values on Dep with the rules defined in the proto
 // definition for this message. If any rules are violated, the first error
 // encountered is returned, or nil if there are no violations.
-func (m *Item) Validate() error {
+func (m *Dep) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on Item with the rules defined in the
+// ValidateAll checks the field values on Dep with the rules defined in the
 // proto definition for this message. If any rules are violated, the result is
-// a list of violation errors wrapped in ItemMultiError, or nil if none found.
-func (m *Item) ValidateAll() error {
+// a list of violation errors wrapped in DepMultiError, or nil if none found.
+func (m *Dep) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *Item) validate(all bool) error {
+func (m *Dep) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -67,18 +67,18 @@ func (m *Item) validate(all bool) error {
 	// no validation rules for Children
 
 	if len(errors) > 0 {
-		return ItemMultiError(errors)
+		return DepMultiError(errors)
 	}
 
 	return nil
 }
 
-// ItemMultiError is an error wrapping multiple validation errors returned by
-// Item.ValidateAll() if the designated constraints aren't met.
-type ItemMultiError []error
+// DepMultiError is an error wrapping multiple validation errors returned by
+// Dep.ValidateAll() if the designated constraints aren't met.
+type DepMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m ItemMultiError) Error() string {
+func (m DepMultiError) Error() string {
 	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -87,11 +87,11 @@ func (m ItemMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m ItemMultiError) AllErrors() []error { return m }
+func (m DepMultiError) AllErrors() []error { return m }
 
-// ItemValidationError is the validation error returned by Item.Validate if the
+// DepValidationError is the validation error returned by Dep.Validate if the
 // designated constraints aren't met.
-type ItemValidationError struct {
+type DepValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -99,22 +99,22 @@ type ItemValidationError struct {
 }
 
 // Field function returns field value.
-func (e ItemValidationError) Field() string { return e.field }
+func (e DepValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e ItemValidationError) Reason() string { return e.reason }
+func (e DepValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e ItemValidationError) Cause() error { return e.cause }
+func (e DepValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e ItemValidationError) Key() bool { return e.key }
+func (e DepValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e ItemValidationError) ErrorName() string { return "ItemValidationError" }
+func (e DepValidationError) ErrorName() string { return "DepValidationError" }
 
 // Error satisfies the builtin error interface
-func (e ItemValidationError) Error() string {
+func (e DepValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -126,14 +126,14 @@ func (e ItemValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sItem.%s: %s%s",
+		"invalid %sDep.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = ItemValidationError{}
+var _ error = DepValidationError{}
 
 var _ interface {
 	Field() string
@@ -141,46 +141,46 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = ItemValidationError{}
+} = DepValidationError{}
 
-// Validate checks the field values on Items with the rules defined in the
-// proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *Items) Validate() error {
+// Validate checks the field values on Deps with the rules defined in the proto
+// definition for this message. If any rules are violated, the first error
+// encountered is returned, or nil if there are no violations.
+func (m *Deps) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on Items with the rules defined in the
+// ValidateAll checks the field values on Deps with the rules defined in the
 // proto definition for this message. If any rules are violated, the result is
-// a list of violation errors wrapped in ItemsMultiError, or nil if none found.
-func (m *Items) ValidateAll() error {
+// a list of violation errors wrapped in DepsMultiError, or nil if none found.
+func (m *Deps) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *Items) validate(all bool) error {
+func (m *Deps) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
 	var errors []error
 
-	for idx, item := range m.GetItems() {
+	for idx, item := range m.GetDeps() {
 		_, _ = idx, item
 
 		if all {
 			switch v := interface{}(item).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, ItemsValidationError{
-						field:  fmt.Sprintf("Items[%v]", idx),
+					errors = append(errors, DepsValidationError{
+						field:  fmt.Sprintf("Deps[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
 				}
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
-					errors = append(errors, ItemsValidationError{
-						field:  fmt.Sprintf("Items[%v]", idx),
+					errors = append(errors, DepsValidationError{
+						field:  fmt.Sprintf("Deps[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
@@ -188,8 +188,8 @@ func (m *Items) validate(all bool) error {
 			}
 		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				return ItemsValidationError{
-					field:  fmt.Sprintf("Items[%v]", idx),
+				return DepsValidationError{
+					field:  fmt.Sprintf("Deps[%v]", idx),
 					reason: "embedded message failed validation",
 					cause:  err,
 				}
@@ -199,18 +199,18 @@ func (m *Items) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return ItemsMultiError(errors)
+		return DepsMultiError(errors)
 	}
 
 	return nil
 }
 
-// ItemsMultiError is an error wrapping multiple validation errors returned by
-// Items.ValidateAll() if the designated constraints aren't met.
-type ItemsMultiError []error
+// DepsMultiError is an error wrapping multiple validation errors returned by
+// Deps.ValidateAll() if the designated constraints aren't met.
+type DepsMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m ItemsMultiError) Error() string {
+func (m DepsMultiError) Error() string {
 	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -219,11 +219,11 @@ func (m ItemsMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m ItemsMultiError) AllErrors() []error { return m }
+func (m DepsMultiError) AllErrors() []error { return m }
 
-// ItemsValidationError is the validation error returned by Items.Validate if
-// the designated constraints aren't met.
-type ItemsValidationError struct {
+// DepsValidationError is the validation error returned by Deps.Validate if the
+// designated constraints aren't met.
+type DepsValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -231,22 +231,22 @@ type ItemsValidationError struct {
 }
 
 // Field function returns field value.
-func (e ItemsValidationError) Field() string { return e.field }
+func (e DepsValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e ItemsValidationError) Reason() string { return e.reason }
+func (e DepsValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e ItemsValidationError) Cause() error { return e.cause }
+func (e DepsValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e ItemsValidationError) Key() bool { return e.key }
+func (e DepsValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e ItemsValidationError) ErrorName() string { return "ItemsValidationError" }
+func (e DepsValidationError) ErrorName() string { return "DepsValidationError" }
 
 // Error satisfies the builtin error interface
-func (e ItemsValidationError) Error() string {
+func (e DepsValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -258,14 +258,14 @@ func (e ItemsValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sItems.%s: %s%s",
+		"invalid %sDeps.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = ItemsValidationError{}
+var _ error = DepsValidationError{}
 
 var _ interface {
 	Field() string
@@ -273,7 +273,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = ItemsValidationError{}
+} = DepsValidationError{}
 
 // Validate checks the field values on QueryString with the rules defined in
 // the proto definition for this message. If any rules are violated, the first
