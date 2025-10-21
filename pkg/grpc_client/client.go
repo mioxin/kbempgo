@@ -4,6 +4,7 @@ package grpc_client
 import (
 	"context"
 	"fmt"
+	"time"
 
 	grpc_logging "github.com/grpc-ecosystem/go-grpc-middleware/v2/interceptors/logging"
 	"github.com/mioxin/kbempgo/pkg/grpc_slog"
@@ -60,19 +61,19 @@ func NewConnection(ctx context.Context, config *ClientConfig, opts ...grpc.DialO
 	dialOpts = append(dialOpts, grpc.WithChainUnaryInterceptor(unaryInt...))
 	dialOpts = append(dialOpts, grpc.WithStatsHandler(otelgrpc.NewClientHandler()))
 
-	dCtx := ctx
 	if config.DialTimeout > 0 {
-		var cf context.CancelFunc
-		dCtx, cf = context.WithTimeout(ctx, config.DialTimeout)
-		defer cf()
+		dialOpts = append(dialOpts, grpc.WithIdleTimeout(config.DialTimeout))
+	} else {
+		dialOpts = append(dialOpts, grpc.WithIdleTimeout(10*time.Second))
 	}
 
 	if config.SSHProxy.Host != "" {
 		dialOpts = append(dialOpts, grpc.WithContextDialer(NewConnProxyDialer(config)))
 	}
 
-	//nolint:staticcheck
-	conn, err := grpc.DialContext(dCtx, target, dialOpts...)
+	// nolint:staticcheck
+
+	conn, err := grpc.NewClient(target, dialOpts...)
 	if err != nil {
 		return nil, fmt.Errorf("can't create client connection: %w", err)
 	}

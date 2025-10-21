@@ -41,8 +41,6 @@ func Main() {
 		kong.DefaultEnvars("KB"),
 	)
 
-	//	clientsPool := clientpool.NewClientsPool(e.Workers)
-	// cli.ClientsPool = clientpool.NewClientPool(cli.Debug)
 	cli.ClientsPool = httpclient.NewHTTPClient(cli.Debug)
 
 	cli.Store, err = storage.NewStore(cli.DbUrl)

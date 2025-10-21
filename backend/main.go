@@ -15,7 +15,7 @@ type CLI struct {
 	Config
 	config.Globals
 
-	Start  struct{} `cmd:"" name:"start" help:"Start kbempgo backend service"`
+	Start  struct{} `cmd:"" name:"start" default:"1" help:"Start kbempgo backend service"`
 	DBSync struct{} `cmd:"" name:"dbsync" help:"DB init and migration."`
 }
 
@@ -32,6 +32,9 @@ func Main() {
 	cli := &CLI{}
 	defer cli.Done()
 
+	cli.InitLog()
+	cli.Context()
+
 	kctx := kong.Parse(cli,
 		kong.Description("Update kbEmp data base cli tool"),
 		kong.Configuration(kongyaml.Loader, "/etc/kbemp/kb.yaml", "~/.config/kb.yaml"),
@@ -47,7 +50,7 @@ func Main() {
 	kctx.FatalIfErrorf(err, "create file storage")
 
 	defer func() {
-		cli.Globals.Log.Info("Close storage")
+		cli.Log.Info("Close storage")
 
 		if err := cli.Store.Close(); err != nil {
 			kctx.FatalIfErrorf(err)
