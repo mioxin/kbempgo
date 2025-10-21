@@ -1,0 +1,1345 @@
+{"id":"razd1","parent":"#","text":"Головной Банк","children":true}
+{"id":"razd86","parent":"#","text":"Филиальная сеть","children":true}
+{"id":"razd3380","parent":"#","text":"ТОО Kaspi Cloud","children":true}
+{"id":"razd1985","parent":"#","text":"ТОО Kaspi Pay","children":true}
+{"id":"razd1941","parent":"#","text":"ТОО Kaspi Travel","children":true}
+{"id":"razd2916","parent":"#","text":"ТОО Kaspi Магазин","children":true}
+{"id":"razd3468","parent":"#","text":"ТОО АРК Баланс","children":true}
+{"id":"razd3053","parent":"#","text":"ТОО Колеса Авто","children":true}
+{"id":"razd1941.840","parent":"razd1941","text":"Управление разработки","children":true}
+{"id":"razd1941.1072","parent":"razd1941","text":"Отдел Привлечения и Развития Партнеров","children":true}
+{"id":"razd1941.1947","parent":"razd1941","text":"Служба Поддержки Пользователей","children":true}
+{"id":"razd1941.2256","parent":"razd1941","text":"Product Office","children":true}
+{"id":"razd1941.1943","parent":"razd1941","text":"Отдел Бухгалтерского Учета","children":true}
+{"id":"razd1941.2847","parent":"razd1941","text":"Отдел Развития Контента","children":true}
+{"id":"razd1.11","parent":"razd1","text":"Руководство","children":true}
+{"id":"razd1.9","parent":"razd1","text":"Блок информационные технологии","children":true}
+{"id":"razd1.19","parent":"razd1","text":"Блок корпоративный бизнес","children":true}
+{"id":"razd1.2","parent":"razd1","text":"Блок разработки продуктов","children":true}
+{"id":"razd1.27","parent":"razd1","text":"Блок рынки капитала","children":true}
+{"id":"razd1.5","parent":"razd1","text":"Юридический блок","children":true}
+{"id":"razd1.1715","parent":"razd1","text":"Блок Kaspi Data Factory","children":true}
+{"id":"razd1.1525","parent":"razd1","text":"Блок Kaspi Сервис","children":true}
+{"id":"razd1.2568","parent":"razd1","text":"Блок Онлайн Сервисов","children":true}
+{"id":"razd1.2132","parent":"razd1","text":"Блок Сети Продаж и Обслуживания","children":true}
+{"id":"razd1.1993","parent":"razd1","text":"Блок стратегических рисков","children":true}
+{"id":"razd1.8","parent":"razd1","text":"Дирекция безопасности","children":true}
+{"id":"razd1.21","parent":"razd1","text":"Дирекция бухгалтерия и финансы","children":true}
+{"id":"razd1.654","parent":"razd1","text":"Дирекция маркетинга","children":true}
+{"id":"razd1.206","parent":"razd1","text":"Дирекция трудовых ресурсов","children":true}
+{"id":"razd1.2224","parent":"razd1","text":"Дирекция Kaspi Pay","children":true}
+{"id":"razd1.1927","parent":"razd1","text":"Дирекция Kaspi UX and Design","children":true}
+{"id":"razd1.2890","parent":"razd1","text":"Дирекция Kaspi Гид","children":true}
+{"id":"razd1.1887","parent":"razd1","text":"Дирекция Risk \u0026 Collection","children":true}
+{"id":"razd1.709","parent":"razd1","text":"Департамент внутреннего аудита","children":true}
+{"id":"razd1.807","parent":"razd1","text":"Департамент информационной безопасности","children":true}
+{"id":"razd1.625","parent":"razd1","text":"Департамент корпоративных коммуникаций","children":true}
+{"id":"razd1.172","parent":"razd1","text":"Департамент управления проектами","children":true}
+{"id":"razd1.941","parent":"razd1","text":"Департамент Хард Коллекшн","children":true}
+{"id":"razd1.2072","parent":"razd1","text":"Департамент Kaspi Marketing Services","children":true}
+{"id":"razd1.2099","parent":"razd1","text":"Департамент Kaspi NPS","children":true}
+{"id":"razd1.1967","parent":"razd1","text":"Департамент Мониторинга Обеспеченных Кредитов","children":true}
+{"id":"razd1.2143","parent":"razd1","text":"Служба Комплаенс и Внутреннего Контроля","children":true}
+{"id":"razd1.147","parent":"razd1","text":"Управление оценки рисков обеспеченных кредитов","children":true}
+{"id":"razd1.721","parent":"razd1","text":"Управление рисков информационных технологий и информационной безопасности","children":true}
+{"id":"razd1.2920","parent":"razd1","text":"Служба Контроля SOX","children":true}
+{"id":"razd1.2926","parent":"razd1","text":"Управление Контроля Рисков","children":true}
+{"id":"razd1.26","parent":"razd1","text":"Региональная администрация в г.Астана","children":true}
+{"id":"razd1.992","parent":"razd1","text":"Секретариат","children":true}
+{"id":"razd1.836","parent":"razd1","text":"Служба безопасности и охраны труда","children":true}
+{"id":"razd86.87","parent":"razd86","text":"филиал в г.Актау","children":true}
+{"id":"razd86.93","parent":"razd86","text":"филиал в г.Актобе","children":true}
+{"id":"razd86.94","parent":"razd86","text":"филиал в г.Астана","children":true}
+{"id":"razd86.95","parent":"razd86","text":"филиал в г.Атырау","children":true}
+{"id":"razd86.97","parent":"razd86","text":"филиал в г.Жезказган","children":true}
+{"id":"razd86.99","parent":"razd86","text":"филиал в г.Караганда","children":true}
+{"id":"razd86.102","parent":"razd86","text":"филиал в г.Кокшетау","children":true}
+{"id":"razd86.105","parent":"razd86","text":"филиал в г.Костанай","children":true}
+{"id":"razd86.108","parent":"razd86","text":"филиал в г.Кызылорда","children":true}
+{"id":"razd86.109","parent":"razd86","text":"филиал в г.Павлодар","children":true}
+{"id":"razd86.110","parent":"razd86","text":"филиал в г.Петропавловск","children":true}
+{"id":"razd86.112","parent":"razd86","text":"филиал в г.Семей","children":true}
+{"id":"razd86.115","parent":"razd86","text":"филиал в г.Талдыкорган","children":true}
+{"id":"razd86.116","parent":"razd86","text":"филиал в г.Тараз","children":true}
+{"id":"razd86.1776","parent":"razd86","text":"филиал в г.Туркестан","children":true}
+{"id":"razd86.117","parent":"razd86","text":"филиал в г.Уральск","children":true}
+{"id":"razd86.118","parent":"razd86","text":"филиал в г.Усть-Каменогорск","children":true}
+{"id":"razd86.119","parent":"razd86","text":"филиал в г.Шымкент","children":true}
+{"id":"razd86.122","parent":"razd86","text":"филиал \"Южная столица\" в г.Алматы","children":true}
+{"id":"razd3053.3050","parent":"razd3053","text":"Департамент Cети Выкупа и Продаж","children":true}
+{"id":"razd3053.3052","parent":"razd3053","text":"Департамент Развития Инфраструктуры","children":true}
+{"id":"razd3053.1943","parent":"razd3053","text":"Отдел Бухгалтерского Учета","children":true}
+{"id":"razd1941.840.2961","parent":"razd1941.840","text":"Команда Frontend разработки","children":true}
+{"id":"razd1941.840.2957","parent":"razd1941.840","text":"Команда QA","children":true}
+{"id":"razd1941.840.2959","parent":"razd1941.840","text":"Команда разработки Avia","children":true}
+{"id":"razd1941.840.2968","parent":"razd1941.840","text":"Команда разработки ЖД","children":true}
+{"id":"razd1941.840.2970","parent":"razd1941.840","text":"Команда разработки Туры","children":true}
+{"id":"razd1985.1050","parent":"razd1985","text":"Департамент Развития Онлайн Сервисов","children":true}
+{"id":"razd1985.1616","parent":"razd1985","text":"Департамент Информационные Технологии Kaspi Business","children":true}
+{"id":"razd1985.1068","parent":"razd1985","text":"Управление Развития Платежей","children":true}
+{"id":"razd2916.13","parent":"razd2916","text":"Дирекция электронной коммерции","children":true}
+{"id":"razd2916.3574","parent":"razd2916","text":"Дирекция Kaspi Доставка","children":true}
+{"id":"razd2916.1943","parent":"razd2916","text":"Отдел Бухгалтерского Учета","children":true}
+{"id":"razd1.9.765","parent":"razd1.9","text":"Дирекция автоматизации розницы","children":true}
+{"id":"razd1.9.10","parent":"razd1.9","text":"Дирекция разработки и сопровождения информационных систем","children":true}
+{"id":"razd1.19.200","parent":"razd1.19","text":"Департамент VIP-продаж","children":true}
+{"id":"razd1.19.20","parent":"razd1.19","text":"Департамент корпоративных финансов","children":true}
+{"id":"razd86.87.88","parent":"razd86.87","text":"Администрация","children":true}
+{"id":"razd86.87.100","parent":"razd86.87","text":"Управление безопасности","children":true}
+{"id":"razd86.87.598","parent":"razd86.87","text":"Управление привлечения зарплатных карт","children":true}
+{"id":"razd86.87.1954","parent":"razd86.87","text":"Управление кассовых операций","children":true}
+{"id":"razd86.87.3294","parent":"razd86.87","text":"Управление Развития Бизнеса Партнеров","children":true}
+{"id":"razd86.87.813","parent":"razd86.87","text":"Отдел автокредитования №1","children":true}
+{"id":"razd86.87.482","parent":"razd86.87","text":"Отдел Инкассации","children":true}
+{"id":"razd86.87.104","parent":"razd86.87","text":"Отдел сопровождения филиальной сети","children":true}
+{"id":"razd86.87.684","parent":"razd86.87","text":"Отделение \"11 микрорайон, 58\"","children":true}
+{"id":"razd86.87.161","parent":"razd86.87","text":"Отделение \"Жанаозен\"","children":true}
+{"id":"razd86.87.358","parent":"razd86.87","text":"Отделение \"микрорайон 2\"","children":true}
+{"id":"razd86.87.2440","parent":"razd86.87","text":"Отделение \"Микрорайон, 28\"","children":true}
+{"id":"razd1.5.987","parent":"razd1.5","text":"Департамент Сопровождения Заемных Операций","children":true}
+{"id":"razd1.5.986","parent":"razd1.5","text":"Департамент Сопровождения Массовой Розницы","children":true}
+{"id":"razd1.5.519","parent":"razd1.5","text":"Департамент судебной работы","children":true}
+{"id":"razd1.5.6","parent":"razd1.5","text":"Юридический департамент","children":true}
+{"id":"razd1.5.1570","parent":"razd1.5","text":"Департамент Корпоративного Управления","children":true}
+{"id":"razd1.5.1932","parent":"razd1.5","text":"Департамент Правового Сопровождения Kaspi Business","children":true}
+{"id":"razd3053.3050.2475","parent":"razd3053.3050","text":"Направление Выкупа и Продаж Авто","children":true}
+{"id":"razd3053.3050.3164","parent":"razd3053.3050","text":"Направление Выкупа и Продаж Авто в г.Астана","children":true}
+{"id":"razd3053.3050.3059","parent":"razd3053.3050","text":"Направление Выкупа и Продаж Авто в г.Шымкент","children":true}
+{"id":"razd1.2.919","parent":"razd1.2","text":"Дирекция Kaspi Алло","children":true}
+{"id":"razd1.2.3","parent":"razd1.2","text":"Дирекция развития розничных продуктов","children":true}
+{"id":"razd1.2.3464","parent":"razd1.2","text":"Департамент по Контролю Качества Товаров и Нарушений Партнеров","children":true}
+{"id":"razd1.27.28","parent":"razd1.27","text":"Казначейство","children":true}
+{"id":"razd1.27.2935","parent":"razd1.27","text":"Департамент Финансовых Институтов и Торгового Финансирования","children":true}
+{"id":"razd86.93.88","parent":"razd86.93","text":"Администрация","children":true}
+{"id":"razd86.93.100","parent":"razd86.93","text":"Управление безопасности","children":true}
+{"id":"razd86.93.598","parent":"razd86.93","text":"Управление привлечения зарплатных карт","children":true}
+{"id":"razd86.93.1954","parent":"razd86.93","text":"Управление кассовых операций","children":true}
+{"id":"razd86.93.3294","parent":"razd86.93","text":"Управление Развития Бизнеса Партнеров","children":true}
+{"id":"razd86.93.813","parent":"razd86.93","text":"Отдел автокредитования №1","children":true}
+{"id":"razd86.93.482","parent":"razd86.93","text":"Отдел Инкассации","children":true}
+{"id":"razd86.93.89","parent":"razd86.93","text":"Отдел кредитования","children":true}
+{"id":"razd86.93.442","parent":"razd86.93","text":"Отдел продаж","children":true}
+{"id":"razd86.93.104","parent":"razd86.93","text":"Отдел сопровождения филиальной сети","children":true}
+{"id":"razd86.93.225","parent":"razd86.93","text":"Отделение \"101\"","children":true}
+{"id":"razd86.93.162","parent":"razd86.93","text":"Отделение \"Мир\"","children":true}
+{"id":"razd1985.1050.3790","parent":"razd1985.1050","text":"Payments Division","children":true}
+{"id":"razd86.94.88","parent":"razd86.94","text":"Администрация","children":true}
+{"id":"razd86.94.100","parent":"razd86.94","text":"Управление безопасности","children":true}
+{"id":"razd86.94.598","parent":"razd86.94","text":"Управление привлечения зарплатных карт","children":true}
+{"id":"razd86.94.106","parent":"razd86.94","text":"Управление сопровождения филиальной сети","children":true}
+{"id":"razd86.94.1954","parent":"razd86.94","text":"Управление кассовых операций","children":true}
+{"id":"razd86.94.3294","parent":"razd86.94","text":"Управление Развития Бизнеса Партнеров","children":true}
+{"id":"razd86.94.813","parent":"razd86.94","text":"Отдел автокредитования №1","children":true}
+{"id":"razd86.94.814","parent":"razd86.94","text":"Отдел автокредитования №2","children":true}
+{"id":"razd86.94.482","parent":"razd86.94","text":"Отдел Инкассации","children":true}
+{"id":"razd86.94.89","parent":"razd86.94","text":"Отдел кредитования","children":true}
+{"id":"razd86.94.442","parent":"razd86.94","text":"Отдел продаж","children":true}
+{"id":"razd86.94.221","parent":"razd86.94","text":"Отделение \"Абылай хана, 34\"","children":true}
+{"id":"razd86.94.158","parent":"razd86.94","text":"Отделение \"Акжайык\"","children":true}
+{"id":"razd86.94.226","parent":"razd86.94","text":"Отделение \"Богенбая, 63\"","children":true}
+{"id":"razd86.94.232","parent":"razd86.94","text":"Отделение \"Валиханова, 13\"","children":true}
+{"id":"razd86.94.176","parent":"razd86.94","text":"Отделение \"Достык, 12\"","children":true}
+{"id":"razd86.94.163","parent":"razd86.94","text":"Отделение \"Жеңіс, 25\"","children":true}
+{"id":"razd86.94.387","parent":"razd86.94","text":"Отделение \"Кенесары, 262 а\"","children":true}
+{"id":"razd86.94.587","parent":"razd86.94","text":"Отделение \"Кунаева, 14/2\"","children":true}
+{"id":"razd86.94.2693","parent":"razd86.94","text":"Отделение \"Мангилик Ел, 42\"","children":true}
+{"id":"razd86.94.2830","parent":"razd86.94","text":"Отделение \"Мухамедханова, 11/1\"","children":true}
+{"id":"razd86.94.584","parent":"razd86.94","text":"Отделение \"Сыганак, 10\"","children":true}
+{"id":"razd86.94.262","parent":"razd86.94","text":"Отделение \"Қажымұқан, 2\"","children":true}
+{"id":"razd1.1525.1626","parent":"razd1.1525","text":"Дирекция Cash Management","children":true}
+{"id":"razd1.1525.2057","parent":"razd1.1525","text":"Дирекция Бэк-Офиса","children":true}
+{"id":"razd1.1525.2852","parent":"razd1.1525","text":"Дирекция Инфраструктуры","children":true}
+{"id":"razd1.1525.1527","parent":"razd1.1525","text":"Дирекция Поддержки","children":true}
+{"id":"razd1.1525.1423","parent":"razd1.1525","text":"Департамент Закупа","children":true}
+{"id":"razd1.1525.50","parent":"razd1.1525","text":"Департамент режима","children":true}
+{"id":"razd1.1525.3542","parent":"razd1.1525","text":"Управление Бизнес-Анализа","children":true}
+{"id":"razd1985.1616.2249","parent":"razd1985.1616","text":"Управление Разработки POS","children":true}
+{"id":"razd1985.1616.1622","parent":"razd1985.1616","text":"Управление Разработки Платежного Сервиса","children":true}
+{"id":"razd1.1715.1721","parent":"razd1.1715","text":"Департамент Data Analysis","children":true}
+{"id":"razd1.1715.1717","parent":"razd1.1715","text":"Департамент Data Engineering","children":true}
+{"id":"razd1.1715.3652","parent":"razd1.1715","text":"Департамент Data Infrastructure","children":true}
+{"id":"razd1.1715.3632","parent":"razd1.1715","text":"Департамент Data Warehouse","children":true}
+{"id":"razd1.1715.3636","parent":"razd1.1715","text":"Департамент Product Engineering","children":true}
+{"id":"razd1.1715.3642","parent":"razd1.1715","text":"Департамент Software Engineering","children":true}
+{"id":"razd1.1715.1719","parent":"razd1.1715","text":"Департамент Strategy Execution","children":true}
+{"id":"razd2916.13.3009","parent":"razd2916.13","text":"Департамент Разработки","children":true}
+{"id":"razd2916.13.2653","parent":"razd2916.13","text":"Управление Kaspi Shop Product Office","children":true}
+{"id":"razd2916.13.3115","parent":"razd2916.13","text":"Управление по Улучшению Качества Работы Партнеров","children":true}
+{"id":"razd2916.13.3135","parent":"razd2916.13","text":"Управление Развития Категорий","children":true}
+{"id":"razd2916.13.1518","parent":"razd2916.13","text":"Управление Развития Контента","children":true}
+{"id":"razd1.2568.846","parent":"razd1.2568","text":"Департамент Kaspi Процессинг","children":true}
+{"id":"razd1.2568.1050","parent":"razd1.2568","text":"Департамент Развития Онлайн Сервисов","children":true}
+{"id":"razd1.2568.877","parent":"razd1.2568","text":"Управление сопровождения и поддержки","children":true}
+{"id":"razd1.2568.2947","parent":"razd1.2568","text":"Управление Kaspi Объявления","children":true}
+{"id":"razd2916.3574.523","parent":"razd2916.3574","text":"Департамент Product Office","children":true}
+{"id":"razd2916.3574.3582","parent":"razd2916.3574","text":"Департамент Разработки Kaspi Доставка","children":true}
+{"id":"razd2916.3574.3590","parent":"razd2916.3574","text":"Департамент Сопровождения Операций","children":true}
+{"id":"razd2916.3574.3576","parent":"razd2916.3574","text":"Управление Финансов","children":true}
+{"id":"razd2916.3574.805","parent":"razd2916.3574","text":"Отдел Аналитики","children":true}
+{"id":"razd2916.3574.3580","parent":"razd2916.3574","text":"Отдел B2B","children":true}
+{"id":"razd86.97.1954","parent":"razd86.97","text":"Управление кассовых операций","children":true}
+{"id":"razd86.97.482","parent":"razd86.97","text":"Отдел Инкассации","children":true}
+{"id":"razd86.97.442","parent":"razd86.97","text":"Отдел продаж","children":true}
+{"id":"razd86.97.104","parent":"razd86.97","text":"Отдел сопровождения филиальной сети","children":true}
+{"id":"razd86.97.389","parent":"razd86.97","text":"Отделение \"Сатпаева, 119\"","children":true}
+{"id":"razd1.2132.2142","parent":"razd1.2132","text":"Дирекция Сети Отделений","children":true}
+{"id":"razd1.2132.606","parent":"razd1.2132","text":"Департамент зарплатных проектов","children":true}
+{"id":"razd1.2132.2134","parent":"razd1.2132","text":"Департамент Kaspi Гид Прямые Продажи","children":true}
+{"id":"razd1.2132.2136","parent":"razd1.2132","text":"Департамент Продаж Авто","children":true}
+{"id":"razd1.2132.3155","parent":"razd1.2132","text":"Департамент Сети Продаж Автокредита","children":true}
+{"id":"razd1.2132.2144","parent":"razd1.2132","text":"Департамент Сети Устройств Самообслуживания","children":true}
+{"id":"razd1.2132.1613","parent":"razd1.2132","text":"Управление Customer Experience","children":true}
+{"id":"razd1.2132.3169","parent":"razd1.2132","text":"Управление Развития Бизнеса Автозапчастей","children":true}
+{"id":"razd86.95.88","parent":"razd86.95","text":"Администрация","children":true}
+{"id":"razd86.95.100","parent":"razd86.95","text":"Управление безопасности","children":true}
+{"id":"razd86.95.598","parent":"razd86.95","text":"Управление привлечения зарплатных карт","children":true}
+{"id":"razd86.95.1954","parent":"razd86.95","text":"Управление кассовых операций","children":true}
+{"id":"razd86.95.1999","parent":"razd86.95","text":"Управление кассовых операций 1","children":true}
+{"id":"razd86.95.3294","parent":"razd86.95","text":"Управление Развития Бизнеса Партнеров","children":true}
+{"id":"razd86.95.813","parent":"razd86.95","text":"Отдел автокредитования №1","children":true}
+{"id":"razd86.95.482","parent":"razd86.95","text":"Отдел Инкассации","children":true}
+{"id":"razd86.95.442","parent":"razd86.95","text":"Отдел продаж","children":true}
+{"id":"razd86.95.104","parent":"razd86.95","text":"Отдел сопровождения филиальной сети","children":true}
+{"id":"razd86.95.2024","parent":"razd86.95","text":"Отдел инкассации №2","children":true}
+{"id":"razd86.95.291","parent":"razd86.95","text":"Отделение \"Авангард, 32\"","children":true}
+{"id":"razd86.95.182","parent":"razd86.95","text":"Отделение \"Баймуханова, 66Б\"","children":true}
+{"id":"razd86.95.2002","parent":"razd86.95","text":"Отделение \"пр.Махамбет, 18 а\"","children":true}
+{"id":"razd86.95.359","parent":"razd86.95","text":"Отделение \"Утемисова,98\"","children":true}
+{"id":"razd86.99.88","parent":"razd86.99","text":"Администрация","children":true}
+{"id":"razd86.99.100","parent":"razd86.99","text":"Управление безопасности","children":true}
+{"id":"razd86.99.598","parent":"razd86.99","text":"Управление привлечения зарплатных карт","children":true}
+{"id":"razd86.99.106","parent":"razd86.99","text":"Управление сопровождения филиальной сети","children":true}
+{"id":"razd86.99.1954","parent":"razd86.99","text":"Управление кассовых операций","children":true}
+{"id":"razd86.99.813","parent":"razd86.99","text":"Отдел автокредитования №1","children":true}
+{"id":"razd86.99.482","parent":"razd86.99","text":"Отдел Инкассации","children":true}
+{"id":"razd86.99.89","parent":"razd86.99","text":"Отдел кредитования","children":true}
+{"id":"razd86.99.198","parent":"razd86.99","text":"Отделение \"12 микрорайон, 9а\"","children":true}
+{"id":"razd86.99.2433","parent":"razd86.99","text":"Отделение \"Абзал\"","children":true}
+{"id":"razd86.99.196","parent":"razd86.99","text":"Отделение \"Бухар-Жырау, 63/2\"","children":true}
+{"id":"razd86.99.203","parent":"razd86.99","text":"Отделение \"Маркса, 5/1\"","children":true}
+{"id":"razd86.99.301","parent":"razd86.99","text":"Отделение \"Металлургов, 21\"","children":true}
+{"id":"razd86.99.171","parent":"razd86.99","text":"Отделение \"Юго-Восток\"","children":true}
+{"id":"razd1.1993.718","parent":"razd1.1993","text":"Управление анализа и мониторинга ссудного портфеля","children":true}
+{"id":"razd1.1993.722","parent":"razd1.1993","text":"Управление операционных рисков","children":true}
+{"id":"razd1.1993.1971","parent":"razd1.1993","text":"Управление Рыночных Рисков","children":true}
+{"id":"razd1.2.3.523","parent":"razd1.2.3","text":"Департамент Product Office","children":true}
+{"id":"razd1.8.24","parent":"razd1.8","text":"Департамент внутренней безопасности","children":true}
+{"id":"razd1.8.25","parent":"razd1.8","text":"Департамент экономической безопасности","children":true}
+{"id":"razd1.8.409","parent":"razd1.8","text":"Управление мониторинга персонала","children":true}
+{"id":"razd1.2.3464.3469","parent":"razd1.2.3464","text":"Управление по Контролю Качества и Нарушений Партнеров","children":true}
+{"id":"razd1.2.3464.3466","parent":"razd1.2.3464","text":"Управление Развития Процессов Коммуникации с Партнерами","children":true}
+{"id":"razd1.2.3464.1516","parent":"razd1.2.3464","text":"Отдел Расследований","children":true}
+{"id":"razd1.19.20.39","parent":"razd1.19.20","text":"Управление корпоративных финансов - 1","children":true}
+{"id":"razd86.105.88","parent":"razd86.105","text":"Администрация","children":true}
+{"id":"razd86.105.100","parent":"razd86.105","text":"Управление безопасности","children":true}
+{"id":"razd86.105.598","parent":"razd86.105","text":"Управление привлечения зарплатных карт","children":true}
+{"id":"razd86.105.1954","parent":"razd86.105","text":"Управление кассовых операций","children":true}
+{"id":"razd86.105.813","parent":"razd86.105","text":"Отдел автокредитования №1","children":true}
+{"id":"razd86.105.482","parent":"razd86.105","text":"Отдел Инкассации","children":true}
+{"id":"razd86.105.442","parent":"razd86.105","text":"Отдел продаж","children":true}
+{"id":"razd86.105.104","parent":"razd86.105","text":"Отдел сопровождения филиальной сети","children":true}
+{"id":"razd86.105.334","parent":"razd86.105","text":"Отделение \"50 лет Октября, 60 а\"","children":true}
+{"id":"razd86.105.330","parent":"razd86.105","text":"Отделение \"9 микрорайон\"","children":true}
+{"id":"razd86.105.313","parent":"razd86.105","text":"Отделение \"Аль-Фараби, 119\"","children":true}
+{"id":"razd86.105.180","parent":"razd86.105","text":"Отделение \"ЦУМ\"","children":true}
+{"id":"razd86.102.88","parent":"razd86.102","text":"Администрация","children":true}
+{"id":"razd86.102.100","parent":"razd86.102","text":"Управление безопасности","children":true}
+{"id":"razd86.102.1954","parent":"razd86.102","text":"Управление кассовых операций","children":true}
+{"id":"razd86.102.813","parent":"razd86.102","text":"Отдел автокредитования №1","children":true}
+{"id":"razd86.102.482","parent":"razd86.102","text":"Отдел Инкассации","children":true}
+{"id":"razd86.102.442","parent":"razd86.102","text":"Отдел продаж","children":true}
+{"id":"razd86.102.104","parent":"razd86.102","text":"Отдел сопровождения филиальной сети","children":true}
+{"id":"razd86.108.88","parent":"razd86.108","text":"Администрация","children":true}
+{"id":"razd86.108.100","parent":"razd86.108","text":"Управление безопасности","children":true}
+{"id":"razd86.108.598","parent":"razd86.108","text":"Управление привлечения зарплатных карт","children":true}
+{"id":"razd86.108.1954","parent":"razd86.108","text":"Управление кассовых операций","children":true}
+{"id":"razd86.108.813","parent":"razd86.108","text":"Отдел автокредитования №1","children":true}
+{"id":"razd86.108.482","parent":"razd86.108","text":"Отдел Инкассации","children":true}
+{"id":"razd86.108.442","parent":"razd86.108","text":"Отдел продаж","children":true}
+{"id":"razd86.108.104","parent":"razd86.108","text":"Отдел сопровождения филиальной сети","children":true}
+{"id":"razd86.108.298","parent":"razd86.108","text":"Отделение \"3 квартал\"","children":true}
+{"id":"razd86.108.516","parent":"razd86.108","text":"Отделение \"Абая, 50\"","children":true}
+{"id":"razd1.1715.1721.2270","parent":"razd1.1715.1721","text":"Управление Data Analysis","children":true}
+{"id":"razd1.1715.1721.2276","parent":"razd1.1715.1721","text":"Управление Risk \u0026 Collection Analysis","children":true}
+{"id":"razd1.1715.1721.3233","parent":"razd1.1715.1721","text":"Управление Violation Control Analysis","children":true}
+{"id":"razd1.1715.1721.3231","parent":"razd1.1715.1721","text":"Центр Разработки AI Решений","children":true}
+{"id":"razd1.21.22","parent":"razd1.21","text":"Департамент бухгалтерского учета","children":true}
+{"id":"razd1.21.23","parent":"razd1.21","text":"Департамент экономического анализа и планирования","children":true}
+{"id":"razd1.21.3406","parent":"razd1.21","text":"Департамент МСФО отчетности","children":true}
+{"id":"razd1.21.2430","parent":"razd1.21","text":"Управление по международному налогообложению","children":true}
+{"id":"razd1.1715.1717.1730","parent":"razd1.1715.1717","text":"Управление Business Intelligence","children":true}
+{"id":"razd1.1715.1717.2400","parent":"razd1.1715.1717","text":"Управление Customer Process Management","children":true}
+{"id":"razd1.1715.1717.2157","parent":"razd1.1715.1717","text":"Управление Data Integration","children":true}
+{"id":"razd86.109.88","parent":"razd86.109","text":"Администрация","children":true}
+{"id":"razd86.109.100","parent":"razd86.109","text":"Управление безопасности","children":true}
+{"id":"razd86.109.598","parent":"razd86.109","text":"Управление привлечения зарплатных карт","children":true}
+{"id":"razd86.109.106","parent":"razd86.109","text":"Управление сопровождения филиальной сети","children":true}
+{"id":"razd86.109.1954","parent":"razd86.109","text":"Управление кассовых операций","children":true}
+{"id":"razd86.109.1999","parent":"razd86.109","text":"Управление кассовых операций 1","children":true}
+{"id":"razd86.109.813","parent":"razd86.109","text":"Отдел автокредитования №1","children":true}
+{"id":"razd86.109.482","parent":"razd86.109","text":"Отдел Инкассации","children":true}
+{"id":"razd86.109.89","parent":"razd86.109","text":"Отдел кредитования","children":true}
+{"id":"razd86.109.442","parent":"razd86.109","text":"Отдел продаж","children":true}
+{"id":"razd86.109.2024","parent":"razd86.109","text":"Отдел инкассации №2","children":true}
+{"id":"razd86.109.320","parent":"razd86.109","text":"Отделение \"Мәшһүр Жүсіп, 72А\"","children":true}
+{"id":"razd86.109.238","parent":"razd86.109","text":"Отделение \"Толстого, 86\"","children":true}
+{"id":"razd1.19.200.1909","parent":"razd1.19.200","text":"VIP-Центр г.Алматы","children":true}
+{"id":"razd1.19.200.2727","parent":"razd1.19.200","text":"VIP-Центр г.Астана","children":true}
+{"id":"razd1.1715.3652.3684","parent":"razd1.1715.3652","text":"Управление Analytic Service Management","children":true}
+{"id":"razd1.1715.3652.3654","parent":"razd1.1715.3652","text":"Управление Decision Automation Service Management","children":true}
+{"id":"razd1.1715.3652.3686","parent":"razd1.1715.3652","text":"Управление IT Infrastructure Management","children":true}
+{"id":"razd1.1715.3652.3668","parent":"razd1.1715.3652","text":"Управление Marketing Service Management","children":true}
+{"id":"razd86.110.88","parent":"razd86.110","text":"Администрация","children":true}
+{"id":"razd86.110.100","parent":"razd86.110","text":"Управление безопасности","children":true}
+{"id":"razd86.110.1954","parent":"razd86.110","text":"Управление кассовых операций","children":true}
+{"id":"razd86.110.813","parent":"razd86.110","text":"Отдел автокредитования №1","children":true}
+{"id":"razd86.110.482","parent":"razd86.110","text":"Отдел Инкассации","children":true}
+{"id":"razd86.110.442","parent":"razd86.110","text":"Отдел продаж","children":true}
+{"id":"razd86.110.104","parent":"razd86.110","text":"Отдел сопровождения филиальной сети","children":true}
+{"id":"razd1.654.655","parent":"razd1.654","text":"Департамент маркетинга","children":true}
+{"id":"razd1.2224.1245","parent":"razd1.2224","text":"Департамент Привлечения Партнеров","children":true}
+{"id":"razd1.2224.844","parent":"razd1.2224","text":"Департамент развития партнеров","children":true}
+{"id":"razd1.2224.1616","parent":"razd1.2224","text":"Департамент Информационные Технологии Kaspi Business","children":true}
+{"id":"razd1.1715.3632.1730","parent":"razd1.1715.3632","text":"Управление Business Intelligence","children":true}
+{"id":"razd1.1715.3632.2157","parent":"razd1.1715.3632","text":"Управление Data Integration","children":true}
+{"id":"razd1.1715.3632.2159","parent":"razd1.1715.3632","text":"Управление Data Preparation","children":true}
+{"id":"razd1.1927.3229","parent":"razd1.1927","text":"Управление Kaspi Food","children":true}
+{"id":"razd1.1927.2790","parent":"razd1.1927","text":"Управление Product Analytics","children":true}
+{"id":"razd1.1927.2247","parent":"razd1.1927","text":"Управление Product Design","children":true}
+{"id":"razd1.1927.2222","parent":"razd1.1927","text":"Управление Visual Design","children":true}
+{"id":"razd1.1927.2253","parent":"razd1.1927","text":"Отдел UX Research","children":true}
+{"id":"razd1.1715.3636.3638","parent":"razd1.1715.3636","text":"Customer Acquisition and Advertising Division","children":true}
+{"id":"razd1.1715.3636.3660","parent":"razd1.1715.3636","text":"Frontend Development Division","children":true}
+{"id":"razd1.1715.3636.3656","parent":"razd1.1715.3636","text":"Personalization Content Management Division","children":true}
+{"id":"razd1.1715.3636.3698","parent":"razd1.1715.3636","text":"Search Services Management Division","children":true}
+{"id":"razd1.1715.3636.3722","parent":"razd1.1715.3636","text":"Delivery Analysts Team","children":true}
+{"id":"razd1.1715.3636.3696","parent":"razd1.1715.3636","text":"Partner Acquisition Team","children":true}
+{"id":"razd1.1715.3636.3729","parent":"razd1.1715.3636","text":"Research and Development Team","children":true}
+{"id":"razd86.112.598","parent":"razd86.112","text":"Управление привлечения зарплатных карт","children":true}
+{"id":"razd86.112.1954","parent":"razd86.112","text":"Управление кассовых операций","children":true}
+{"id":"razd86.112.813","parent":"razd86.112","text":"Отдел автокредитования №1","children":true}
+{"id":"razd86.112.482","parent":"razd86.112","text":"Отдел Инкассации","children":true}
+{"id":"razd86.112.442","parent":"razd86.112","text":"Отдел продаж","children":true}
+{"id":"razd86.112.104","parent":"razd86.112","text":"Отдел сопровождения филиальной сети","children":true}
+{"id":"razd86.115.88","parent":"razd86.115","text":"Администрация","children":true}
+{"id":"razd86.115.100","parent":"razd86.115","text":"Управление безопасности","children":true}
+{"id":"razd86.115.1954","parent":"razd86.115","text":"Управление кассовых операций","children":true}
+{"id":"razd86.115.3294","parent":"razd86.115","text":"Управление Развития Бизнеса Партнеров","children":true}
+{"id":"razd86.115.813","parent":"razd86.115","text":"Отдел автокредитования №1","children":true}
+{"id":"razd86.115.482","parent":"razd86.115","text":"Отдел Инкассации","children":true}
+{"id":"razd86.115.104","parent":"razd86.115","text":"Отдел сопровождения филиальной сети","children":true}
+{"id":"razd86.115.1553","parent":"razd86.115","text":"Отделение \"Абылай хана, 141\"","children":true}
+{"id":"razd1.206.207","parent":"razd1.206","text":"Департамент обучения и развития персонала","children":true}
+{"id":"razd1.206.385","parent":"razd1.206","text":"Управление по подбору персонала и кадровой поддержке","children":true}
+{"id":"razd1.206.211","parent":"razd1.206","text":"Управление по работе с персоналом","children":true}
+{"id":"razd1.206.964","parent":"razd1.206","text":"Группа HR Поддержки Регионов","children":true}
+{"id":"razd1.2890.2892","parent":"razd1.2890","text":"Департамент Поддержки Kaspi SMM","children":true}
+{"id":"razd1.2890.3339","parent":"razd1.2890","text":"Департамент Сервиса Kaspi Гид","children":true}
+{"id":"razd1.2890.2095","parent":"razd1.2890","text":"Управление Kaspi Контент","children":true}
+{"id":"razd1.2890.2908","parent":"razd1.2890","text":"Команда Мониторинга Репутации","children":true}
+{"id":"razd1.1715.3642.2400","parent":"razd1.1715.3642","text":"Управление Customer Process Management","children":true}
+{"id":"razd1.1715.3642.3690","parent":"razd1.1715.3642","text":"Управление Data Extraction Management","children":true}
+{"id":"razd1.1715.3642.2442","parent":"razd1.1715.3642","text":"Управление Information System Core","children":true}
+{"id":"razd1.1715.3642.3712","parent":"razd1.1715.3642","text":"Управление Information Systems QA","children":true}
+{"id":"razd1.1715.3642.3664","parent":"razd1.1715.3642","text":"Управление Master Data Management","children":true}
+{"id":"razd1.1715.3642.3678","parent":"razd1.1715.3642","text":"Управление Operational System Management","children":true}
+{"id":"razd1.1715.3642.3644","parent":"razd1.1715.3642","text":"Управление Process Quality Management","children":true}
+{"id":"razd1.1715.3642.3672","parent":"razd1.1715.3642","text":"Управление Risk System Management","children":true}
+{"id":"razd1.1715.3642.3674","parent":"razd1.1715.3642","text":"Управление Verification System Management","children":true}
+{"id":"razd1.1887.1899","parent":"razd1.1887","text":"Департамент Debt Collection Business","children":true}
+{"id":"razd1.1887.1889","parent":"razd1.1887","text":"Департамент Fraud Prevention","children":true}
+{"id":"razd1.1887.1903","parent":"razd1.1887","text":"Департамент Soft Collection Business","children":true}
+{"id":"razd1.1887.1939","parent":"razd1.1887","text":"Управление Финансового Мониторинга","children":true}
+{"id":"razd1.1887.3509","parent":"razd1.1887","text":"Команда Kaspi ID","children":true}
+{"id":"razd1.1887.3507","parent":"razd1.1887","text":"Команда Сервиса Dialer","children":true}
+{"id":"razd1.1887.3511","parent":"razd1.1887","text":"Команда Сервиса NLP","children":true}
+{"id":"razd1.1887.2314","parent":"razd1.1887","text":"Команда Антифрод","children":true}
+{"id":"razd1.1887.2512","parent":"razd1.1887","text":"Команда Кредитные риски","children":true}
+{"id":"razd86.116.88","parent":"razd86.116","text":"Администрация","children":true}
+{"id":"razd86.116.100","parent":"razd86.116","text":"Управление безопасности","children":true}
+{"id":"razd86.116.598","parent":"razd86.116","text":"Управление привлечения зарплатных карт","children":true}
+{"id":"razd86.116.1954","parent":"razd86.116","text":"Управление кассовых операций","children":true}
+{"id":"razd86.116.1999","parent":"razd86.116","text":"Управление кассовых операций 1","children":true}
+{"id":"razd86.116.813","parent":"razd86.116","text":"Отдел автокредитования №1","children":true}
+{"id":"razd86.116.482","parent":"razd86.116","text":"Отдел Инкассации","children":true}
+{"id":"razd86.116.89","parent":"razd86.116","text":"Отдел кредитования","children":true}
+{"id":"razd86.116.104","parent":"razd86.116","text":"Отдел сопровождения филиальной сети","children":true}
+{"id":"razd86.116.2091","parent":"razd86.116","text":"Отдел инкассации 2","children":true}
+{"id":"razd86.116.437","parent":"razd86.116","text":"Отделение \"Атшабар,1\"","children":true}
+{"id":"razd86.116.2083","parent":"razd86.116","text":"Отделение \"Жибек жолы, 268\"","children":true}
+{"id":"razd86.116.2834","parent":"razd86.116","text":"Отделение \"Койгельды,192\"","children":true}
+{"id":"razd1.1715.1719.2153","parent":"razd1.1715.1719","text":"Управление Campaigns","children":true}
+{"id":"razd1.1715.1719.2155","parent":"razd1.1715.1719","text":"Управление Risk Campaigns","children":true}
+{"id":"razd1.1715.1719.3493","parent":"razd1.1715.1719","text":"Chat Team","children":true}
+{"id":"razd1.1715.1719.3251","parent":"razd1.1715.1719","text":"eSign Team","children":true}
+{"id":"razd1.1715.1719.3253","parent":"razd1.1715.1719","text":"MDM Team","children":true}
+{"id":"razd1.1715.1719.3491","parent":"razd1.1715.1719","text":"Messenger \u0026 Calls Team","children":true}
+{"id":"razd1.1715.1719.3257","parent":"razd1.1715.1719","text":"Robot Team","children":true}
+{"id":"razd1.1715.1719.3259","parent":"razd1.1715.1719","text":"Support Сampaigns Team","children":true}
+{"id":"razd86.1776.813","parent":"razd86.1776","text":"Отдел автокредитования №1","children":true}
+{"id":"razd86.1776.442","parent":"razd86.1776","text":"Отдел продаж","children":true}
+{"id":"razd86.1776.1778","parent":"razd86.1776","text":"Отделение \"Майлыкожа\"","children":true}
+{"id":"razd1.709.711","parent":"razd1.709","text":"Управление аудита бизнес-процессов","children":true}
+{"id":"razd1.709.3670","parent":"razd1.709","text":"Управление SOX - Аудита","children":true}
+{"id":"razd2916.13.3009.3011","parent":"razd2916.13.3009","text":"Управление Backend Разработки","children":true}
+{"id":"razd2916.13.3009.575","parent":"razd2916.13.3009","text":"Отдел тестирования","children":true}
+{"id":"razd2916.13.3009.1936","parent":"razd2916.13.3009","text":"Отдел Frontend Разработки","children":true}
+{"id":"razd2916.13.3009.2081","parent":"razd2916.13.3009","text":"Отдел Инфраструктуры","children":true}
+{"id":"razd2916.13.3009.3296","parent":"razd2916.13.3009","text":"Отдел Технологического Развития","children":true}
+{"id":"razd86.117.88","parent":"razd86.117","text":"Администрация","children":true}
+{"id":"razd86.117.100","parent":"razd86.117","text":"Управление безопасности","children":true}
+{"id":"razd86.117.598","parent":"razd86.117","text":"Управление привлечения зарплатных карт","children":true}
+{"id":"razd86.117.1954","parent":"razd86.117","text":"Управление кассовых операций","children":true}
+{"id":"razd86.117.3294","parent":"razd86.117","text":"Управление Развития Бизнеса Партнеров","children":true}
+{"id":"razd86.117.813","parent":"razd86.117","text":"Отдел автокредитования №1","children":true}
+{"id":"razd86.117.482","parent":"razd86.117","text":"Отдел Инкассации","children":true}
+{"id":"razd86.117.442","parent":"razd86.117","text":"Отдел продаж","children":true}
+{"id":"razd86.117.104","parent":"razd86.117","text":"Отдел сопровождения филиальной сети","children":true}
+{"id":"razd86.117.1331","parent":"razd86.117","text":"Отдел Продаж Товарных Кредитов №8","children":true}
+{"id":"razd86.117.181","parent":"razd86.117","text":"Отделение \"Абулхаир хана, 157\"","children":true}
+{"id":"razd86.117.310","parent":"razd86.117","text":"Отделение \"Курмангазы, 80/1\"","children":true}
+{"id":"razd1.807.1127","parent":"razd1.807","text":"Управление Стандартизации и Защиты Данных","children":true}
+{"id":"razd1.807.1452","parent":"razd1.807","text":"Управление Архитектуры и Сетевой Безопасности","children":true}
+{"id":"razd1.807.3526","parent":"razd1.807","text":"Управление Аудита Информационной Безопасности","children":true}
+{"id":"razd1.807.1448","parent":"razd1.807","text":"Управление Оперативной Безопасности и Инфраструктуры","children":true}
+{"id":"razd1.807.2160","parent":"razd1.807","text":"Управление Этичного Хакинга","children":true}
+{"id":"razd86.118.88","parent":"razd86.118","text":"Администрация","children":true}
+{"id":"razd86.118.100","parent":"razd86.118","text":"Управление безопасности","children":true}
+{"id":"razd86.118.598","parent":"razd86.118","text":"Управление привлечения зарплатных карт","children":true}
+{"id":"razd86.118.106","parent":"razd86.118","text":"Управление сопровождения филиальной сети","children":true}
+{"id":"razd86.118.1954","parent":"razd86.118","text":"Управление кассовых операций","children":true}
+{"id":"razd86.118.813","parent":"razd86.118","text":"Отдел автокредитования №1","children":true}
+{"id":"razd86.118.814","parent":"razd86.118","text":"Отдел автокредитования №2","children":true}
+{"id":"razd86.118.482","parent":"razd86.118","text":"Отдел Инкассации","children":true}
+{"id":"razd86.118.89","parent":"razd86.118","text":"Отдел кредитования","children":true}
+{"id":"razd86.118.442","parent":"razd86.118","text":"Отдел продаж","children":true}
+{"id":"razd86.118.228","parent":"razd86.118","text":"Отделение \"Виноградова, 12\"","children":true}
+{"id":"razd86.118.440","parent":"razd86.118","text":"Отделение \"Крылова, 73\"","children":true}
+{"id":"razd86.118.240","parent":"razd86.118","text":"Отделение \"Независимости, 1\"","children":true}
+{"id":"razd1.625.626","parent":"razd1.625","text":"Управление по работе с общественным мнением","children":true}
+{"id":"razd1.625.627","parent":"razd1.625","text":"Управление по работе со СМИ","children":true}
+{"id":"razd1.625.671","parent":"razd1.625","text":"Группа по корпоративной культуре","children":true}
+{"id":"razd2916.13.3115.3117","parent":"razd2916.13.3115","text":"Отдел Мониторинга Качества Работы Партнеров","children":true}
+{"id":"razd86.119.88","parent":"razd86.119","text":"Администрация","children":true}
+{"id":"razd86.119.100","parent":"razd86.119","text":"Управление безопасности","children":true}
+{"id":"razd86.119.598","parent":"razd86.119","text":"Управление привлечения зарплатных карт","children":true}
+{"id":"razd86.119.106","parent":"razd86.119","text":"Управление сопровождения филиальной сети","children":true}
+{"id":"razd86.119.1954","parent":"razd86.119","text":"Управление кассовых операций","children":true}
+{"id":"razd86.119.3294","parent":"razd86.119","text":"Управление Развития Бизнеса Партнеров","children":true}
+{"id":"razd86.119.813","parent":"razd86.119","text":"Отдел автокредитования №1","children":true}
+{"id":"razd86.119.814","parent":"razd86.119","text":"Отдел автокредитования №2","children":true}
+{"id":"razd86.119.482","parent":"razd86.119","text":"Отдел Инкассации","children":true}
+{"id":"razd86.119.405","parent":"razd86.119","text":"Отдел операционного обслуживания","children":true}
+{"id":"razd86.119.442","parent":"razd86.119","text":"Отдел продаж","children":true}
+{"id":"razd86.119.1665","parent":"razd86.119","text":"Отдел Автокредитования №3","children":true}
+{"id":"razd86.119.1291","parent":"razd86.119","text":"Отдел Продаж Товарных Кредитов №10","children":true}
+{"id":"razd86.119.1327","parent":"razd86.119","text":"Отдел Продаж Товарных Кредитов №12","children":true}
+{"id":"razd86.119.1218","parent":"razd86.119","text":"Отделение \"Адырбекова\"","children":true}
+{"id":"razd86.119.361","parent":"razd86.119","text":"Отделение \"мкр. Спортивный, 6\"","children":true}
+{"id":"razd86.119.506","parent":"razd86.119","text":"Отделение \"Тамерлановское шоссе\"","children":true}
+{"id":"razd2916.13.3135.3371","parent":"razd2916.13.3135","text":"Category Managers","children":true}
+{"id":"razd2916.13.3135.3568","parent":"razd2916.13.3135","text":"Fashion Team","children":true}
+{"id":"razd2916.13.3135.3570","parent":"razd2916.13.3135","text":"Home\u0026DIY Team","children":true}
+{"id":"razd2916.13.3135.3373","parent":"razd2916.13.3135","text":"Key Account Managers","children":true}
+{"id":"razd2916.13.3135.3375","parent":"razd2916.13.3135","text":"Technical Account Managers","children":true}
+{"id":"razd86.122.88","parent":"razd86.122","text":"Администрация","children":true}
+{"id":"razd86.122.598","parent":"razd86.122","text":"Управление привлечения зарплатных карт","children":true}
+{"id":"razd86.122.106","parent":"razd86.122","text":"Управление сопровождения филиальной сети","children":true}
+{"id":"razd86.122.1954","parent":"razd86.122","text":"Управление кассовых операций","children":true}
+{"id":"razd86.122.3294","parent":"razd86.122","text":"Управление Развития Бизнеса Партнеров","children":true}
+{"id":"razd86.122.813","parent":"razd86.122","text":"Отдел автокредитования №1","children":true}
+{"id":"razd86.122.814","parent":"razd86.122","text":"Отдел автокредитования №2","children":true}
+{"id":"razd86.122.89","parent":"razd86.122","text":"Отдел кредитования","children":true}
+{"id":"razd86.122.442","parent":"razd86.122","text":"Отдел продаж","children":true}
+{"id":"razd86.122.1665","parent":"razd86.122","text":"Отдел Автокредитования №3","children":true}
+{"id":"razd86.122.1669","parent":"razd86.122","text":"Отдел Автокредитования №4","children":true}
+{"id":"razd86.122.1661","parent":"razd86.122","text":"Отдел Автокредитования №5","children":true}
+{"id":"razd86.122.248","parent":"razd86.122","text":"Отделение \"Абая, 141\"","children":true}
+{"id":"razd86.122.1309","parent":"razd86.122","text":"Отделение \"Абая, 34\"","children":true}
+{"id":"razd86.122.195","parent":"razd86.122","text":"Отделение \"Абылай хана, 113\"","children":true}
+{"id":"razd86.122.2185","parent":"razd86.122","text":"Отделение \"Айнабулак 3, 100А\"","children":true}
+{"id":"razd86.122.489","parent":"razd86.122","text":"Отделение \"Аксай-3, 1/69\"","children":true}
+{"id":"razd86.122.2991","parent":"razd86.122","text":"Отделение \"Аль-Фараби - Жарокова\"","children":true}
+{"id":"razd86.122.1754","parent":"razd86.122","text":"Отделение \"АПОРТ\"","children":true}
+{"id":"razd86.122.459","parent":"razd86.122","text":"Отделение \"Бәйдібек би\"","children":true}
+{"id":"razd86.122.2872","parent":"razd86.122","text":"Отделение \"Гагарина, 287\"","children":true}
+{"id":"razd86.122.2945","parent":"razd86.122","text":"Отделение \"Гоголя, 42\"","children":true}
+{"id":"razd86.122.168","parent":"razd86.122","text":"Отделение \"Есик 2\"","children":true}
+{"id":"razd86.122.257","parent":"razd86.122","text":"Отделение \"Жибек Жолы, 52\"","children":true}
+{"id":"razd86.122.152","parent":"razd86.122","text":"Отделение \"Керемет\"","children":true}
+{"id":"razd86.122.216","parent":"razd86.122","text":"Отделение \"Майлина, 224\"","children":true}
+{"id":"razd86.122.490","parent":"razd86.122","text":"Отделение \"Мамыр-1, 4\"","children":true}
+{"id":"razd86.122.247","parent":"razd86.122","text":"Отделение \"микрорайон 11, 27\"","children":true}
+{"id":"razd86.122.255","parent":"razd86.122","text":"Отделение \"мкр. Аксай-4\"","children":true}
+{"id":"razd86.122.1689","parent":"razd86.122","text":"Отделение \"Орбита 3, 4 А\"","children":true}
+{"id":"razd86.122.282","parent":"razd86.122","text":"Отделение \"Отеген Батыр\"","children":true}
+{"id":"razd86.122.403","parent":"razd86.122","text":"Отделение \"проспект Конаева\"","children":true}
+{"id":"razd86.122.254","parent":"razd86.122","text":"Отделение \"Райымбека, 239 Г\"","children":true}
+{"id":"razd86.122.2681","parent":"razd86.122","text":"Отделение \"Ритц Палас\"","children":true}
+{"id":"razd86.122.835","parent":"razd86.122","text":"Отделение \"Самал-2\"","children":true}
+{"id":"razd86.122.541","parent":"razd86.122","text":"Отделение \"Сейфуллина, 458\"","children":true}
+{"id":"razd86.122.150","parent":"razd86.122","text":"Отделение \"Стадион\"","children":true}
+{"id":"razd86.122.969","parent":"razd86.122","text":"Отделение \"Тимирязева, 40\"","children":true}
+{"id":"razd86.122.2379","parent":"razd86.122","text":"Отделение \"Толе би, 156\"","children":true}
+{"id":"razd86.122.512","parent":"razd86.122","text":"Отделение \"Толе би, 262/93\"","children":true}
+{"id":"razd86.122.256","parent":"razd86.122","text":"Отделение \"Шолохова, 6\"","children":true}
+{"id":"razd1.941.942","parent":"razd1.941","text":"Управление по Возврату Обеспеченных Займов","children":true}
+{"id":"razd1.941.943","parent":"razd1.941","text":"Управление по Возврату Обеспеченных Займов в Регионах","children":true}
+{"id":"razd1.941.371","parent":"razd1.941","text":"Управление специальных проектов","children":true}
+{"id":"razd2916.13.1518.3400","parent":"razd2916.13.1518","text":"Отдел Модерации","children":true}
+{"id":"razd1.2072.2941","parent":"razd1.2072","text":"Business Performance Analytics Division","children":true}
+{"id":"razd1.2072.2937","parent":"razd1.2072","text":"Customer Acquisition and Retention Division","children":true}
+{"id":"razd1.2072.2933","parent":"razd1.2072","text":"Digital Marketing Division","children":true}
+{"id":"razd1.2072.2939","parent":"razd1.2072","text":"Kaspi Advertising Division","children":true}
+{"id":"razd1.2072.2943","parent":"razd1.2072","text":"Partner Acquisition and Retention Division","children":true}
+{"id":"razd1.2072.3398","parent":"razd1.2072","text":"Recommendation \u0026 Search Division","children":true}
+{"id":"razd1.5.987.35","parent":"razd1.5.987","text":"Управление кредитного администрирования","children":true}
+{"id":"razd1.2099.372","parent":"razd1.2099","text":"Управление Анализа","children":true}
+{"id":"razd1.2099.2927","parent":"razd1.2099","text":"Управление Сбора Отзывов","children":true}
+{"id":"razd1.1967.146","parent":"razd1.1967","text":"Управление мониторинга кредитного портфеля филиалов","children":true}
+{"id":"razd1.1967.126","parent":"razd1.1967","text":"Управление оценки залогов","children":true}
+{"id":"razd1.1967.1782","parent":"razd1.1967","text":"Управление Мониторинга Процессов Залогового Кредитования","children":true}
+{"id":"razd1.2143.645","parent":"razd1.2143","text":"Управление внутреннего контроля","children":true}
+{"id":"razd1.5.6.1788","parent":"razd1.5.6","text":"Служба Оперативной Правовой Поддержки","children":true}
+{"id":"razd1.5.6.1799","parent":"razd1.5.6","text":"Служба Сопровождения Внутренних Операций","children":true}
+{"id":"razd1.5.6.2168","parent":"razd1.5.6","text":"Служба Правового Сопровождения HR","children":true}
+{"id":"razd1.147.149","parent":"razd1.147","text":"Отдел оценки рисков МСБ и корпоративного бизнеса","children":true}
+{"id":"razd1.147.148","parent":"razd1.147","text":"Отдел оценки рисков потребительских кредитов","children":true}
+{"id":"razd1.721.1139","parent":"razd1.721","text":"Отдел по рискам информационной безопасности","children":true}
+{"id":"razd1.1927.2222.2999","parent":"razd1.1927.2222","text":"Communication Design Team","children":true}
+{"id":"razd1.1927.2222.3005","parent":"razd1.1927.2222","text":"Design-System Team","children":true}
+{"id":"razd1.1927.2222.3001","parent":"razd1.1927.2222","text":"Graphic Design Team","children":true}
+{"id":"razd1.1927.2222.3151","parent":"razd1.1927.2222","text":"Localization Team","children":true}
+{"id":"razd1.1927.2222.3007","parent":"razd1.1927.2222","text":"UI Design Team","children":true}
+{"id":"razd2916.3574.3582.3584","parent":"razd2916.3574.3582","text":"Управление Backend Разработки Kaspi Доставка","children":true}
+{"id":"razd2916.3574.3582.3598","parent":"razd2916.3574.3582","text":"Отдел Frontend Разработки Kaspi Доставка","children":true}
+{"id":"razd2916.3574.3582.3596","parent":"razd2916.3574.3582","text":"Отдел Тестирования Kaspi Доставка","children":true}
+{"id":"razd3053.3050.2475.423","parent":"razd3053.3050.2475","text":"Отдел продаж №1","children":true}
+{"id":"razd3053.3050.2475.2803","parent":"razd3053.3050.2475","text":"Отдел Выкупа №1","children":true}
+{"id":"razd3053.3050.2475.2801","parent":"razd3053.3050.2475","text":"Отдел Выкупа №2","children":true}
+{"id":"razd3053.3050.2475.2884","parent":"razd3053.3050.2475","text":"Отдел Оформления Авто №1","children":true}
+{"id":"razd3053.3050.2475.2886","parent":"razd3053.3050.2475","text":"Отдел Сервиса Авто №1","children":true}
+{"id":"razd1.1715.3636.3638.3718","parent":"razd1.1715.3636.3638","text":"Advertising Team","children":true}
+{"id":"razd1.1715.3636.3638.3724","parent":"razd1.1715.3636.3638","text":"Feature Store Team","children":true}
+{"id":"razd1.1715.3636.3638.3640","parent":"razd1.1715.3636.3638","text":"Shop Customer Acquisition Team","children":true}
+{"id":"razd1.1715.3636.3638.3726","parent":"razd1.1715.3636.3638","text":"Travel Customer Acquisition Team","children":true}
+{"id":"razd2916.3574.3590.498","parent":"razd2916.3574.3590","text":"Отдел контроля качества","children":true}
+{"id":"razd2916.3574.3590.3628","parent":"razd2916.3574.3590","text":"Отдел First Mile","children":true}
+{"id":"razd2916.3574.3590.3594","parent":"razd2916.3574.3590","text":"Отдел Kaspi Postomat","children":true}
+{"id":"razd2916.3574.3590.3624","parent":"razd2916.3574.3590","text":"Отдел Last mile","children":true}
+{"id":"razd2916.3574.3590.3626","parent":"razd2916.3574.3590","text":"Отдел Middle mile","children":true}
+{"id":"razd2916.3574.3576.3578","parent":"razd2916.3574.3576","text":"Отдел Расчетов","children":true}
+{"id":"razd3053.3050.3164.423","parent":"razd3053.3050.3164","text":"Отдел продаж №1","children":true}
+{"id":"razd3053.3050.3164.2803","parent":"razd3053.3050.3164","text":"Отдел Выкупа №1","children":true}
+{"id":"razd3053.3050.3164.2884","parent":"razd3053.3050.3164","text":"Отдел Оформления Авто №1","children":true}
+{"id":"razd3053.3050.3164.2886","parent":"razd3053.3050.3164","text":"Отдел Сервиса Авто №1","children":true}
+{"id":"razd1.1715.3636.3660.2949","parent":"razd1.1715.3636.3660","text":"Frontend Team","children":true}
+{"id":"razd3053.3050.3059.423","parent":"razd3053.3050.3059","text":"Отдел продаж №1","children":true}
+{"id":"razd3053.3050.3059.2803","parent":"razd3053.3050.3059","text":"Отдел Выкупа №1","children":true}
+{"id":"razd3053.3050.3059.2884","parent":"razd3053.3050.3059","text":"Отдел Оформления Авто №1","children":true}
+{"id":"razd3053.3050.3059.2886","parent":"razd3053.3050.3059","text":"Отдел Сервиса Авто №1","children":true}
+{"id":"razd1.1715.3636.3656.3658","parent":"razd1.1715.3636.3656","text":"Personalization Team","children":true}
+{"id":"razd1.836.3548","parent":"razd1.836","text":"Отдел Безопасности и Охраны Труда","children":true}
+{"id":"razd1.836.3573","parent":"razd1.836","text":"Отдел Контроля Безопасности и Охраны Труда","children":true}
+{"id":"razd1.836.3536","parent":"razd1.836","text":"Отдел Методологии и Обучения","children":true}
+{"id":"razd1.1715.3636.3698.3720","parent":"razd1.1715.3636.3698","text":"AI Assistant Team","children":true}
+{"id":"razd1.1715.3636.3698.3706","parent":"razd1.1715.3636.3698","text":"Global Search Team","children":true}
+{"id":"razd1.1715.3636.3698.3700","parent":"razd1.1715.3636.3698","text":"Shop Search Team","children":true}
+{"id":"razd1.9.765.768","parent":"razd1.9.765","text":"Департамент CRM систем","children":true}
+{"id":"razd1.9.765.767","parent":"razd1.9.765","text":"Департамент автоматизации розничных продуктов","children":true}
+{"id":"razd1.9.765.2342","parent":"razd1.9.765","text":"Управление Интеграции","children":true}
+{"id":"razd1.9.10.185","parent":"razd1.9.10","text":"Департамент банковских систем","children":true}
+{"id":"razd1.9.10.726","parent":"razd1.9.10","text":"Департамент инфраструктуры и телекоммуникаций","children":true}
+{"id":"razd1.27.28.43","parent":"razd1.27.28","text":"Управление ликвидности","children":true}
+{"id":"razd1.27.28.42","parent":"razd1.27.28","text":"Управление финансовых рынков","children":true}
+{"id":"razd1.27.2935.70","parent":"razd1.27.2935","text":"Отдел корреспондентских отношений","children":true}
+{"id":"razd1.27.2935.71","parent":"razd1.27.2935","text":"Отдел по работе с рынками заемного капитала","children":true}
+{"id":"razd1.27.2935.69","parent":"razd1.27.2935","text":"Отдел экспортно-импортных операций","children":true}
+{"id":"razd1985.1050.3790.3814","parent":"razd1985.1050.3790","text":"API \u0026 Processing Team","children":true}
+{"id":"razd1985.1050.3790.3331","parent":"razd1985.1050.3790","text":"B2B Team","children":true}
+{"id":"razd1985.1050.3790.3808","parent":"razd1985.1050.3790","text":"Paynet Team","children":true}
+{"id":"razd1.2099.372.3522","parent":"razd1.2099.372","text":"Отдел Анализа Отзывов","children":true}
+{"id":"razd1.2099.2927.2101","parent":"razd1.2099.2927","text":"Отдел NPS 1","children":true}
+{"id":"razd1.2099.2927.2110","parent":"razd1.2099.2927","text":"Отдел NPS 2","children":true}
+{"id":"razd1.2132.606.618","parent":"razd1.2132.606","text":"Управление сопровождения","children":true}
+{"id":"razd1.2132.2142.2393","parent":"razd1.2132.2142","text":"Департамент Мониторинга Операций Кассы и Юридических Лиц","children":true}
+{"id":"razd1.2132.2142.3292","parent":"razd1.2132.2142","text":"Департамент Развития Бизнеса Партнеров","children":true}
+{"id":"razd1.2132.2142.2398","parent":"razd1.2132.2142","text":"Управление Сопровождения Продуктовых Изменений","children":true}
+{"id":"razd1.1967.126.380","parent":"razd1.1967.126","text":"Группа №1","children":true}
+{"id":"razd1.1967.126.416","parent":"razd1.1967.126","text":"Группа №2","children":true}
+{"id":"razd1.1967.126.427","parent":"razd1.1967.126","text":"Группа №3","children":true}
+{"id":"razd86.99.106.236","parent":"razd86.99.106","text":"Отдел сопровождения филиальной сети №1","children":true}
+{"id":"razd86.99.106.237","parent":"razd86.99.106","text":"Отдел сопровождения филиальной сети №2","children":true}
+{"id":"razd86.99.106.245","parent":"razd86.99.106","text":"Отдел сопровождения филиальной сети №3","children":true}
+{"id":"razd1.1967.1782.1784","parent":"razd1.1967.1782","text":"Отдел Платежных Требований и Хранения Документов по Залоговым Займам","children":true}
+{"id":"razd1.1967.1782.1786","parent":"razd1.1967.1782","text":"Отдел Централизованного Принятия Решений","children":true}
+{"id":"razd1.2132.3155.1572","parent":"razd1.2132.3155","text":"Управление Продаж Залоговых Авто","children":true}
+{"id":"razd1.2132.3155.3157","parent":"razd1.2132.3155","text":"Отдел Поддержки Сети","children":true}
+{"id":"razd1.2132.2142.2393.2395","parent":"razd1.2132.2142.2393","text":"Управление Кассового Контроля","children":true}
+{"id":"razd86.94.106.236","parent":"razd86.94.106","text":"Отдел сопровождения филиальной сети №1","children":true}
+{"id":"razd86.94.106.237","parent":"razd86.94.106","text":"Отдел сопровождения филиальной сети №2","children":true}
+{"id":"razd1.2132.2144.679","parent":"razd1.2132.2144","text":"Отдел сопровождения","children":true}
+{"id":"razd1.2132.2144.570","parent":"razd1.2132.2144","text":"Группа по развитию в г.Актау","children":true}
+{"id":"razd1.2132.2144.562","parent":"razd1.2132.2144","text":"Группа по развитию в г.Актобе","children":true}
+{"id":"razd1.2132.2144.555","parent":"razd1.2132.2144","text":"Группа по развитию в г.Алматы","children":true}
+{"id":"razd1.2132.2144.559","parent":"razd1.2132.2144","text":"Группа по развитию в г.Астана","children":true}
+{"id":"razd1.2132.2144.566","parent":"razd1.2132.2144","text":"Группа по развитию в г.Атырау","children":true}
+{"id":"razd1.2132.2144.573","parent":"razd1.2132.2144","text":"Группа по развитию в г.Жезказган","children":true}
+{"id":"razd1.2132.2144.561","parent":"razd1.2132.2144","text":"Группа по развитию в г.Караганда","children":true}
+{"id":"razd1.2132.2144.571","parent":"razd1.2132.2144","text":"Группа по развитию в г.Кокшетау","children":true}
+{"id":"razd1.2132.2144.560","parent":"razd1.2132.2144","text":"Группа по развитию в г.Костанай","children":true}
+{"id":"razd1.2132.2144.572","parent":"razd1.2132.2144","text":"Группа по развитию в г.Кызылорда","children":true}
+{"id":"razd1.2132.2144.567","parent":"razd1.2132.2144","text":"Группа по развитию в г.Павлодар","children":true}
+{"id":"razd1.2132.2144.569","parent":"razd1.2132.2144","text":"Группа по развитию в г.Петропавловск","children":true}
+{"id":"razd1.2132.2144.565","parent":"razd1.2132.2144","text":"Группа по развитию в г.Семей","children":true}
+{"id":"razd1.2132.2144.556","parent":"razd1.2132.2144","text":"Группа по развитию в г.Талдыкорган","children":true}
+{"id":"razd1.2132.2144.563","parent":"razd1.2132.2144","text":"Группа по развитию в г.Тараз","children":true}
+{"id":"razd1.2132.2144.568","parent":"razd1.2132.2144","text":"Группа по развитию в г.Уральск","children":true}
+{"id":"razd1.2132.2144.1166","parent":"razd1.2132.2144","text":"Группа по Развитию в г.Усть-Каменогорск","children":true}
+{"id":"razd1.2132.2144.558","parent":"razd1.2132.2144","text":"Группа по развитию в г.Шымкент","children":true}
+{"id":"razd1.2568.846.1709","parent":"razd1.2568.846","text":"Управление Взаимодействия с МПС и БВУ","children":true}
+{"id":"razd1.2568.846.1701","parent":"razd1.2568.846","text":"Управление Развития Карточного Процессинга","children":true}
+{"id":"razd1.2132.1613.1654","parent":"razd1.2132.1613","text":"Команда Авто","children":true}
+{"id":"razd1.2568.1050.3750","parent":"razd1.2568.1050","text":"Android Division","children":true}
+{"id":"razd1.2568.1050.3746","parent":"razd1.2568.1050","text":"Core Services Division","children":true}
+{"id":"razd1.2568.1050.3772","parent":"razd1.2568.1050","text":"iOS Division","children":true}
+{"id":"razd1.2568.1050.3768","parent":"razd1.2568.1050","text":"Marketing Platform Division","children":true}
+{"id":"razd1.2568.1050.3764","parent":"razd1.2568.1050","text":"Messenger Division","children":true}
+{"id":"razd1.2568.1050.3742","parent":"razd1.2568.1050","text":"MyBank Division","children":true}
+{"id":"razd1.2568.1050.3756","parent":"razd1.2568.1050","text":"Online Services Division","children":true}
+{"id":"razd1.2568.1050.3736","parent":"razd1.2568.1050","text":"Self-Service Devices Division","children":true}
+{"id":"razd1.2568.1050.3782","parent":"razd1.2568.1050","text":"Restaurants Team","children":true}
+{"id":"razd1.2568.1050.3740","parent":"razd1.2568.1050","text":"Transfers Team","children":true}
+{"id":"razd1.2568.1050.1066","parent":"razd1.2568.1050","text":"Группа Android Разработки","children":true}
+{"id":"razd1.2568.1050.1062","parent":"razd1.2568.1050","text":"Группа IOS Разработки","children":true}
+{"id":"razd1.2568.1050.1060","parent":"razd1.2568.1050","text":"Группа Разработки Устройств Самообслуживания","children":true}
+{"id":"razd1.2568.1050.2183","parent":"razd1.2568.1050","text":"Группа Разработки Core Сервисов","children":true}
+{"id":"razd1.2568.1050.2177","parent":"razd1.2568.1050","text":"Группа Разработки Messenger","children":true}
+{"id":"razd1.2568.1050.2863","parent":"razd1.2568.1050","text":"Группа Разработки Мой Банк","children":true}
+{"id":"razd1.2568.877.3762","parent":"razd1.2568.877","text":"DBA Team","children":true}
+{"id":"razd1.2568.877.3804","parent":"razd1.2568.877","text":"Infrastructure Team","children":true}
+{"id":"razd1.2568.877.2977","parent":"razd1.2568.877","text":"Service Reliability Team","children":true}
+{"id":"razd1.2568.877.3734","parent":"razd1.2568.877","text":"SRE Alpha Team","children":true}
+{"id":"razd1.2568.877.3778","parent":"razd1.2568.877","text":"SRE Bravo Team","children":true}
+{"id":"razd1.2568.877.3800","parent":"razd1.2568.877","text":"SRE Delta Team","children":true}
+{"id":"razd1.2568.877.3784","parent":"razd1.2568.877","text":"SRE Echo Team","children":true}
+{"id":"razd1.2568.2947.2972","parent":"razd1.2568.2947","text":"Application Support Team","children":true}
+{"id":"razd1.2568.2947.2951","parent":"razd1.2568.2947","text":"Backend Team","children":true}
+{"id":"razd1.2568.2947.3043","parent":"razd1.2568.2947","text":"Content Team","children":true}
+{"id":"razd1.2568.2947.2949","parent":"razd1.2568.2947","text":"Frontend Team","children":true}
+{"id":"razd1.2568.2947.2953","parent":"razd1.2568.2947","text":"QA Team","children":true}
+{"id":"razd1.8.24.991","parent":"razd1.8.24","text":"Управление Внутренних Расследований","children":true}
+{"id":"razd1.2.3.523.1152","parent":"razd1.2.3.523","text":"Управление Методологии","children":true}
+{"id":"razd1.1715.1721.2270.2447","parent":"razd1.1715.1721.2270","text":"Команда Маркетинг","children":true}
+{"id":"razd1.1715.1721.2270.2328","parent":"razd1.1715.1721.2270","text":"Команда Маркетинг. Kaspi Business","children":true}
+{"id":"razd1.1715.1721.2270.2445","parent":"razd1.1715.1721.2270","text":"Команда Маркетинг. Kaspi Shop","children":true}
+{"id":"razd1.1715.1721.2270.2326","parent":"razd1.1715.1721.2270","text":"Команда Операционные процессы","children":true}
+{"id":"razd1.8.25.3513","parent":"razd1.8.25","text":"Управление Экономической Безопасности","children":true}
+{"id":"razd1.1715.1721.2276.2322","parent":"razd1.1715.1721.2276","text":"Команда Debt collection","children":true}
+{"id":"razd1.1715.1721.2276.2415","parent":"razd1.1715.1721.2276","text":"Команда Dialer","children":true}
+{"id":"razd1.1715.1721.2276.2318","parent":"razd1.1715.1721.2276","text":"Команда Kaspi Business","children":true}
+{"id":"razd1.1715.1721.2276.2334","parent":"razd1.1715.1721.2276","text":"Команда Автокредитования","children":true}
+{"id":"razd1.1715.1721.2276.2330","parent":"razd1.1715.1721.2276","text":"Команда Инновационные разработки","children":true}
+{"id":"razd1.1715.1721.2276.2869","parent":"razd1.1715.1721.2276","text":"Команда Партнерского Антифрода","children":true}
+{"id":"razd1.1715.1721.2276.2332","parent":"razd1.1715.1721.2276","text":"Команда Риски","children":true}
+{"id":"razd1.1715.1721.2276.2460","parent":"razd1.1715.1721.2276","text":"Команда Сервисного Антифрода","children":true}
+{"id":"razd1.1715.1721.2276.2462","parent":"razd1.1715.1721.2276","text":"Команда Транзакционного Антифрода","children":true}
+{"id":"razd1.1715.1721.3233.2747","parent":"razd1.1715.1721.3233","text":"Debt Collection Team","children":true}
+{"id":"razd1.1715.1721.3233.3247","parent":"razd1.1715.1721.3233","text":"Kaspi Shop Partners Team","children":true}
+{"id":"razd1.1715.1721.3233.2751","parent":"razd1.1715.1721.3233","text":"Soft Collection Team","children":true}
+{"id":"razd1.2.3464.3469.3471","parent":"razd1.2.3464.3469","text":"Отдел Мониторинга Качества Партнеров","children":true}
+{"id":"razd1.1715.1721.3231.3235","parent":"razd1.1715.1721.3231","text":"Computer Vision Team","children":true}
+{"id":"razd1.1715.1721.3231.3329","parent":"razd1.1715.1721.3231","text":"Geo \u0026 Time Prediction Team","children":true}
+{"id":"razd1.1715.1721.3231.3237","parent":"razd1.1715.1721.3231","text":"Incoming Communications Team","children":true}
+{"id":"razd1.1715.1721.3231.3239","parent":"razd1.1715.1721.3231","text":"MLOps Team","children":true}
+{"id":"razd1.1715.1721.3231.3241","parent":"razd1.1715.1721.3231","text":"Outgoing Communications Team","children":true}
+{"id":"razd1.1715.1721.3231.3243","parent":"razd1.1715.1721.3231","text":"Search Team","children":true}
+{"id":"razd1.1715.1721.3231.3245","parent":"razd1.1715.1721.3231","text":"Voice Processing Team","children":true}
+{"id":"razd1.2.3464.3466.3500","parent":"razd1.2.3464.3466","text":"Отдел Мониторинга Показателей","children":true}
+{"id":"razd1.654.655.658","parent":"razd1.654.655","text":"Управление по массовым каналам коммуникации","children":true}
+{"id":"razd1.654.655.1879","parent":"razd1.654.655","text":"Управление по Продвижению Брендов","children":true}
+{"id":"razd1.1715.3632.1730.3177","parent":"razd1.1715.3632.1730","text":"Financial Reporting Team","children":true}
+{"id":"razd1.1715.3632.1730.3171","parent":"razd1.1715.3632.1730","text":"Motivational Reporting Team","children":true}
+{"id":"razd1.1715.3632.1730.3175","parent":"razd1.1715.3632.1730","text":"Online Reporting Team","children":true}
+{"id":"razd1.1715.3632.1730.3173","parent":"razd1.1715.3632.1730","text":"Product Reporting Team","children":true}
+{"id":"razd1.1715.3632.1730.3179","parent":"razd1.1715.3632.1730","text":"Risk Reporting Team","children":true}
+{"id":"razd1.1715.1721.2276.2415.3456","parent":"razd1.1715.1721.2276.2415","text":"Группа Dialer","children":true}
+{"id":"razd1.1715.1721.2276.2415.3460","parent":"razd1.1715.1721.2276.2415","text":"Группа HR","children":true}
+{"id":"razd1.1715.1721.2276.2415.3454","parent":"razd1.1715.1721.2276.2415","text":"Группа Клиентские данные и Исследования рынка","children":true}
+{"id":"razd1.1715.1721.2276.2415.3458","parent":"razd1.1715.1721.2276.2415","text":"Группа Робот","children":true}
+{"id":"razd1.1715.3632.2157.3187","parent":"razd1.1715.3632.2157","text":"Online Data Supply Team","children":true}
+{"id":"razd1.1715.3632.2157.2508","parent":"razd1.1715.3632.2157","text":"Data consolidation team","children":true}
+{"id":"razd1.1715.3632.2157.2550","parent":"razd1.1715.3632.2157","text":"Mobile data definition team","children":true}
+{"id":"razd1.1715.3632.2159.3207","parent":"razd1.1715.3632.2159","text":"Antifraud Team","children":true}
+{"id":"razd1.1715.3632.2159.3209","parent":"razd1.1715.3632.2159","text":"Business Risks Team","children":true}
+{"id":"razd1.1715.3632.2159.3634","parent":"razd1.1715.3632.2159","text":"Data Systems Analytics Team","children":true}
+{"id":"razd1.1715.3632.2159.3211","parent":"razd1.1715.3632.2159","text":"Marketing Data Supply Team","children":true}
+{"id":"razd1.1715.3632.2159.3213","parent":"razd1.1715.3632.2159","text":"Offline Data Preparation Team","children":true}
+{"id":"razd1.1715.3632.2159.3215","parent":"razd1.1715.3632.2159","text":"Online Data Preparation Team","children":true}
+{"id":"razd1.1715.3632.2159.3217","parent":"razd1.1715.3632.2159","text":"Retail Risks Team","children":true}
+{"id":"razd1.1887.1899.974","parent":"razd1.1887.1899","text":"Управление Поддержки","children":true}
+{"id":"razd1.1887.1889.3309","parent":"razd1.1887.1889","text":"Управление Fraud Detection","children":true}
+{"id":"razd1.1887.1889.3311","parent":"razd1.1887.1889","text":"Управление Fraud Investigation","children":true}
+{"id":"razd1.1887.1889.1891","parent":"razd1.1887.1889","text":"Управление Kaspi ID","children":true}
+{"id":"razd1.1887.1889.1897","parent":"razd1.1887.1889","text":"Управление Оценки Автомобилей","children":true}
+{"id":"razd1.1525.1626.478","parent":"razd1.1525.1626","text":"Департамент Инкассации","children":true}
+{"id":"razd1.1525.1626.1963","parent":"razd1.1525.1626","text":"Департамент Наличного Денежного Обращения","children":true}
+{"id":"razd1.2890.2892.2900","parent":"razd1.2890.2892","text":"Управление Комментариев и Упоминаний","children":true}
+{"id":"razd1.2890.2892.2894","parent":"razd1.2890.2892","text":"Управление Личных Сообщений","children":true}
+{"id":"razd1.2890.3339.3341","parent":"razd1.2890.3339","text":"Управление Контента Сервиса Kaspi Гид","children":true}
+{"id":"razd1.1525.2057.2264","parent":"razd1.1525.2057","text":"Департамент Kaspi Архив","children":true}
+{"id":"razd1.1525.2057.3153","parent":"razd1.1525.2057","text":"Департамент Сопровождения Валютных Операций","children":true}
+{"id":"razd1.1525.2057.2065","parent":"razd1.1525.2057","text":"Департамент Сопровождения и Учета Розничных Продуктов","children":true}
+{"id":"razd1.1525.2057.2874","parent":"razd1.1525.2057","text":"Департамент Учета Kaspi Pay","children":true}
+{"id":"razd1.1525.2057.524","parent":"razd1.1525.2057","text":"Управление изменений","children":true}
+{"id":"razd1.1525.2852.2854","parent":"razd1.1525.2852","text":"Департамент Снабжения и Логистики","children":true}
+{"id":"razd1.1525.2852.2858","parent":"razd1.1525.2852","text":"Департамент Технического Обслуживания","children":true}
+{"id":"razd1.2890.2095.2910","parent":"razd1.2890.2095","text":"Команда Видео-Производства","children":true}
+{"id":"razd1.2890.2095.3442","parent":"razd1.2890.2095","text":"Команда Релизов","children":true}
+{"id":"razd1.2890.2095.3440","parent":"razd1.2890.2095","text":"Команда Спецпроектов","children":true}
+{"id":"razd1.1525.1527.495","parent":"razd1.1525.1527","text":"Департамент качества","children":true}
+{"id":"razd1.1525.1527.1691","parent":"razd1.1525.1527","text":"Ситуационный Центр","children":true}
+{"id":"razd1.1525.1527.1529","parent":"razd1.1525.1527","text":"Департамент Сопровождения Клиентов","children":true}
+{"id":"razd1.1525.1527.2229","parent":"razd1.1525.1527","text":"Департамент Сопровождения Партнеров","children":true}
+{"id":"razd1.1525.1527.1535","parent":"razd1.1525.1527","text":"Департамент Технического Сопровождения","children":true}
+{"id":"razd1.1525.1423.1425","parent":"razd1.1525.1423","text":"Управление Закупа ИТ Активов","children":true}
+{"id":"razd1.1525.1423.1427","parent":"razd1.1525.1423","text":"Управление Корпоративного Закупа","children":true}
+{"id":"razd1.1525.1423.2437","parent":"razd1.1525.1423","text":"Управление Contract Management","children":true}
+{"id":"razd2916.13.3009.3011.3356","parent":"razd2916.13.3009.3011","text":"Отдел Разработки Заказов","children":true}
+{"id":"razd2916.13.3009.3011.3109","parent":"razd2916.13.3009.3011","text":"Отдел Разработки Контент","children":true}
+{"id":"razd2916.13.3009.3011.3112","parent":"razd2916.13.3009.3011","text":"Отдел Разработки Продуктов для Клиентов","children":true}
+{"id":"razd2916.13.3009.3011.3107","parent":"razd2916.13.3009.3011","text":"Отдел Разработки Продуктов для Продавцов","children":true}
+{"id":"razd1.1525.50.52","parent":"razd1.1525.50","text":"Управление инженерно-технического обеспечения","children":true}
+{"id":"razd1.1525.50.51","parent":"razd1.1525.50","text":"Управление по обеспечению охраны региональных филиалов","children":true}
+{"id":"razd1.1715.1721.3231.3235.3483","parent":"razd1.1715.1721.3231.3235","text":"Biometric Group","children":true}
+{"id":"razd1.1715.1721.3231.3235.3477","parent":"razd1.1715.1721.3231.3235","text":"Partners Projects","children":true}
+{"id":"razd1.1715.1721.3231.3235.3489","parent":"razd1.1715.1721.3231.3235","text":"Visual Content Group","children":true}
+{"id":"razd1985.1616.2249.3041","parent":"razd1985.1616.2249","text":"Команда POS Pay","children":true}
+{"id":"razd1985.1616.2249.3033","parent":"razd1985.1616.2249","text":"Команда POS Tech","children":true}
+{"id":"razd1.1715.1721.3231.3237.3479","parent":"razd1.1715.1721.3231.3237","text":"Automoderation \u0026 Reviews Group","children":true}
+{"id":"razd1.1715.1721.3231.3237.3475","parent":"razd1.1715.1721.3231.3237","text":"Communication Group","children":true}
+{"id":"razd1.1715.1721.3231.3237.3473","parent":"razd1.1715.1721.3231.3237","text":"Content Refine Group","children":true}
+{"id":"razd1.1715.1721.3231.3237.3485","parent":"razd1.1715.1721.3231.3237","text":"Matching Group","children":true}
+{"id":"razd1985.1616.1622.3039","parent":"razd1985.1616.1622","text":"Команда Разработки Core Сервисов","children":true}
+{"id":"razd1985.1616.1622.3504","parent":"razd1985.1616.1622","text":"Команда Разработки POS Core","children":true}
+{"id":"razd1985.1616.1622.3025","parent":"razd1985.1616.1622","text":"Команда Разработки QR Процессинга","children":true}
+{"id":"razd1985.1616.1622.3029","parent":"razd1985.1616.1622","text":"Команда Разработки Налоговых Сервисов","children":true}
+{"id":"razd1.1715.1719.2153.3261","parent":"razd1.1715.1719.2153","text":"Business Campaigns Team","children":true}
+{"id":"razd1.1715.1719.2153.3263","parent":"razd1.1715.1719.2153","text":"Debt Campaigns Team","children":true}
+{"id":"razd1.1715.1719.2153.3265","parent":"razd1.1715.1719.2153","text":"In-Marking Team","children":true}
+{"id":"razd1.1715.1719.2153.3267","parent":"razd1.1715.1719.2153","text":"Marketing Campaigns Team","children":true}
+{"id":"razd1.1715.1719.2153.3269","parent":"razd1.1715.1719.2153","text":"NLP Campaigns Team","children":true}
+{"id":"razd1.1715.1719.2153.3271","parent":"razd1.1715.1719.2153","text":"Operational Campaigns Team","children":true}
+{"id":"razd1.1715.1719.2153.3273","parent":"razd1.1715.1719.2153","text":"Out-Marking Team","children":true}
+{"id":"razd1.1715.1719.2153.3275","parent":"razd1.1715.1719.2153","text":"Pay Сampaigns Team","children":true}
+{"id":"razd1.1715.1719.2153.3277","parent":"razd1.1715.1719.2153","text":"Soft Campaigns Team","children":true}
+{"id":"razd1.1715.1719.2153.3472","parent":"razd1.1715.1719.2153","text":"Dialer Campaigns Team","children":true}
+{"id":"razd1.1993.718.719","parent":"razd1.1993.718","text":"Отдел анализа и мониторинга качества ссудного портфеля","children":true}
+{"id":"razd1.1993.718.720","parent":"razd1.1993.718","text":"Сектор отчетности","children":true}
+{"id":"razd1.1715.1719.2155.3207","parent":"razd1.1715.1719.2155","text":"Antifraud Team","children":true}
+{"id":"razd1.1715.1719.2155.3279","parent":"razd1.1715.1719.2155","text":"Auto Credit Team","children":true}
+{"id":"razd1.1715.1719.2155.3281","parent":"razd1.1715.1719.2155","text":"Business Credit Team","children":true}
+{"id":"razd1.1715.1719.2155.3283","parent":"razd1.1715.1719.2155","text":"Kaspi ID Team","children":true}
+{"id":"razd1.1715.1719.2155.3285","parent":"razd1.1715.1719.2155","text":"Retail Credit Team","children":true}
+{"id":"razd1.1715.1719.2155.3287","parent":"razd1.1715.1719.2155","text":"Services Connection Team","children":true}
+{"id":"razd1.1715.1721.3231.3243.3481","parent":"razd1.1715.1721.3231.3243","text":"Analytic Group","children":true}
+{"id":"razd1.1715.1721.3231.3243.3487","parent":"razd1.1715.1721.3231.3243","text":"ML Group","children":true}
+{"id":"razd1.21.22.381","parent":"razd1.21.22","text":"Управление методологии бухгалтерского учета","children":true}
+{"id":"razd1.21.22.332","parent":"razd1.21.22","text":"Управление налогового учета","children":true}
+{"id":"razd1.21.22.1081","parent":"razd1.21.22","text":"Управление Сводной Отчетности","children":true}
+{"id":"razd1.21.22.44","parent":"razd1.21.22","text":"Управление учета внутрибанковских операций","children":true}
+{"id":"razd1.21.22.1122","parent":"razd1.21.22","text":"Управление Учета Кредитных Операций","children":true}
+{"id":"razd1.21.22.3018","parent":"razd1.21.22","text":"Управление Учета Кастодиальной Деятельности","children":true}
+{"id":"razd1.21.22.55","parent":"razd1.21.22","text":"Генеральная бухгалтерия","children":true}
+{"id":"razd1.21.22.3727","parent":"razd1.21.22","text":"Отдел Учета Казначейских и SWIFT Операций","children":true}
+{"id":"razd1.1993.1971.1973","parent":"razd1.1993.1971","text":"Отдел Глобальных Рисков Банка","children":true}
+{"id":"razd1.1993.1971.1975","parent":"razd1.1993.1971","text":"Отдел Мониторинга Казначейских Операций и Риска Контрагента","children":true}
+{"id":"razd1.21.23.396","parent":"razd1.21.23","text":"Управление финансовой отчетности и планирования","children":true}
+{"id":"razd1.21.23.2661","parent":"razd1.21.23","text":"Управление Мотивационной и Управленческой Отчетности","children":true}
+{"id":"razd1.21.3406.395","parent":"razd1.21.3406","text":"Управление консолидированной отчетности","children":true}
+{"id":"razd1.1715.3652.3684.2977","parent":"razd1.1715.3652.3684","text":"Service Reliability Team","children":true}
+{"id":"razd1.1715.1717.1730.3173","parent":"razd1.1715.1717.1730","text":"Product Reporting Team","children":true}
+{"id":"razd1.1715.3652.3654.3195","parent":"razd1.1715.3652.3654","text":"DevOps Team","children":true}
+{"id":"razd1.1715.3652.3654.2977","parent":"razd1.1715.3652.3654","text":"Service Reliability Team","children":true}
+{"id":"razd1.1715.1717.2400.3181","parent":"razd1.1715.1717.2400","text":"RBPM Team","children":true}
+{"id":"razd1.1715.1717.2157.3187","parent":"razd1.1715.1717.2157","text":"Online Data Supply Team","children":true}
+{"id":"razd1.1715.3652.3686.3688","parent":"razd1.1715.3652.3686","text":"Database Administration Team","children":true}
+{"id":"razd1.1715.3652.3686.3694","parent":"razd1.1715.3652.3686","text":"IT Infrastructure Team","children":true}
+{"id":"razd1.1715.3652.3668.3195","parent":"razd1.1715.3652.3668","text":"DevOps Team","children":true}
+{"id":"razd1.1715.3652.3668.2977","parent":"razd1.1715.3652.3668","text":"Service Reliability Team","children":true}
+{"id":"razd1.1887.1899.974.1906","parent":"razd1.1887.1899.974","text":"Cектор Канцелярии","children":true}
+{"id":"razd1.1887.1899.974.2335","parent":"razd1.1887.1899.974","text":"Сектор Платежных Требований","children":true}
+{"id":"razd1.1887.1899.974.1509","parent":"razd1.1887.1899.974","text":"Сектор Сопровождения Взыскания","children":true}
+{"id":"razd1.2890.2892.2900.2898","parent":"razd1.2890.2892.2900","text":"Команда Instagram","children":true}
+{"id":"razd1.2890.2892.2900.2896","parent":"razd1.2890.2892.2900","text":"Команда Социальных Сетей","children":true}
+{"id":"razd1.2890.2892.2900.2906","parent":"razd1.2890.2892.2900","text":"Команда Упоминаний в Интернете","children":true}
+{"id":"razd1.2890.2892.2894.2898","parent":"razd1.2890.2892.2894","text":"Команда Instagram","children":true}
+{"id":"razd1.2890.2892.2894.2896","parent":"razd1.2890.2892.2894","text":"Команда Социальных Сетей","children":true}
+{"id":"razd86.109.106.236","parent":"razd86.109.106","text":"Отдел сопровождения филиальной сети №1","children":true}
+{"id":"razd1.2890.3339.3341.3345","parent":"razd1.2890.3339.3341","text":"Команда Kaspi Гид для Клиентов","children":true}
+{"id":"razd1.2890.3339.3341.3343","parent":"razd1.2890.3339.3341","text":"Команда Kaspi Гид для Партнеров","children":true}
+{"id":"razd1.807.1452.2262","parent":"razd1.807.1452","text":"Отдел Архитектуры","children":true}
+{"id":"razd1.807.1452.1456","parent":"razd1.807.1452","text":"Отдел Сетевой Безопасности","children":true}
+{"id":"razd1.807.3526.3528","parent":"razd1.807.3526","text":"Отдел Методологии ИБ","children":true}
+{"id":"razd1.807.3526.3546","parent":"razd1.807.3526","text":"Отдел Повышения Осведомленности и Непрерывности","children":true}
+{"id":"razd1.807.3526.3544","parent":"razd1.807.3526","text":"Отдел Соответствия ITGC","children":true}
+{"id":"razd1.807.3526.3540","parent":"razd1.807.3526","text":"Отдел Соответствия Требованиям Регулятора","children":true}
+{"id":"razd1.807.1448.1135","parent":"razd1.807.1448","text":"Центр Обработки и Расследования Инцидентов Информационной Безопасности","children":true}
+{"id":"razd1.807.1448.1454","parent":"razd1.807.1448","text":"Отдел Администрирования","children":true}
+{"id":"razd1.2224.1245.1247","parent":"razd1.2224.1245","text":"Управление Привлечения Региональных Партнеров","children":true}
+{"id":"razd1.807.2160.2164","parent":"razd1.807.2160","text":"Группа Red Team","children":true}
+{"id":"razd1.807.2160.2162","parent":"razd1.807.2160","text":"Группа Автоматизации и Анализа Кода","children":true}
+{"id":"razd86.119.106.236","parent":"razd86.119.106","text":"Отдел сопровождения филиальной сети №1","children":true}
+{"id":"razd86.119.106.237","parent":"razd86.119.106","text":"Отдел сопровождения филиальной сети №2","children":true}
+{"id":"razd1.2224.844.2006","parent":"razd1.2224.844","text":"Управление Продвижения Партнеров","children":true}
+{"id":"razd1.2224.1616.1885","parent":"razd1.2224.1616","text":"Управление Администрирования и Поддержки","children":true}
+{"id":"razd1.2224.1616.1624","parent":"razd1.2224.1616","text":"Управление Разработки Информационных Сервисов","children":true}
+{"id":"razd1.2224.1616.3019","parent":"razd1.2224.1616","text":"Управление Разработки Онлайн Продуктов","children":true}
+{"id":"razd1.206.207.209","parent":"razd1.206.207","text":"Корпоративная академия \"Каскад\"","children":true}
+{"id":"razd1.206.207.210","parent":"razd1.206.207","text":"Управление дистанционных технологий в обучении и развитии персонала","children":true}
+{"id":"razd1.206.385.386","parent":"razd1.206.385","text":"Отдел по подбору персонала","children":true}
+{"id":"razd86.118.106.236","parent":"razd86.118.106","text":"Отдел сопровождения филиальной сети №1","children":true}
+{"id":"razd86.118.106.237","parent":"razd86.118.106","text":"Отдел сопровождения филиальной сети №2","children":true}
+{"id":"razd1.206.211.213","parent":"razd1.206.211","text":"Отдел кадрового администрирования","children":true}
+{"id":"razd1.206.211.212","parent":"razd1.206.211","text":"Отдел мотивации и компенсации","children":true}
+{"id":"razd1.206.211.2678","parent":"razd1.206.211","text":"1С HR Support Team","children":true}
+{"id":"razd1.1715.3642.2400.3650","parent":"razd1.1715.3642.2400","text":"Client Risk Automation Team","children":true}
+{"id":"razd1.1715.3642.2400.3662","parent":"razd1.1715.3642.2400","text":"eSign Automation Team","children":true}
+{"id":"razd1.1715.3642.2400.3704","parent":"razd1.1715.3642.2400","text":"Partner Risk Automation Team","children":true}
+{"id":"razd1.1715.3642.2400.3710","parent":"razd1.1715.3642.2400","text":"Risk Reference Data Team","children":true}
+{"id":"razd1.1715.3642.3690.3199","parent":"razd1.1715.3642.3690","text":"Data Acquisition Team","children":true}
+{"id":"razd1.1715.3642.3690.3692","parent":"razd1.1715.3642.3690","text":"Data Extraction Team","children":true}
+{"id":"razd1.21.22.332.2373","parent":"razd1.21.22.332","text":"Отдел Налогового Учета","children":true}
+{"id":"razd1.21.22.332.2375","parent":"razd1.21.22.332","text":"Отдел Налоговой Экспертизы","children":true}
+{"id":"razd86.122.106.236","parent":"razd86.122.106","text":"Отдел сопровождения филиальной сети №1","children":true}
+{"id":"razd86.122.106.237","parent":"razd86.122.106","text":"Отдел сопровождения филиальной сети №2","children":true}
+{"id":"razd86.122.106.245","parent":"razd86.122.106","text":"Отдел сопровождения филиальной сети №3","children":true}
+{"id":"razd86.122.106.611","parent":"razd86.122.106","text":"Отдел сопровождения филиальной сети №4","children":true}
+{"id":"razd86.122.106.1461","parent":"razd86.122.106","text":"Отдел сопровождения филиальной сети №5","children":true}
+{"id":"razd1.1715.3642.2442.3708","parent":"razd1.1715.3642.2442","text":"Business Process Development Team","children":true}
+{"id":"razd1.1715.3642.2442.3680","parent":"razd1.1715.3642.2442","text":"Computer Engineering Team","children":true}
+{"id":"razd1.1715.3642.2442.3682","parent":"razd1.1715.3642.2442","text":"Data Marking Development Team","children":true}
+{"id":"razd1.1715.3642.3712.3714","parent":"razd1.1715.3642.3712","text":"Information Systems QA","children":true}
+{"id":"razd1.21.22.44.74","parent":"razd1.21.22.44","text":"Отдел учета дебиторов и кредиторов","children":true}
+{"id":"razd1.21.22.44.73","parent":"razd1.21.22.44","text":"Отдел учета фондов и расчетов с персоналом","children":true}
+{"id":"razd1.1715.3642.3664.3716","parent":"razd1.1715.3642.3664","text":"Client Data Management Team","children":true}
+{"id":"razd1.1715.3642.3664.3666","parent":"razd1.1715.3642.3664","text":"Partner Data Management Team","children":true}
+{"id":"razd1.21.22.1122.1125","parent":"razd1.21.22.1122","text":"Отдел Учета Займов ПК/МСБ","children":true}
+{"id":"razd2916.3574.3582.3584.3586","parent":"razd2916.3574.3582.3584","text":"Отдел Device Engineering","children":true}
+{"id":"razd2916.3574.3582.3584.3606","parent":"razd2916.3574.3582.3584","text":"Отдел Разработки Express","children":true}
+{"id":"razd2916.3574.3582.3584.3600","parent":"razd2916.3574.3582.3584","text":"Отдел Разработки Kaspi Postomat","children":true}
+{"id":"razd2916.3574.3582.3584.3588","parent":"razd2916.3574.3582.3584","text":"Отдел Разработки Kaspi Курьер","children":true}
+{"id":"razd2916.3574.3582.3584.3602","parent":"razd2916.3574.3582.3584","text":"Отдел Разработки LOM","children":true}
+{"id":"razd1.1715.3642.3678.3205","parent":"razd1.1715.3642.3678","text":"Virtual Assistance Team","children":true}
+{"id":"razd1.1715.3642.3644.3702","parent":"razd1.1715.3642.3644","text":"Client Process Quality Team","children":true}
+{"id":"razd1.1715.3642.3644.3646","parent":"razd1.1715.3642.3644","text":"Partner Process Quality Team","children":true}
+{"id":"razd1.21.22.55.83","parent":"razd1.21.22.55","text":"Группа последующего контроля учетных операций","children":true}
+{"id":"razd1.1715.3642.3672.3732","parent":"razd1.1715.3642.3672","text":"Antifraud System Team","children":true}
+{"id":"razd1.1715.3642.3672.3203","parent":"razd1.1715.3642.3672","text":"Scoring Systems Team","children":true}
+{"id":"razd1.21.22.3727.3730","parent":"razd1.21.22.3727","text":"Группа Учета SWIFT Операций","children":true}
+{"id":"razd1.1715.3642.3674.3676","parent":"razd1.1715.3642.3674","text":"Content Moderation Team","children":true}
+{"id":"razd1.1715.3642.3674.3201","parent":"razd1.1715.3642.3674","text":"Photo Verification Team","children":true}
+{"id":"razd2916.13.1518.3400.3402","parent":"razd2916.13.1518.3400","text":"Группа Автотовары","children":true}
+{"id":"razd2916.13.1518.3400.3436","parent":"razd2916.13.1518.3400","text":"Группа Аптека","children":true}
+{"id":"razd2916.13.1518.3400.3428","parent":"razd2916.13.1518.3400","text":"Группа Детские и Канцелярские Товары/Зоотовары","children":true}
+{"id":"razd2916.13.1518.3400.3412","parent":"razd2916.13.1518.3400","text":"Группа Инциденты","children":true}
+{"id":"razd2916.13.1518.3400.3434","parent":"razd2916.13.1518.3400","text":"Группа Красота и Подарки","children":true}
+{"id":"razd2916.13.1518.3400.3414","parent":"razd2916.13.1518.3400","text":"Группа Мебель","children":true}
+{"id":"razd2916.13.1518.3400.3420","parent":"razd2916.13.1518.3400","text":"Группа Обувь","children":true}
+{"id":"razd2916.13.1518.3400.3438","parent":"razd2916.13.1518.3400","text":"Группа Одежда","children":true}
+{"id":"razd2916.13.1518.3400.3422","parent":"razd2916.13.1518.3400","text":"Группа Отзывы","children":true}
+{"id":"razd2916.13.1518.3400.3426","parent":"razd2916.13.1518.3400","text":"Группа Продукты","children":true}
+{"id":"razd2916.13.1518.3400.3430","parent":"razd2916.13.1518.3400","text":"Группа Спорт и Досуг","children":true}
+{"id":"razd2916.13.1518.3400.3416","parent":"razd2916.13.1518.3400","text":"Группа Строительство и Ремонт","children":true}
+{"id":"razd2916.13.1518.3400.3432","parent":"razd2916.13.1518.3400","text":"Группа Товары для Дома","children":true}
+{"id":"razd2916.13.1518.3400.3424","parent":"razd2916.13.1518.3400","text":"Группа Украшения и Аксессуары","children":true}
+{"id":"razd2916.13.1518.3400.3418","parent":"razd2916.13.1518.3400","text":"Группа Электроника","children":true}
+{"id":"razd1.2072.2941.3388","parent":"razd1.2072.2941","text":"Campaign Analysis Team","children":true}
+{"id":"razd1.2072.2941.3394","parent":"razd1.2072.2941","text":"Kaspi Magnum Analysis Team","children":true}
+{"id":"razd1.2072.2941.3392","parent":"razd1.2072.2941","text":"Kaspi Pay and FINTECH Analysis Team","children":true}
+{"id":"razd1.2072.2941.3390","parent":"razd1.2072.2941","text":"Kaspi Shop Analysis Team","children":true}
+{"id":"razd1.2072.2933.3450","parent":"razd1.2072.2933","text":"Content \u0026 Copywriting Team","children":true}
+{"id":"razd1.2072.2933.3446","parent":"razd1.2072.2933","text":"Design \u0026 Visual Team","children":true}
+{"id":"razd1.2072.2933.3448","parent":"razd1.2072.2933","text":"Performance Marketing Team","children":true}
+{"id":"razd1.9.10.185.186","parent":"razd1.9.10.185","text":"Управление корпоративных разработок","children":true}
+{"id":"razd1.9.10.185.613","parent":"razd1.9.10.185","text":"Управление разработки учетных систем","children":true}
+{"id":"razd1.9.10.185.189","parent":"razd1.9.10.185","text":"Управление хранилищ данных","children":true}
+{"id":"razd1.9.10.185.1740","parent":"razd1.9.10.185","text":"Управление Автоматизации ИТ Процессов","children":true}
+{"id":"razd1.9.10.185.192","parent":"razd1.9.10.185","text":"Отдел платежных систем","children":true}
+{"id":"razd1.9.10.726.980","parent":"razd1.9.10.726","text":"Управление Администрирования Microsoft, Виртуализации и Облачных Сервисов","children":true}
+{"id":"razd1.9.10.726.727","parent":"razd1.9.10.726","text":"Управление администрирования и баз данных","children":true}
+{"id":"razd1.9.10.726.728","parent":"razd1.9.10.726","text":"Управление телекоммуникаций","children":true}
+{"id":"razd1.9.10.726.2358","parent":"razd1.9.10.726","text":"Управление Инфраструктурной Разработки и Развития Инфраструктуры","children":true}
+{"id":"razd1.9.10.726.3061","parent":"razd1.9.10.726","text":"Управление Поддержки ЦОД","children":true}
+{"id":"razd1.5.6.1788.271","parent":"razd1.5.6.1788","text":"Юридический отдел в г.Актобе","children":true}
+{"id":"razd1.5.6.1788.1794","parent":"razd1.5.6.1788","text":"Юридический Отдел в г.Атырау","children":true}
+{"id":"razd1.5.6.1788.272","parent":"razd1.5.6.1788","text":"Юридический отдел в г.Караганда","children":true}
+{"id":"razd1.5.6.1788.273","parent":"razd1.5.6.1788","text":"Юридический отдел в г.Костанай","children":true}
+{"id":"razd1.5.6.1788.1792","parent":"razd1.5.6.1788","text":"Юридический Отдел в г.Кызылорда","children":true}
+{"id":"razd1.5.6.1788.1796","parent":"razd1.5.6.1788","text":"Юридический Отдел в г.Павлодар","children":true}
+{"id":"razd1.5.6.1788.1797","parent":"razd1.5.6.1788","text":"Юридический Отдел в г.Семей","children":true}
+{"id":"razd1.5.6.1788.274","parent":"razd1.5.6.1788","text":"Юридический отдел в г.Усть-Каменогорск","children":true}
+{"id":"razd1.5.6.1788.275","parent":"razd1.5.6.1788","text":"Юридический отдел в г.Шымкент","children":true}
+{"id":"razd1.5.6.1788.2701","parent":"razd1.5.6.1788","text":"Юридический Отдел в г.Астана","children":true}
+{"id":"razd1.2568.1050.3750.3812","parent":"razd1.2568.1050.3750","text":"Android QA Team","children":true}
+{"id":"razd1.2568.1050.3750.3774","parent":"razd1.2568.1050.3750","text":"Core Team","children":true}
+{"id":"razd1.2568.1050.3750.3752","parent":"razd1.2568.1050.3750","text":"Design System Team","children":true}
+{"id":"razd1.2568.1050.3750.2743","parent":"razd1.2568.1050.3750","text":"Kaspi Pay Team","children":true}
+{"id":"razd1.2568.1050.3750.3810","parent":"razd1.2568.1050.3750","text":"Kaspi.kz Team","children":true}
+{"id":"razd1.2568.1050.3750.3255","parent":"razd1.2568.1050.3750","text":"Messenger Team","children":true}
+{"id":"razd1.2568.1050.3750.3748","parent":"razd1.2568.1050.3750","text":"SuperApp Team","children":true}
+{"id":"razd1.2568.1050.3746.3760","parent":"razd1.2568.1050.3746","text":"Auth Team","children":true}
+{"id":"razd1.2568.1050.3746.3776","parent":"razd1.2568.1050.3746","text":"Core QA Team","children":true}
+{"id":"razd1.2568.1050.3746.3780","parent":"razd1.2568.1050.3746","text":"OPay Team","children":true}
+{"id":"razd1.2568.1050.3746.3748","parent":"razd1.2568.1050.3746","text":"SuperApp Team","children":true}
+{"id":"razd1.1927.2222.2999.3003","parent":"razd1.1927.2222.2999","text":"SMM Design Group","children":true}
+{"id":"razd1.2568.1050.3772.3774","parent":"razd1.2568.1050.3772","text":"Core Team","children":true}
+{"id":"razd1.2568.1050.3772.3752","parent":"razd1.2568.1050.3772","text":"Design System Team","children":true}
+{"id":"razd1.2568.1050.3772.3798","parent":"razd1.2568.1050.3772","text":"iOS QA Team","children":true}
+{"id":"razd1.2568.1050.3772.2743","parent":"razd1.2568.1050.3772","text":"Kaspi Pay Team","children":true}
+{"id":"razd1.2568.1050.3772.3810","parent":"razd1.2568.1050.3772","text":"Kaspi.kz Team","children":true}
+{"id":"razd1.2568.1050.3772.3255","parent":"razd1.2568.1050.3772","text":"Messenger Team","children":true}
+{"id":"razd1.2568.1050.3772.3748","parent":"razd1.2568.1050.3772","text":"SuperApp Team","children":true}
+{"id":"razd1.2568.1050.3768.3770","parent":"razd1.2568.1050.3768","text":"Ads Team","children":true}
+{"id":"razd1.2568.1050.3768.3794","parent":"razd1.2568.1050.3768","text":"Marketing QA Team","children":true}
+{"id":"razd1.2568.1050.3768.3792","parent":"razd1.2568.1050.3768","text":"Promo Team","children":true}
+{"id":"razd1.2568.1050.3768.3754","parent":"razd1.2568.1050.3768","text":"Service Team","children":true}
+{"id":"razd1.2568.1050.3764.3766","parent":"razd1.2568.1050.3764","text":"Chats \u0026 Calls Team","children":true}
+{"id":"razd1.2568.1050.3764.3796","parent":"razd1.2568.1050.3764","text":"Messages Team","children":true}
+{"id":"razd1.2568.1050.3742.3802","parent":"razd1.2568.1050.3742","text":"Credit Team","children":true}
+{"id":"razd1.2568.1050.3742.3744","parent":"razd1.2568.1050.3742","text":"Debit Team","children":true}
+{"id":"razd1.2568.1050.3742.3806","parent":"razd1.2568.1050.3742","text":"MyBank QA Team","children":true}
+{"id":"razd1.2568.1050.3742.3754","parent":"razd1.2568.1050.3742","text":"Service Team","children":true}
+{"id":"razd1.2568.1050.3756.3758","parent":"razd1.2568.1050.3756","text":"Public Services Team","children":true}
+{"id":"razd1.2568.1050.3756.3786","parent":"razd1.2568.1050.3756","text":"Reviews Team","children":true}
+{"id":"razd1.9.765.768.2717","parent":"razd1.9.765.768","text":"Contact Center Division","children":true}
+{"id":"razd1.9.765.768.2723","parent":"razd1.9.765.768","text":"Outbound Channels Division","children":true}
+{"id":"razd1.9.765.768.2735","parent":"razd1.9.765.768","text":"R\u0026D Division","children":true}
+{"id":"razd1.9.765.768.2695","parent":"razd1.9.765.768","text":"Risks Process Automation Division","children":true}
+{"id":"razd1.9.765.768.2715","parent":"razd1.9.765.768","text":"Service Request Division","children":true}
+{"id":"razd1.2568.1050.3736.3788","parent":"razd1.2568.1050.3736","text":"ATM \u0026 CMT Team","children":true}
+{"id":"razd1.2568.1050.3736.3738","parent":"razd1.2568.1050.3736","text":"KSK \u0026 EQM \u0026 Maps Team","children":true}
+{"id":"razd1.9.765.767.1650","parent":"razd1.9.765.767","text":"Команда BPM","children":true}
+{"id":"razd1.9.765.767.1637","parent":"razd1.9.765.767","text":"Команда Kaspi Gold","children":true}
+{"id":"razd1.9.765.767.1642","parent":"razd1.9.765.767","text":"Команда Kaspi Депозит и Переводы","children":true}
+{"id":"razd1.9.765.767.1644","parent":"razd1.9.765.767","text":"Команда KaspiRed и КК","children":true}
+{"id":"razd1.9.765.767.1656","parent":"razd1.9.765.767","text":"Команда Web","children":true}
+{"id":"razd1.9.765.767.1654","parent":"razd1.9.765.767","text":"Команда Авто","children":true}
+{"id":"razd1.9.765.767.1640","parent":"razd1.9.765.767","text":"Команда Учета","children":true}
+{"id":"razd1.9.765.767.1652","parent":"razd1.9.765.767","text":"Команда ЦА и Кассы","children":true}
+{"id":"razd1.9.765.767.2425","parent":"razd1.9.765.767","text":"Core Banking Team","children":true}
+{"id":"razd1.9.765.767.2450","parent":"razd1.9.765.767","text":"Команда Аресты","children":true}
+{"id":"razd1.9.765.767.3445","parent":"razd1.9.765.767","text":"Команда Кaspi Бонус и Сертификаты","children":true}
+{"id":"razd1.9.765.767.2988","parent":"razd1.9.765.767","text":"Команда Кредиты","children":true}
+{"id":"razd1.9.765.2342.2344","parent":"razd1.9.765.2342","text":"Команда Администрирования Инфраструктуры","children":true}
+{"id":"razd1.9.765.2342.2346","parent":"razd1.9.765.2342","text":"Команда Мобильных Разработок","children":true}
+{"id":"razd1.9.765.2342.2348","parent":"razd1.9.765.2342","text":"Команда Разработки Внутренних Сервисов","children":true}
+{"id":"razd1.9.765.2342.2350","parent":"razd1.9.765.2342","text":"Команда Разработки Гос.Сервисов","children":true}
+{"id":"razd1.27.28.43.66","parent":"razd1.27.28.43","text":"Отдел позиционирования","children":true}
+{"id":"razd1.27.28.42.64","parent":"razd1.27.28.42","text":"Отдел валютных операций","children":true}
+{"id":"razd1.27.28.42.65","parent":"razd1.27.28.42","text":"Отдел работы с корпоративными клиентами","children":true}
+{"id":"razd1.1887.1889.3309.3313","parent":"razd1.1887.1889.3309","text":"Отдел Partner Detection","children":true}
+{"id":"razd1.1887.1889.3309.3315","parent":"razd1.1887.1889.3309","text":"Отдел Transaction Detection","children":true}
+{"id":"razd1.1887.1889.3311.3092","parent":"razd1.1887.1889.3311","text":"Отдел Client Investigation","children":true}
+{"id":"razd1.1887.1889.3311.3094","parent":"razd1.1887.1889.3311","text":"Отдел Partner Investigation","children":true}
+{"id":"razd1.1887.1889.1891.3317","parent":"razd1.1887.1889.1891","text":"Отдел Photo/Auto Verification","children":true}
+{"id":"razd1.1887.1889.1891.3319","parent":"razd1.1887.1889.1891","text":"Отдел Voice Verification","children":true}
+{"id":"razd1.1525.2057.2264.2274","parent":"razd1.1525.2057.2264","text":"Управление Внутренних Документов","children":true}
+{"id":"razd1.1525.2057.2264.2268","parent":"razd1.1525.2057.2264","text":"Управление Досье Клиентов","children":true}
+{"id":"razd1.1525.2057.2264.2266","parent":"razd1.1525.2057.2264","text":"Управление Контроля","children":true}
+{"id":"razd1.1525.2057.3153.2565","parent":"razd1.1525.2057.3153","text":"Управление SWIFT","children":true}
+{"id":"razd1.1525.2057.3153.2563","parent":"razd1.1525.2057.3153","text":"Управление Валютного Контроля","children":true}
+{"id":"razd1.1525.2057.2065.2685","parent":"razd1.1525.2057.2065","text":"Управление Исполнения Запросов","children":true}
+{"id":"razd1.1525.2057.2065.2683","parent":"razd1.1525.2057.2065","text":"Управление Сопровождения Продуктов","children":true}
+{"id":"razd1.1525.2057.2065.2687","parent":"razd1.1525.2057.2065","text":"Управление Учета Платежных Операций","children":true}
+{"id":"razd1.1525.2057.2874.2061","parent":"razd1.1525.2057.2874","text":"Управление Сопровождения Требований","children":true}
+{"id":"razd1.1525.2057.2874.2691","parent":"razd1.1525.2057.2874","text":"Управление Учета Клиринга","children":true}
+{"id":"razd1.1525.2057.2874.2689","parent":"razd1.1525.2057.2874","text":"Управление Учета Продуктов Kaspi Pay","children":true}
+{"id":"razd1.1525.2057.2874.1986","parent":"razd1.1525.2057.2874","text":"Отдел Поддержки Партнеров","children":true}
+{"id":"razd1.1525.2852.2854.1210","parent":"razd1.1525.2852.2854","text":"Управление Документооборотом","children":true}
+{"id":"razd1.1525.2852.2854.1148","parent":"razd1.1525.2852.2854","text":"Управление Транспортом","children":true}
+{"id":"razd1.1525.2852.2854.2856","parent":"razd1.1525.2852.2854","text":"Управление Маркетингового Снабжения","children":true}
+{"id":"razd1.1525.2852.2854.2258","parent":"razd1.1525.2852.2854","text":"Управление Снабжения и Логистики","children":true}
+{"id":"razd1.1525.2852.2858.1156","parent":"razd1.1525.2852.2858","text":"Управление Обслуживания Зданий","children":true}
+{"id":"razd1.1525.2852.2858.2862","parent":"razd1.1525.2852.2858","text":"Управление Ремонтно-Строительных Работ","children":true}
+{"id":"razd1.1525.2852.2858.2260","parent":"razd1.1525.2852.2858","text":"Управление Эксплуатации Инженерных Систем","children":true}
+{"id":"razd1.2568.846.1701.1707","parent":"razd1.2568.846.1701","text":"Группа Администрирования","children":true}
+{"id":"razd1.2568.846.1701.1500","parent":"razd1.2568.846.1701","text":"Группа Поддержки Карточного Процессинга","children":true}
+{"id":"razd1.2568.846.1701.1705","parent":"razd1.2568.846.1701","text":"Группа Развития","children":true}
+{"id":"razd1.2224.1616.1624.3027","parent":"razd1.2224.1616.1624","text":"Команда Разработки Info","children":true}
+{"id":"razd1.2224.1616.1624.3037","parent":"razd1.2224.1616.1624","text":"Команда Разработки ККМ","children":true}
+{"id":"razd1.2224.1616.1624.2961","parent":"razd1.2224.1616.1624","text":"Команда Frontend разработки","children":true}
+{"id":"razd1.2224.1616.3019.3301","parent":"razd1.2224.1616.3019","text":"Команда Кредитов Kaspi Pay","children":true}
+{"id":"razd1.2224.1616.3019.3303","parent":"razd1.2224.1616.3019","text":"Команда Расчетных Сервисов","children":true}
+{"id":"razd1.2224.1616.3019.3305","parent":"razd1.2224.1616.3019","text":"Команда Счет Kaspi Pay","children":true}
+{"id":"razd1.206.207.209.3452","parent":"razd1.206.207.209","text":"Отдел по Организации Обучения","children":true}
+{"id":"razd1.1525.1626.478.482","parent":"razd1.1525.1626.478","text":"Отдел Инкассации","children":true}
+{"id":"razd1.1525.1626.1963.2989","parent":"razd1.1525.1626.1963","text":"Управление Контроля и Учета","children":true}
+{"id":"razd1.206.211.212.3228","parent":"razd1.206.211.212","text":"Группа по Работе со Штатным Расписанием","children":true}
+{"id":"razd1.21.22.44.73.82","parent":"razd1.21.22.44.73","text":"Группа учета заработной платы","children":true}
+{"id":"razd1.21.22.44.73.3089","parent":"razd1.21.22.44.73","text":"Группа Учета Авансовых Отчетов","children":true}
+{"id":"razd1.21.22.44.73.3087","parent":"razd1.21.22.44.73","text":"Группа Учета Фондов","children":true}
+{"id":"razd1.1525.1527.495.827","parent":"razd1.1525.1527.495","text":"Управление клиентских запросов","children":true}
+{"id":"razd1.1525.1527.495.538","parent":"razd1.1525.1527.495","text":"Управление по работе с клиентами","children":true}
+{"id":"razd1.1525.1527.495.2713","parent":"razd1.1525.1527.495","text":"Отдел Учета Документации","children":true}
+{"id":"razd1.1525.1527.1691.1235","parent":"razd1.1525.1527.1691","text":"Управление Serviсe Desk","children":true}
+{"id":"razd1.1525.1527.1691.1698","parent":"razd1.1525.1527.1691","text":"Управление мониторинга бизнес процессов","children":true}
+{"id":"razd1.1525.1527.1529.496","parent":"razd1.1525.1527.1529","text":"Управление Поддержки Клиентов","children":true}
+{"id":"razd1.1525.1527.1529.3322","parent":"razd1.1525.1527.1529","text":"Управление Анализа и Сопровождения Процессов","children":true}
+{"id":"razd1.1525.1527.1529.2010","parent":"razd1.1525.1527.1529","text":"Управление Настройки","children":true}
+{"id":"razd1.1525.1527.1529.2705","parent":"razd1.1525.1527.1529","text":"Управление Поддержки Kaspi Магазина","children":true}
+{"id":"razd1.1525.1527.1529.3648","parent":"razd1.1525.1527.1529","text":"Управление Поддержки Kaspi Магазина №1","children":true}
+{"id":"razd1.1525.1527.1529.3630","parent":"razd1.1525.1527.1529","text":"Управление Поддержки Kaspi Магазина №2","children":true}
+{"id":"razd1.1525.1527.1529.1531","parent":"razd1.1525.1527.1529","text":"Управление Разрешения Спорных Ситуаций","children":true}
+{"id":"razd1.1525.1527.1529.2559","parent":"razd1.1525.1527.1529","text":"Отдел Поддержки Kaspi Travel","children":true}
+{"id":"razd1.1525.1527.1535.739","parent":"razd1.1525.1527.1535","text":"Управление Технической Поддержки Сервисов","children":true}
+{"id":"razd1.1525.1527.1535.1539","parent":"razd1.1525.1527.1535","text":"Управление Обслуживания Карт","children":true}
+{"id":"razd1.1525.1527.1535.1547","parent":"razd1.1525.1527.1535","text":"Управление по Ремонту","children":true}
+{"id":"razd1.1525.1527.1535.2576","parent":"razd1.1525.1527.1535","text":"Управление Поддержки ATM и ТС","children":true}
+{"id":"razd1.1525.1527.1535.2580","parent":"razd1.1525.1527.1535","text":"Управление Поддержки POS и PST","children":true}
+{"id":"razd1.1525.1527.1535.1631","parent":"razd1.1525.1527.1535","text":"Отдел Управления ИТ Активами","children":true}
+{"id":"razd1.1525.1527.2229.3067","parent":"razd1.1525.1527.2229","text":"Управление Контроля Качества Партнеров","children":true}
+{"id":"razd1.1525.1527.2229.2022","parent":"razd1.1525.1527.2229","text":"Управление Поддержки Партнеров","children":true}
+{"id":"razd1.1525.1527.2229.3143","parent":"razd1.1525.1527.2229","text":"Управление Поддержки Партнеров Kaspi Магазин","children":true}
+{"id":"razd1.1525.1527.2229.2278","parent":"razd1.1525.1527.2229","text":"Отдел Подключения Партнеров","children":true}
+{"id":"razd1.9.10.185.186.187","parent":"razd1.9.10.185.186","text":"Отдел разработки корпоративных продуктов","children":true}
+{"id":"razd1.9.10.185.186.1239","parent":"razd1.9.10.185.186","text":"Отдел Разработки Расчетно-Кассового Обслуживания","children":true}
+{"id":"razd1.9.10.185.186.457","parent":"razd1.9.10.185.186","text":"Отдел разработки ценных бумаг и внутренней бухгалтерии","children":true}
+{"id":"razd1.9.10.185.186.2993","parent":"razd1.9.10.185.186","text":"Команда Application Administration","children":true}
+{"id":"razd1.9.10.185.613.2680","parent":"razd1.9.10.185.613","text":"Команда 1С Accounting and Finance","children":true}
+{"id":"razd1.9.10.185.613.3166","parent":"razd1.9.10.185.613","text":"Команда 1С Документооборот","children":true}
+{"id":"razd1.9.10.185.613.3168","parent":"razd1.9.10.185.613","text":"Команда 1С Дочерние Компании","children":true}
+{"id":"razd1.9.10.185.613.2777","parent":"razd1.9.10.185.613","text":"Команда 1С ТМЗ и ОС","children":true}
+{"id":"razd2916.13.3009.3011.3109.3039","parent":"razd2916.13.3009.3011.3109","text":"Команда Разработки Core Сервисов","children":true}
+{"id":"razd2916.13.3009.3011.3109.3370","parent":"razd2916.13.3009.3011.3109","text":"Команда Разработки Интеграционных Сервисов","children":true}
+{"id":"razd2916.13.3009.3011.3356.3358","parent":"razd2916.13.3009.3011.3356","text":"Команда Разработки Core Order","children":true}
+{"id":"razd2916.13.3009.3011.3356.3378","parent":"razd2916.13.3009.3011.3356","text":"Команда Разработки Core Payment","children":true}
+{"id":"razd1.9.10.185.189.191","parent":"razd1.9.10.185.189","text":"Отдел загрузки и контроля данных","children":true}
+{"id":"razd1.9.10.185.189.190","parent":"razd1.9.10.185.189","text":"Отдел хранилищ данных","children":true}
+{"id":"razd2916.13.3009.3011.3112.3354","parent":"razd2916.13.3009.3011.3112","text":"Команда Разработки Витрины Клиентов","children":true}
+{"id":"razd2916.13.3009.3011.3112.3360","parent":"razd2916.13.3009.3011.3112","text":"Команда Разработки Корзины и Checkout","children":true}
+{"id":"razd1.1525.1527.1529.496.2018","parent":"razd1.1525.1527.1529.496","text":"Отдел Поддержки Kaspi Gold","children":true}
+{"id":"razd1.1525.1527.1529.496.2434","parent":"razd1.1525.1527.1529.496","text":"Отдел Поддержки Kaspi.kz","children":true}
+{"id":"razd1.1525.1527.1529.496.2027","parent":"razd1.1525.1527.1529.496","text":"Отдел Поддержки Кредитных Продуктов","children":true}
+{"id":"razd1.1525.1527.1529.496.2030","parent":"razd1.1525.1527.1529.496","text":"Отдел Поддержки Не Кредитных Продуктов","children":true}
+{"id":"razd1.1525.1527.1529.496.3328","parent":"razd1.1525.1527.1529.496","text":"Отдел Поддержки Сервиса Рестораны","children":true}
+{"id":"razd2916.13.3009.3011.3107.3362","parent":"razd2916.13.3009.3011.3107","text":"Команда Разработки Платформы Партнерских Сервисов","children":true}
+{"id":"razd2916.13.3009.3011.3107.3364","parent":"razd2916.13.3009.3011.3107","text":"Команда Разработки Товарных Предложений Партнеров","children":true}
+{"id":"razd1.9.10.185.1740.1744","parent":"razd1.9.10.185.1740","text":"Команда Service Operations","children":true}
+{"id":"razd1.9.10.185.1740.193","parent":"razd1.9.10.185.1740","text":"Отдел интернет технологий","children":true}
+{"id":"razd1.9.10.185.1740.2845","parent":"razd1.9.10.185.1740","text":"Команда IT Services \u0026 Monitoring","children":true}
+{"id":"razd1.1525.50.52.1823","parent":"razd1.1525.50.52","text":"Отдел Видеонаблюдения и Систем Контроля Доступа","children":true}
+{"id":"razd1.1525.50.52.1821","parent":"razd1.1525.50.52","text":"Отдел Охранно-Пожарной Сигнализации","children":true}
+{"id":"razd1.1525.1527.1529.3322.3326","parent":"razd1.1525.1527.1529.3322","text":"Отдел Анализа Продуктов и Сервисов","children":true}
+{"id":"razd1.1525.1527.1529.3322.3324","parent":"razd1.1525.1527.1529.3322","text":"Отдел Разработки и Сопровождения Процессов","children":true}
+{"id":"razd1.1525.1527.1529.2010.2014","parent":"razd1.1525.1527.1529.2010","text":"Отдел Настроек Партнеров","children":true}
+{"id":"razd1.1525.1527.1529.2010.2012","parent":"razd1.1525.1527.1529.2010","text":"Отдел Настроек Справочников","children":true}
+{"id":"razd1.9.10.726.980.983","parent":"razd1.9.10.726.980","text":"Отдел Администрирования ПО Microsoft","children":true}
+{"id":"razd1.9.10.726.980.981","parent":"razd1.9.10.726.980","text":"Отдел Виртуализации и Облачных Сервисов","children":true}
+{"id":"razd1.9.10.726.980.1817","parent":"razd1.9.10.726.980","text":"Отдел Инфраструктурной Разработки","children":true}
+{"id":"razd1.1525.1527.1529.2705.2707","parent":"razd1.1525.1527.1529.2705","text":"Отдел Возврата и Качества Товара","children":true}
+{"id":"razd1.1525.1527.1529.2705.3496","parent":"razd1.1525.1527.1529.2705","text":"Отдел Рассмотрения Споров","children":true}
+{"id":"razd1.9.10.726.727.2352","parent":"razd1.9.10.726.727","text":"Отдел Администрирования Баз Данных","children":true}
+{"id":"razd1.9.10.726.727.2356","parent":"razd1.9.10.726.727","text":"Отдел Администрирования Серверов Linux","children":true}
+{"id":"razd1.9.10.726.727.2362","parent":"razd1.9.10.726.727","text":"Группа Администрирования RISC-серверов, SAN и СХД","children":true}
+{"id":"razd1.9.10.726.728.804","parent":"razd1.9.10.726.728","text":"Отдел разработки","children":true}
+{"id":"razd1.9.10.726.728.1421","parent":"razd1.9.10.726.728","text":"Отдел Телекоммуникаций","children":true}
+{"id":"razd1.9.10.726.728.734","parent":"razd1.9.10.726.728","text":"Отдел телефонной связи","children":true}
+{"id":"razd1.1525.1527.1529.3648.2707","parent":"razd1.1525.1527.1529.3648","text":"Отдел Возврата и Качества Товара","children":true}
+{"id":"razd1.1525.1527.1529.3648.2755","parent":"razd1.1525.1527.1529.3648","text":"Отдел Доставки и Получения Товара","children":true}
+{"id":"razd1.1525.1527.1529.3648.3498","parent":"razd1.1525.1527.1529.3648","text":"Отдел Поддержки Kaspi Postomat","children":true}
+{"id":"razd1.1525.1527.1529.3630.2888","parent":"razd1.1525.1527.1529.3630","text":"Отдел Поддержки Magnum","children":true}
+{"id":"razd1.1525.1527.1529.3630.3496","parent":"razd1.1525.1527.1529.3630","text":"Отдел Рассмотрения Споров","children":true}
+{"id":"razd1.9.10.726.2358.2557","parent":"razd1.9.10.726.2358","text":"Группа DevOps","children":true}
+{"id":"razd1.9.10.726.2358.2555","parent":"razd1.9.10.726.2358","text":"Группа Балансировки и Анализа Данных","children":true}
+{"id":"razd1.1525.1527.1529.1531.1881","parent":"razd1.1525.1527.1529.1531","text":"Отдел Kaspi Банкоматы","children":true}
+{"id":"razd1.1525.1527.1529.1531.1541","parent":"razd1.1525.1527.1529.1531","text":"Отдел Kaspi Терминалы","children":true}
+{"id":"razd1.1525.1527.1529.1531.2719","parent":"razd1.1525.1527.1529.1531","text":"Отдел Контроля Качества Обслуживания Клиентов","children":true}
+{"id":"razd1.1525.1527.1529.1531.1883","parent":"razd1.1525.1527.1529.1531","text":"Отдел по Работе с Карточными Рисками","children":true}
+{"id":"razd1.9.10.726.3061.3557","parent":"razd1.9.10.726.3061","text":"Отдел Мониторинга Алатау","children":true}
+{"id":"razd1.9.10.726.3061.3555","parent":"razd1.9.10.726.3061","text":"Отдел Мониторинга Ырысты","children":true}
+{"id":"razd1.9.10.726.3061.3063","parent":"razd1.9.10.726.3061","text":"Отдел Сервисной Поддержки ЦОД","children":true}
+{"id":"razd1.1525.1527.1529.2559.3219","parent":"razd1.1525.1527.1529.2559","text":"Группа Авиа/ЖД","children":true}
+{"id":"razd1.1525.1527.1529.2559.3221","parent":"razd1.1525.1527.1529.2559","text":"Группа Туры","children":true}
+{"id":"razd1.21.23.396.517","parent":"razd1.21.23.396","text":"Отдел анализа и моделирования","children":true}
+{"id":"razd1.21.23.396.1537","parent":"razd1.21.23.396","text":"Отдел Контроля Затрат и Инвестиций","children":true}
+{"id":"razd1.21.23.396.3404","parent":"razd1.21.23.396","text":"Отдел планирования доходов","children":true}
+{"id":"razd1.21.23.396.3410","parent":"razd1.21.23.396","text":"Отдел планирования расходов","children":true}
+{"id":"razd1.1525.1527.1529.3630.2888.2709","parent":"razd1.1525.1527.1529.3630.2888","text":"Группа 1","children":true}
+{"id":"razd1.1525.1527.1529.3630.2888.2753","parent":"razd1.1525.1527.1529.3630.2888","text":"Группа 2","children":true}
+{"id":"razd1.21.23.2661.397","parent":"razd1.21.23.2661","text":"Отдел мотивационной отчетности","children":true}
+{"id":"razd1.21.23.2661.2828","parent":"razd1.21.23.2661","text":"Отдел Мотивационной Отчетности Kaspi Алло","children":true}
+{"id":"razd1.21.23.2661.3101","parent":"razd1.21.23.2661","text":"Отдел Управленческой Отчетности №1","children":true}
+{"id":"razd1.21.23.2661.3103","parent":"razd1.21.23.2661","text":"Отдел Управленческой Отчетности №2","children":true}
+{"id":"razd1.1525.1527.1529.3630.3496.2709","parent":"razd1.1525.1527.1529.3630.3496","text":"Группа 1","children":true}
+{"id":"razd1.1525.1527.1529.3630.3496.2753","parent":"razd1.1525.1527.1529.3630.3496","text":"Группа 2","children":true}
+{"id":"razd1.1525.1527.1529.3630.3496.2995","parent":"razd1.1525.1527.1529.3630.3496","text":"Группа 3","children":true}
+{"id":"razd1.1525.1527.1529.3630.3496.3298","parent":"razd1.1525.1527.1529.3630.3496","text":"Группа 4","children":true}
+{"id":"razd1.1525.2057.3153.2565.2567","parent":"razd1.1525.2057.3153.2565","text":"Отдел Сопровождения Валютных Транзакций","children":true}
+{"id":"razd1.21.3406.395.803","parent":"razd1.21.3406.395","text":"Отдел МСФО отчетности","children":true}
+{"id":"razd1.21.3406.395.3408","parent":"razd1.21.3406.395","text":"Отдел регуляторной отчетности","children":true}
+{"id":"razd1.1525.2057.3153.2563.805","parent":"razd1.1525.2057.3153.2563","text":"Отдел Аналитики","children":true}
+{"id":"razd1.1525.2057.3153.2563.1981","parent":"razd1.1525.2057.3153.2563","text":"Отдел Контроля","children":true}
+{"id":"razd1.1525.2057.2874.2061.484","parent":"razd1.1525.2057.2874.2061","text":"Отдел оплаты картотеки","children":true}
+{"id":"razd1.1525.2057.2874.2061.2063","parent":"razd1.1525.2057.2874.2061","text":"Отдел Контроля Требований","children":true}
+{"id":"razd1.1887.1899.974.1509.2757","parent":"razd1.1887.1899.974.1509","text":"Группа Сопровождения Судебного Взыскания","children":true}
+{"id":"razd1.1525.1527.2229.2022.3139","parent":"razd1.1525.1527.2229.2022","text":"Отдел Рассмотрения Нестандартных Обращений","children":true}
+{"id":"razd1.1525.1527.2229.2022.3141","parent":"razd1.1525.1527.2229.2022","text":"Отдел Рассмотрения Стандартных Обращений","children":true}
+{"id":"razd1.1525.1527.2229.3067.3069","parent":"razd1.1525.1527.2229.3067","text":"Отдел Контроля Качества Партнеров Kaspi Pay","children":true}
+{"id":"razd1.1525.1527.2229.3067.3071","parent":"razd1.1525.1527.2229.3067","text":"Отдел Контроля Качества Партнеров Kaspi Магазин","children":true}
+{"id":"razd1.1525.1527.2229.3067.3551","parent":"razd1.1525.1527.2229.3067","text":"Отдел Обучения Партнеров","children":true}
+{"id":"razd1.1525.1527.2229.3143.3145","parent":"razd1.1525.1527.2229.3143","text":"Отдел Поддержки Сервисов Kaspi Доставка","children":true}
+{"id":"razd1.1525.1527.2229.3143.3147","parent":"razd1.1525.1527.2229.3143","text":"Отдел Поддержки Сервисов Личного Кабинета","children":true}
+{"id":"razd1.1525.1527.2229.3143.3149","parent":"razd1.1525.1527.2229.3143","text":"Отдел Рассмотрения Претензий","children":true}
+{"id":"razd1.1525.1527.2229.3143.3147.380","parent":"razd1.1525.1527.2229.3143.3147","text":"Группа №1","children":true}
+{"id":"razd1.1525.1527.2229.3143.3147.416","parent":"razd1.1525.1527.2229.3143.3147","text":"Группа №2","children":true}
+{"id":"razd1.1525.1527.2229.3143.3149.380","parent":"razd1.1525.1527.2229.3143.3149","text":"Группа №1","children":true}
+{"id":"razd1.1525.1527.2229.3143.3149.416","parent":"razd1.1525.1527.2229.3143.3149","text":"Группа №2","children":true}
+{"id":"razd1.9.765.768.2717.2761","parent":"razd1.9.765.768.2717","text":"Call Center Team","children":true}
+{"id":"razd1.9.765.768.2717.2749","parent":"razd1.9.765.768.2717","text":"Kaspi Bonus Team","children":true}
+{"id":"razd1.9.765.768.2717.2767","parent":"razd1.9.765.768.2717","text":"Kaspi Chat Team","children":true}
+{"id":"razd1.9.765.768.2717.2743","parent":"razd1.9.765.768.2717","text":"Kaspi Pay Team","children":true}
+{"id":"razd1.9.765.768.2717.2775","parent":"razd1.9.765.768.2717","text":"SMM Integration Team","children":true}
+{"id":"razd1.9.765.768.2723.2783","parent":"razd1.9.765.768.2723","text":"IMAO Team","children":true}
+{"id":"razd1.9.765.768.2723.2811","parent":"razd1.9.765.768.2723","text":"Kaspi Guide Team","children":true}
+{"id":"razd1.9.765.768.2723.2763","parent":"razd1.9.765.768.2723","text":"Marketing Team","children":true}
+{"id":"razd1.9.765.768.2723.2751","parent":"razd1.9.765.768.2723","text":"Soft Collection Team","children":true}
+{"id":"razd1.9.765.768.2723.2815","parent":"razd1.9.765.768.2723","text":"Web Development Team","children":true}
+{"id":"razd1.9.765.768.2735.2703","parent":"razd1.9.765.768.2735","text":"Administrators Team","children":true}
+{"id":"razd1.9.765.768.2735.2741","parent":"razd1.9.765.768.2735","text":"CRM Integration Team","children":true}
+{"id":"razd1.9.765.768.2735.2737","parent":"razd1.9.765.768.2735","text":"Device Maintenance Team","children":true}
+{"id":"razd1.9.765.768.2735.2773","parent":"razd1.9.765.768.2735","text":"R\u0026D Team","children":true}
+{"id":"razd1.9.765.768.2735.3462","parent":"razd1.9.765.768.2735","text":"UCC Team","children":true}
+{"id":"razd1.9.765.768.2695.2813","parent":"razd1.9.765.768.2695","text":"Auto Dev Team","children":true}
+{"id":"razd1.9.765.768.2695.2747","parent":"razd1.9.765.768.2695","text":"Debt Collection Team","children":true}
+{"id":"razd1.9.765.768.2695.3161","parent":"razd1.9.765.768.2695","text":"HR CRM Dev Team","children":true}
+{"id":"razd1.9.765.768.2695.2809","parent":"razd1.9.765.768.2695","text":"Risks Dev Team","children":true}
+{"id":"razd1.9.765.768.2715.3532","parent":"razd1.9.765.768.2715","text":"Customer Requests Dev Team","children":true}
+{"id":"razd1.9.765.768.2715.3530","parent":"razd1.9.765.768.2715","text":"Partner Requests Dev Team","children":true}
+{"id":"razd1.1525.1527.1529.2705.2707.2753","parent":"razd1.1525.1527.1529.2705.2707","text":"Группа 2","children":true}
+{"id":"razd1.1525.1527.1529.2705.3496.2709","parent":"razd1.1525.1527.1529.2705.3496","text":"Группа 1","children":true}
+{"id":"razd1.1525.1527.1529.2705.3496.2753","parent":"razd1.1525.1527.1529.2705.3496","text":"Группа 2","children":true}
+{"id":"razd1.9.10.726.727.2352.2368","parent":"razd1.9.10.726.727.2352","text":"Группа Администрирования Oracle","children":true}
+{"id":"razd1.9.10.726.727.2352.2354","parent":"razd1.9.10.726.727.2352","text":"Группа Администрирования PostgreSQL и Серверов Приложений","children":true}
+{"id":"razd1.1525.2852.2854.1210.393","parent":"razd1.1525.2852.2854.1210","text":"Канцелярия","children":true}
+{"id":"razd1.1525.2852.2854.1210.400","parent":"razd1.1525.2852.2854.1210","text":"Отдел перевода","children":true}
+{"id":"razd1.1525.2852.2858.1156.792","parent":"razd1.1525.2852.2858.1156","text":"Отдел 1","children":true}
+{"id":"razd1.1525.2852.2858.1156.793","parent":"razd1.1525.2852.2858.1156","text":"Отдел 2","children":true}
+{"id":"razd1.1525.2852.2858.1156.1158","parent":"razd1.1525.2852.2858.1156","text":"Отдел 3","children":true}
+{"id":"razd1.1525.2852.2858.1156.1160","parent":"razd1.1525.2852.2858.1156","text":"Отдел 4","children":true}
+{"id":"razd1.1525.2852.2858.1156.3550","parent":"razd1.1525.2852.2858.1156","text":"Отдел по Управлению Недвижимостью","children":true}
+{"id":"razd1.1525.2852.2858.2862.1908","parent":"razd1.1525.2852.2858.2862","text":"Отдел Ремонтно-Строительных Работ","children":true}
+{"id":"razd1.1525.2852.2858.2862.3524","parent":"razd1.1525.2852.2858.2862","text":"Проектно-Сметный Отдел","children":true}
+{"id":"razd1.1525.2852.2854.2258.909","parent":"razd1.1525.2852.2854.2258","text":"Отдел Складской Логистики","children":true}
+{"id":"razd1.1525.2852.2854.2258.454","parent":"razd1.1525.2852.2854.2258","text":"Отдел Снабжения","children":true}
+{"id":"razd1.1525.2852.2854.2258.401","parent":"razd1.1525.2852.2854.2258","text":"Отдел Учета Материальных Ценностей","children":true}
+{"id":"razd1.1525.1527.495.827.2725","parent":"razd1.1525.1527.495.827","text":"Отдел Исполнения Внешних Запросов","children":true}
+{"id":"razd1.1525.1527.495.827.2699","parent":"razd1.1525.1527.495.827","text":"Отдел Исполнения Внутренних Запросов","children":true}
+{"id":"razd1.1525.1527.495.827.2721","parent":"razd1.1525.1527.495.827","text":"Отдел Исполнения Требований","children":true}
+{"id":"razd1.1525.2852.2858.2260.792","parent":"razd1.1525.2852.2858.2260","text":"Отдел 1","children":true}
+{"id":"razd1.1525.2852.2858.2260.793","parent":"razd1.1525.2852.2858.2260","text":"Отдел 2","children":true}
+{"id":"razd1.1525.2852.2858.2260.1158","parent":"razd1.1525.2852.2858.2260","text":"Отдел 3","children":true}
+{"id":"razd1.1525.2852.2858.2260.2304","parent":"razd1.1525.2852.2858.2260","text":"Отдел Сопровождения Инженерных Систем","children":true}
+{"id":"razd1.1525.2852.2858.2260.3559","parent":"razd1.1525.2852.2858.2260","text":"Отдел Эксплуатации Magnum Запад","children":true}
+{"id":"razd1.1525.2852.2858.2260.2980","parent":"razd1.1525.2852.2858.2260","text":"Отдел Эксплуатации Magnum Север","children":true}
+{"id":"razd1.1525.2852.2858.2260.2982","parent":"razd1.1525.2852.2858.2260","text":"Отдел Эксплуатации Magnum Центр","children":true}
+{"id":"razd1.1525.2852.2858.2260.3097","parent":"razd1.1525.2852.2858.2260","text":"Отдел Эксплуатации Magnum Юг","children":true}
+{"id":"razd1.1525.1527.1691.1235.1231","parent":"razd1.1525.1527.1691.1235","text":"Отдел Доступов","children":true}
+{"id":"razd1.1525.1527.1691.1235.1074","parent":"razd1.1525.1527.1691.1235","text":"Отдел Поддержки","children":true}
+{"id":"razd1.1525.1527.495.538.687","parent":"razd1.1525.1527.495.538","text":"Отдел №1 письменных обращений","children":true}
+{"id":"razd1.1525.1527.495.538.688","parent":"razd1.1525.1527.495.538","text":"Отдел №2 письменных обращений","children":true}
+{"id":"razd1.1525.1527.1691.1698.1695","parent":"razd1.1525.1527.1691.1698","text":"Отдел Мониторинга и Поддержки Сервисов","children":true}
+{"id":"razd1.1525.1527.1691.1698.1693","parent":"razd1.1525.1527.1691.1698","text":"Отдел Мониторинга Устройств","children":true}
+{"id":"razd1.1525.1527.1535.739.760","parent":"razd1.1525.1527.1535.739","text":"Отдел Региональной Поддержки IT Сервисов","children":true}
+{"id":"razd1.1525.1527.1535.739.1237","parent":"razd1.1525.1527.1535.739","text":"Отдел Технической Поддержки Kaspi Алло","children":true}
+{"id":"razd1.1525.1527.1535.739.761","parent":"razd1.1525.1527.1535.739","text":"Отдел Технической Поддержки ГБ","children":true}
+{"id":"razd1.1525.1527.1535.739.1663","parent":"razd1.1525.1527.1535.739","text":"Отдел Поддержки и Развития Сервисов","children":true}
+{"id":"razd1.1525.1527.1535.1539.2426","parent":"razd1.1525.1527.1535.1539","text":"Отдел Выпуска Карт","children":true}
+{"id":"razd1.1525.1527.1535.1547.1212","parent":"razd1.1525.1527.1535.1547","text":"Отдел по Ремонту","children":true}
+{"id":"razd1.1525.1527.1535.1547.2558","parent":"razd1.1525.1527.1535.1547","text":"Экспертно-Технический Отдел","children":true}
+{"id":"razd1.1525.1527.1535.2576.1758","parent":"razd1.1525.1527.1535.2576","text":"Отдел Настроек Устройств","children":true}
+{"id":"razd1.1525.1527.1535.2576.1760","parent":"razd1.1525.1527.1535.2576","text":"Отдел Сопровождения Устройств","children":true}
+{"id":"razd1.1525.1527.1535.2576.2632","parent":"razd1.1525.1527.1535.2576","text":"Группа Поддержки ATM и ТС в г.Актау","children":true}
+{"id":"razd1.1525.1527.1535.2576.2596","parent":"razd1.1525.1527.1535.2576","text":"Группа Поддержки ATM и ТС в г.Актобе","children":true}
+{"id":"razd1.1525.1527.1535.2576.2612","parent":"razd1.1525.1527.1535.2576","text":"Группа Поддержки ATM и ТС в г.Алматы","children":true}
+{"id":"razd1.1525.1527.1535.2576.2759","parent":"razd1.1525.1527.1535.2576","text":"Группа Поддержки ATM и ТС в г.Астана","children":true}
+{"id":"razd1.1525.1527.1535.2576.2606","parent":"razd1.1525.1527.1535.2576","text":"Группа Поддержки ATM и ТС в г.Атырау","children":true}
+{"id":"razd1.1525.1527.1535.2576.2650","parent":"razd1.1525.1527.1535.2576","text":"Группа Поддержки ATM и ТС в г.Жезказган","children":true}
+{"id":"razd1.1525.1527.1535.2576.2602","parent":"razd1.1525.1527.1535.2576","text":"Группа Поддержки ATM и ТС в г.Караганда","children":true}
+{"id":"razd1.1525.1527.1535.2576.2604","parent":"razd1.1525.1527.1535.2576","text":"Группа Поддержки ATM и ТС в г.Кокшетау","children":true}
+{"id":"razd1.1525.1527.1535.2576.2622","parent":"razd1.1525.1527.1535.2576","text":"Группа Поддержки ATM и ТС в г.Костанай","children":true}
+{"id":"razd1.1525.1527.1535.2576.2636","parent":"razd1.1525.1527.1535.2576","text":"Группа Поддержки ATM и ТС в г.Кызылорда","children":true}
+{"id":"razd1.1525.1527.1535.2576.2600","parent":"razd1.1525.1527.1535.2576","text":"Группа Поддержки ATM и ТС в г.Павлодар","children":true}
+{"id":"razd1.1525.1527.1535.2576.2592","parent":"razd1.1525.1527.1535.2576","text":"Группа Поддержки ATM и ТС в г.Петропавловск","children":true}
+{"id":"razd1.1525.1527.1535.2576.2620","parent":"razd1.1525.1527.1535.2576","text":"Группа Поддержки ATM и ТС в г.Семей","children":true}
+{"id":"razd1.1525.1527.1535.2576.2578","parent":"razd1.1525.1527.1535.2576","text":"Группа Поддержки ATM и ТС в г.Талдыкорган","children":true}
+{"id":"razd1.1525.1527.1535.2576.2616","parent":"razd1.1525.1527.1535.2576","text":"Группа Поддержки ATM и ТС в г.Тараз","children":true}
+{"id":"razd1.1525.1527.1535.2576.2644","parent":"razd1.1525.1527.1535.2576","text":"Группа Поддержки ATM и ТС в г.Уральск","children":true}
+{"id":"razd1.1525.1527.1535.2576.2598","parent":"razd1.1525.1527.1535.2576","text":"Группа Поддержки ATM и ТС в г.Усть-Каменогорск","children":true}
+{"id":"razd1.1525.1527.1535.2576.2610","parent":"razd1.1525.1527.1535.2576","text":"Группа Поддержки ATM и ТС в г.Шымкент","children":true}
+{"id":"razd1.1525.1527.1535.2580.2640","parent":"razd1.1525.1527.1535.2580","text":"Отдел Поддержки POS и PST","children":true}
+{"id":"razd1.1525.1527.1535.2580.3534","parent":"razd1.1525.1527.1535.2580","text":"Отдел Развития POS и PST","children":true}
+{"id":"razd1.1525.1527.1535.2580.3571","parent":"razd1.1525.1527.1535.2580","text":"Группа по Учету ИТ Активов","children":true}
+{"id":"razd1.1525.1527.1535.2580.2820","parent":"razd1.1525.1527.1535.2580","text":"Группа Поддержки POS в г.Алматы","children":true}
+{"id":"razd1.1525.1527.1535.2580.2824","parent":"razd1.1525.1527.1535.2580","text":"Группа Поддержки POS в г.Астана","children":true}
+{"id":"razd1.1525.1527.1535.2580.2594","parent":"razd1.1525.1527.1535.2580","text":"Группа Поддержки POS и PST в г.Актау","children":true}
+{"id":"razd1.1525.1527.1535.2580.2614","parent":"razd1.1525.1527.1535.2580","text":"Группа Поддержки POS и PST в г.Актобе","children":true}
+{"id":"razd1.1525.1527.1535.2580.2618","parent":"razd1.1525.1527.1535.2580","text":"Группа Поддержки POS и PST в г.Атырау","children":true}
+{"id":"razd1.1525.1527.1535.2580.2652","parent":"razd1.1525.1527.1535.2580","text":"Группа Поддержки POS и PST в г.Жезказган","children":true}
+{"id":"razd1.1525.1527.1535.2580.2582","parent":"razd1.1525.1527.1535.2580","text":"Группа Поддержки POS и PST в г.Караганда","children":true}
+{"id":"razd1.1525.1527.1535.2580.2608","parent":"razd1.1525.1527.1535.2580","text":"Группа Поддержки POS и PST в г.Кокшетау","children":true}
+{"id":"razd1.1525.1527.1535.2580.2586","parent":"razd1.1525.1527.1535.2580","text":"Группа Поддержки POS и PST в г.Костанай","children":true}
+{"id":"razd1.1525.1527.1535.2580.2628","parent":"razd1.1525.1527.1535.2580","text":"Группа Поддержки POS и PST в г.Кызылорда","children":true}
+{"id":"razd1.1525.1527.1535.2580.2588","parent":"razd1.1525.1527.1535.2580","text":"Группа Поддержки POS и PST в г.Павлодар","children":true}
+{"id":"razd1.1525.1527.1535.2580.2634","parent":"razd1.1525.1527.1535.2580","text":"Группа Поддержки POS и PST в г.Петропавловск","children":true}
+{"id":"razd1.1525.1527.1535.2580.2590","parent":"razd1.1525.1527.1535.2580","text":"Группа Поддержки POS и PST в г.Семей","children":true}
+{"id":"razd1.1525.1527.1535.2580.2642","parent":"razd1.1525.1527.1535.2580","text":"Группа Поддержки POS и PST в г.Талдыкорган","children":true}
+{"id":"razd1.1525.1527.1535.2580.2630","parent":"razd1.1525.1527.1535.2580","text":"Группа Поддержки POS и PST в г.Тараз","children":true}
+{"id":"razd1.1525.1527.1535.2580.2648","parent":"razd1.1525.1527.1535.2580","text":"Группа Поддержки POS и PST в г.Уральск","children":true}
+{"id":"razd1.1525.1527.1535.2580.2624","parent":"razd1.1525.1527.1535.2580","text":"Группа Поддержки POS и PST в г.Усть-Каменогорск","children":true}
+{"id":"razd1.1525.1527.1535.2580.2584","parent":"razd1.1525.1527.1535.2580","text":"Группа Поддержки POS и PST в г.Шымкент","children":true}
+{"id":"razd1.1525.1527.1535.2580.2822","parent":"razd1.1525.1527.1535.2580","text":"Группа Поддержки PST в г.Алматы","children":true}
+{"id":"razd1.1525.1527.1535.2580.2826","parent":"razd1.1525.1527.1535.2580","text":"Группа Поддержки PST в г.Астана","children":true}
+{"id":"razd1.1525.2852.2858.2260.3559.2709","parent":"razd1.1525.2852.2858.2260.3559","text":"Группа 1","children":true}
+{"id":"razd1.1525.2852.2858.2260.2980.2709","parent":"razd1.1525.2852.2858.2260.2980","text":"Группа 1","children":true}
+{"id":"razd1.1525.2852.2858.2260.2980.2753","parent":"razd1.1525.2852.2858.2260.2980","text":"Группа 2","children":true}
+{"id":"razd1.1525.2852.2858.2260.2980.3565","parent":"razd1.1525.2852.2858.2260.2980","text":"Группа 5 Караганда","children":true}
+{"id":"razd1.1525.2852.2858.2260.2982.2709","parent":"razd1.1525.2852.2858.2260.2982","text":"Группа 1","children":true}
+{"id":"razd1.1525.2852.2858.2260.2982.2753","parent":"razd1.1525.2852.2858.2260.2982","text":"Группа 2","children":true}
+{"id":"razd1.1525.2852.2858.2260.2982.3298","parent":"razd1.1525.2852.2858.2260.2982","text":"Группа 4","children":true}
+{"id":"razd1.1525.2852.2858.2260.3097.2709","parent":"razd1.1525.2852.2858.2260.3097","text":"Группа 1","children":true}
+{"id":"razd1.1525.1527.1529.3648.2707.2709","parent":"razd1.1525.1527.1529.3648.2707","text":"Группа 1","children":true}
+{"id":"razd1.1525.1527.1529.3648.2707.2753","parent":"razd1.1525.1527.1529.3648.2707","text":"Группа 2","children":true}
+{"id":"razd1.1525.1527.1529.3648.2755.2709","parent":"razd1.1525.1527.1529.3648.2755","text":"Группа 1","children":true}
+{"id":"razd1.1525.1527.1529.3648.2755.2753","parent":"razd1.1525.1527.1529.3648.2755","text":"Группа 2","children":true}
+{"id":"razd1.1525.1527.1535.739.760.1359","parent":"razd1.1525.1527.1535.739.760","text":"Группа Поддержки Сервисов г. Актау","children":true}
+{"id":"razd1.1525.1527.1535.739.760.1361","parent":"razd1.1525.1527.1535.739.760","text":"Группа Поддержки Сервисов г. Актобе","children":true}
+{"id":"razd1.1525.1527.1535.739.760.1404","parent":"razd1.1525.1527.1535.739.760","text":"Группа Поддержки Сервисов г. Алматы","children":true}
+{"id":"razd1.1525.1527.1535.739.760.1406","parent":"razd1.1525.1527.1535.739.760","text":"Группа Поддержки Сервисов г. Астана","children":true}
+{"id":"razd1.1525.1527.1535.739.760.1363","parent":"razd1.1525.1527.1535.739.760","text":"Группа Поддержки Сервисов г. Атырау","children":true}
+{"id":"razd1.1525.1527.1535.739.760.1390","parent":"razd1.1525.1527.1535.739.760","text":"Группа Поддержки Сервисов г. Жезказган","children":true}
+{"id":"razd1.1525.1527.1535.739.760.1365","parent":"razd1.1525.1527.1535.739.760","text":"Группа Поддержки Сервисов г. Караганда","children":true}
+{"id":"razd1.1525.1527.1535.739.760.1367","parent":"razd1.1525.1527.1535.739.760","text":"Группа Поддержки Сервисов г. Каскелен","children":true}
+{"id":"razd1.1525.1527.1535.739.760.1369","parent":"razd1.1525.1527.1535.739.760","text":"Группа Поддержки Сервисов г. Кокшетау","children":true}
+{"id":"razd1.1525.1527.1535.739.760.1371","parent":"razd1.1525.1527.1535.739.760","text":"Группа Поддержки Сервисов г. Костанай","children":true}
+{"id":"razd1.1525.1527.1535.739.760.1407","parent":"razd1.1525.1527.1535.739.760","text":"Группа Поддержки Сервисов г. Кызылорда","children":true}
+{"id":"razd1.1525.1527.1535.739.760.1373","parent":"razd1.1525.1527.1535.739.760","text":"Группа Поддержки Сервисов г. Павлодар","children":true}
+{"id":"razd1.1525.1527.1535.739.760.1396","parent":"razd1.1525.1527.1535.739.760","text":"Группа Поддержки Сервисов г. Петропавловск","children":true}
+{"id":"razd1.1525.1527.1535.739.760.1409","parent":"razd1.1525.1527.1535.739.760","text":"Группа Поддержки Сервисов г. Семей","children":true}
+{"id":"razd1.1525.1527.1535.739.760.1375","parent":"razd1.1525.1527.1535.739.760","text":"Группа Поддержки Сервисов г. Талгар","children":true}
+{"id":"razd1.1525.1527.1535.739.760.1377","parent":"razd1.1525.1527.1535.739.760","text":"Группа Поддержки Сервисов г. Талдыкорган","children":true}
+{"id":"razd1.1525.1527.1535.739.760.1379","parent":"razd1.1525.1527.1535.739.760","text":"Группа Поддержки Сервисов г. Тараз","children":true}
+{"id":"razd1.1525.1527.1535.739.760.1381","parent":"razd1.1525.1527.1535.739.760","text":"Группа Поддержки Сервисов г. Уральск","children":true}
+{"id":"razd1.1525.1527.1535.739.760.1383","parent":"razd1.1525.1527.1535.739.760","text":"Группа Поддержки Сервисов г. Усть-Каменогорск","children":true}
+{"id":"razd1.1525.1527.1535.739.760.1398","parent":"razd1.1525.1527.1535.739.760","text":"Группа Поддержки Сервисов г. Шымкент","children":true}
+{"id":"razd1.1525.1527.1535.739.760.1385","parent":"razd1.1525.1527.1535.739.760","text":"Группа Поддержки Сервисов г. Экибастуз","children":true}
+{"id":"razd1.2.919.411","parent":"razd1.2.919","text":"Департамент soft collection","children":true}
+{"id":"razd1.2.919.921","parent":"razd1.2.919","text":"Департамент Телемаркетинг","children":true}
+{"id":"razd1.2.919.920","parent":"razd1.2.919","text":"Служба Заботы о Клиентах","children":true}
+{"id":"razd1.2.919.1253","parent":"razd1.2.919","text":"Служба Заботы о Партнерах","children":true}
+{"id":"razd1.2.919.372","parent":"razd1.2.919","text":"Управление Анализа","children":true}
+{"id":"razd1.2.919.411.795","parent":"razd1.2.919.411","text":"Управление сбора платежей №1","children":true}
+{"id":"razd1.2.919.411.797","parent":"razd1.2.919.411","text":"Управление сбора платежей №2","children":true}
+{"id":"razd1.2.919.411.801","parent":"razd1.2.919.411","text":"Управление сбора платежей №3","children":true}
+{"id":"razd1.2.919.411.796","parent":"razd1.2.919.411","text":"Управление сбора платежей №4","children":true}
+{"id":"razd1.2.919.921.922","parent":"razd1.2.919.921","text":"Управление №1","children":true}
+{"id":"razd1.2.919.921.923","parent":"razd1.2.919.921","text":"Управление №2","children":true}
+{"id":"razd1.2.919.921.924","parent":"razd1.2.919.921","text":"Управление №3","children":true}
+{"id":"razd1.2.919.921.1019","parent":"razd1.2.919.921","text":"Управление №4","children":true}
+{"id":"razd1.2.919.920.922","parent":"razd1.2.919.920","text":"Управление №1","children":true}
+{"id":"razd1.2.919.920.923","parent":"razd1.2.919.920","text":"Управление №2","children":true}
+{"id":"razd1.2.919.920.924","parent":"razd1.2.919.920","text":"Управление №3","children":true}
+{"id":"razd1.2.919.1253.922","parent":"razd1.2.919.1253","text":"Управление №1","children":true}
+{"id":"razd1.2.919.1253.923","parent":"razd1.2.919.1253","text":"Управление №2","children":true}
+{"id":"razd1.2.919.372.2997","parent":"razd1.2.919.372","text":"Команда Аналитики Звонков и Обращений","children":true}
+{"id":"razd1.2.919.372.2808","parent":"razd1.2.919.372","text":"Команда Отчетности","children":true}
+{"id":"razd1.2.919.372.2804","parent":"razd1.2.919.372","text":"Команда Планирования и Мониторинга","children":true}
+{"id":"razd1.2.919.411.795.380","parent":"razd1.2.919.411.795","text":"Группа №1","children":true}
+{"id":"razd1.2.919.411.795.416","parent":"razd1.2.919.411.795","text":"Группа №2","children":true}
+{"id":"razd1.2.919.411.795.427","parent":"razd1.2.919.411.795","text":"Группа №3","children":true}
+{"id":"razd1.2.919.411.795.468","parent":"razd1.2.919.411.795","text":"Группа №4","children":true}
+{"id":"razd1.2.919.411.795.533","parent":"razd1.2.919.411.795","text":"Группа №5","children":true}
+{"id":"razd1.2.919.411.795.965","parent":"razd1.2.919.411.795","text":"Группа №6","children":true}
+{"id":"razd1.2.919.411.795.966","parent":"razd1.2.919.411.795","text":"Группа №7","children":true}
+{"id":"razd1.2.919.411.795.967","parent":"razd1.2.919.411.795","text":"Группа №8","children":true}
+{"id":"razd1.2.919.411.797.380","parent":"razd1.2.919.411.797","text":"Группа №1","children":true}
+{"id":"razd1.2.919.411.797.416","parent":"razd1.2.919.411.797","text":"Группа №2","children":true}
+{"id":"razd1.2.919.411.797.427","parent":"razd1.2.919.411.797","text":"Группа №3","children":true}
+{"id":"razd1.2.919.411.797.468","parent":"razd1.2.919.411.797","text":"Группа №4","children":true}
+{"id":"razd1.2.919.411.797.533","parent":"razd1.2.919.411.797","text":"Группа №5","children":true}
+{"id":"razd1.2.919.411.797.965","parent":"razd1.2.919.411.797","text":"Группа №6","children":true}
+{"id":"razd1.2.919.411.797.966","parent":"razd1.2.919.411.797","text":"Группа №7","children":true}
+{"id":"razd1.2.919.411.797.967","parent":"razd1.2.919.411.797","text":"Группа №8","children":true}
+{"id":"razd1.2.919.411.801.380","parent":"razd1.2.919.411.801","text":"Группа №1","children":true}
+{"id":"razd1.2.919.411.801.416","parent":"razd1.2.919.411.801","text":"Группа №2","children":true}
+{"id":"razd1.2.919.411.801.427","parent":"razd1.2.919.411.801","text":"Группа №3","children":true}
+{"id":"razd1.2.919.411.801.468","parent":"razd1.2.919.411.801","text":"Группа №4","children":true}
+{"id":"razd1.2.919.411.801.533","parent":"razd1.2.919.411.801","text":"Группа №5","children":true}
+{"id":"razd1.2.919.411.801.965","parent":"razd1.2.919.411.801","text":"Группа №6","children":true}
+{"id":"razd1.2.919.411.801.966","parent":"razd1.2.919.411.801","text":"Группа №7","children":true}
+{"id":"razd1.2.919.411.801.967","parent":"razd1.2.919.411.801","text":"Группа №8","children":true}
+{"id":"razd1.2.919.411.796.380","parent":"razd1.2.919.411.796","text":"Группа №1","children":true}
+{"id":"razd1.2.919.411.796.416","parent":"razd1.2.919.411.796","text":"Группа №2","children":true}
+{"id":"razd1.2.919.411.796.427","parent":"razd1.2.919.411.796","text":"Группа №3","children":true}
+{"id":"razd1.2.919.411.796.468","parent":"razd1.2.919.411.796","text":"Группа №4","children":true}
+{"id":"razd1.2.919.411.796.533","parent":"razd1.2.919.411.796","text":"Группа №5","children":true}
+{"id":"razd1.2.919.411.796.965","parent":"razd1.2.919.411.796","text":"Группа №6","children":true}
+{"id":"razd1.2.919.411.796.966","parent":"razd1.2.919.411.796","text":"Группа №7","children":true}
+{"id":"razd1.2.919.921.922.380","parent":"razd1.2.919.921.922","text":"Группа №1","children":true}
+{"id":"razd1.2.919.921.922.416","parent":"razd1.2.919.921.922","text":"Группа №2","children":true}
+{"id":"razd1.2.919.921.922.427","parent":"razd1.2.919.921.922","text":"Группа №3","children":true}
+{"id":"razd1.2.919.921.922.468","parent":"razd1.2.919.921.922","text":"Группа №4","children":true}
+{"id":"razd1.2.919.921.922.965","parent":"razd1.2.919.921.922","text":"Группа №6","children":true}
+{"id":"razd1.2.919.921.922.966","parent":"razd1.2.919.921.922","text":"Группа №7","children":true}
+{"id":"razd1.2.919.921.923.380","parent":"razd1.2.919.921.923","text":"Группа №1","children":true}
+{"id":"razd1.2.919.921.923.416","parent":"razd1.2.919.921.923","text":"Группа №2","children":true}
+{"id":"razd1.2.919.921.923.427","parent":"razd1.2.919.921.923","text":"Группа №3","children":true}
+{"id":"razd1.2.919.921.923.468","parent":"razd1.2.919.921.923","text":"Группа №4","children":true}
+{"id":"razd1.2.919.921.923.533","parent":"razd1.2.919.921.923","text":"Группа №5","children":true}
+{"id":"razd1.2.919.921.923.965","parent":"razd1.2.919.921.923","text":"Группа №6","children":true}
+{"id":"razd1.2.919.921.924.380","parent":"razd1.2.919.921.924","text":"Группа №1","children":true}
+{"id":"razd1.2.919.921.924.416","parent":"razd1.2.919.921.924","text":"Группа №2","children":true}
+{"id":"razd1.2.919.921.924.427","parent":"razd1.2.919.921.924","text":"Группа №3","children":true}
+{"id":"razd1.2.919.921.924.468","parent":"razd1.2.919.921.924","text":"Группа №4","children":true}
+{"id":"razd1.2.919.921.1019.380","parent":"razd1.2.919.921.1019","text":"Группа №1","children":true}
+{"id":"razd1.2.919.921.1019.416","parent":"razd1.2.919.921.1019","text":"Группа №2","children":true}
+{"id":"razd1.2.919.921.1019.427","parent":"razd1.2.919.921.1019","text":"Группа №3","children":true}
+{"id":"razd1.2.919.921.1019.965","parent":"razd1.2.919.921.1019","text":"Группа №6","children":true}
+{"id":"razd1.2.919.920.922.429","parent":"razd1.2.919.920.922","text":"Группа консультантов №1","children":true}
+{"id":"razd1.2.919.920.922.430","parent":"razd1.2.919.920.922","text":"Группа консультантов №2","children":true}
+{"id":"razd1.2.919.920.922.431","parent":"razd1.2.919.920.922","text":"Группа консультантов №3","children":true}
+{"id":"razd1.2.919.920.922.432","parent":"razd1.2.919.920.922","text":"Группа консультантов №4","children":true}
+{"id":"razd1.2.919.920.922.2199","parent":"razd1.2.919.920.922","text":"Группа консультантов г.Караганда","children":true}
+{"id":"razd1.2.919.920.922.2195","parent":"razd1.2.919.920.922","text":"Группа консультантов г.Тараз №1","children":true}
+{"id":"razd1.2.919.920.922.2197","parent":"razd1.2.919.920.922","text":"Группа консультантов г.Тараз №2","children":true}
+{"id":"razd1.2.919.920.922.2203","parent":"razd1.2.919.920.922","text":"Группа консультантов г.Шымкент №1","children":true}
+{"id":"razd1.2.919.920.922.2189","parent":"razd1.2.919.920.922","text":"Группа консультантов г.Шымкент №2","children":true}
+{"id":"razd1.2.919.920.923.928","parent":"razd1.2.919.920.923","text":"Группа ВИП обслуживания №1","children":true}
+{"id":"razd1.2.919.920.923.1416","parent":"razd1.2.919.920.923","text":"Группа ВИП обслуживания №3","children":true}
+{"id":"razd1.2.919.920.923.2380","parent":"razd1.2.919.920.923","text":"Группа ВИП обслуживания №4","children":true}
+{"id":"razd1.2.919.920.923.2384","parent":"razd1.2.919.920.923","text":"Группа ВИП обслуживания №5","children":true}
+{"id":"razd1.2.919.920.923.2470","parent":"razd1.2.919.920.923","text":"Группа ЧАТ №1","children":true}
+{"id":"razd1.2.919.920.923.2472","parent":"razd1.2.919.920.923","text":"Группа ЧАТ №2","children":true}
+{"id":"razd1.2.919.920.923.2694","parent":"razd1.2.919.920.923","text":"Группа ЧАТ №3","children":true}
+{"id":"razd1.2.919.920.923.2833","parent":"razd1.2.919.920.923","text":"Группа ЧАТ №4","children":true}
+{"id":"razd1.2.919.920.923.2850","parent":"razd1.2.919.920.923","text":"Группа ЧАТ №5","children":true}
+{"id":"razd1.2.919.920.923.2867","parent":"razd1.2.919.920.923","text":"Группа ЧАТ №6","children":true}
+{"id":"razd1.2.919.920.923.3119","parent":"razd1.2.919.920.923","text":"Группа ЧАТ №7","children":true}
+{"id":"razd1.2.919.920.923.3335","parent":"razd1.2.919.920.923","text":"Группа ЧАТ №8","children":true}
+{"id":"razd1.2.919.920.923.3347","parent":"razd1.2.919.920.923","text":"Группа ЧАТ №9","children":true}
+{"id":"razd1.2.919.920.924.928","parent":"razd1.2.919.920.924","text":"Группа ВИП обслуживания №1","children":true}
+{"id":"razd1.2.919.920.924.929","parent":"razd1.2.919.920.924","text":"Группа ВИП обслуживания №2","children":true}
+{"id":"razd1.2.919.920.924.1416","parent":"razd1.2.919.920.924","text":"Группа ВИП обслуживания №3","children":true}
+{"id":"razd1.2.919.920.924.2032","parent":"razd1.2.919.920.924","text":"Группа Kaspi Travel","children":true}
+{"id":"razd1.2.919.920.924.2380","parent":"razd1.2.919.920.924","text":"Группа ВИП обслуживания №4","children":true}
+{"id":"razd1.2.919.920.924.1496","parent":"razd1.2.919.920.924","text":"Группа Инцидентов","children":true}
+{"id":"razd1.2.919.920.924.1498","parent":"razd1.2.919.920.924","text":"Группа Поддержки Сервиса «Колеса»","children":true}
+{"id":"razd1.2.919.1253.922.429","parent":"razd1.2.919.1253.922","text":"Группа консультантов №1","children":true}
+{"id":"razd1.2.919.1253.922.430","parent":"razd1.2.919.1253.922","text":"Группа консультантов №2","children":true}
+{"id":"razd1.2.919.1253.922.431","parent":"razd1.2.919.1253.922","text":"Группа консультантов №3","children":true}
+{"id":"razd1.2.919.1253.922.1496","parent":"razd1.2.919.1253.922","text":"Группа Инцидентов","children":true}
+{"id":"razd1.2.919.1253.923.3129","parent":"razd1.2.919.1253.923","text":"Группа ВИП №1","children":true}
+{"id":"razd1.2.919.1253.923.3131","parent":"razd1.2.919.1253.923","text":"Группа ВИП №2","children":true}
+{"id":"razd1.2.919.1253.923.3337","parent":"razd1.2.919.1253.923","text":"Группа ВИП №3","children":true}
+{"id":"razd1.2.919.1253.923.2470","parent":"razd1.2.919.1253.923","text":"Группа ЧАТ №1","children":true}
+{"id":"razd1.2.919.1253.923.2472","parent":"razd1.2.919.1253.923","text":"Группа ЧАТ №2","children":true}
