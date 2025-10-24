@@ -108,7 +108,7 @@ func NewGateway(config *ProxyConfig, opts *GatewayOptions) (*Gateway, error) {
 	return ret, nil
 }
 
-// Connect to the gRPC server
+// Connect to the gRPC server with retry
 func (gw *Gateway) Connect(ctx context.Context, addr net.Addr, srvCfg *ServerConfig) error {
 	if srvCfg == nil {
 		srvCfg = &ServerConfig{}
@@ -122,7 +122,9 @@ func (gw *Gateway) Connect(ctx context.Context, addr net.Addr, srvCfg *ServerCon
 	gw.lg.Debug("Connecting to gRPC...", "url", connURL)
 
 	//nolint:staticcheck
-	conn, err := grpc_client.NewConnection(ctx, cliCfg, grpc.WithBlock())
+	conn, err := grpc_client.NewConnection(ctx, cliCfg, []grpc.DialOption{}...)
+	// conn, err := gw.connectWithGRPCCeck(ctx, cliCfg, grpc.WithBlock())
+
 	if err != nil {
 		gw.lg.Error("Failed to dial gRPC server", "url", connURL, "error", err)
 		return fmt.Errorf("dial error: %w", err)

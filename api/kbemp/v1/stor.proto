@@ -12,38 +12,26 @@ import "google/api/annotations.proto";
 // import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
 import "validate/validate.proto";
+// import "patch/go.proto";
 
 // Stor service provides an interface to storage for kbemp data.
 service Stor {
   // GetDep returns department data
-  rpc GetDepByIdr(QueryString) returns (Dep) {
+  rpc GetDepsBy(QueryDep) returns (Deps) {
     option (google.api.http) = {
-      get : "/api/stor/v1/dep/{str}"
+      get : "/api/stor/v1/dep/{field}/{str}"
     };
   }
 
-  // GetSotr returns employee data
-  rpc GetSotrByTabnum(QueryString) returns (Sotr) {
+  // GetSotr returns employee data by field
+  rpc GetSotrsBy(QuerySotr) returns (Sotrs) {
     option (google.api.http) = {
-      get : "/api/stor/v1/employee/tabnum/{str}"
+      get : "/api/stor/v1/employee/{field}/{str}"
     };
   }
-
-  rpc GetSotrByFio(QueryString) returns (Sotr) {
-    option (google.api.http) = {
-      get : "/api/stor/v1/employee/fio/{str}"
-    };
-  }
-
-  rpc GetSotrByMobile(QueryString) returns (Sotrs) {
-    option (google.api.http) = {
-      get : "/api/stor/v1/employee/mobile/{str}"
-    };
-  }
-
 
   // Save updates Dep data
-  rpc Save(Dep) returns (google.protobuf.Empty) {
+  rpc Save(Item) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       post : "/api/stor/v1/save"
       body : "*"
@@ -51,17 +39,29 @@ service Stor {
         put : "/api/stor/v1/save"
         body : "*"
       }
-      additional_bindings {
-        patch : "/api/stor/v1/save"
-        body : "*"
-      }
     };
   }
+
+  // Update sotr if it exists by tabnum field
+  rpc Update(Sotr) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+        patch : "/api/stor/v1/save"
+        body : "*"
+      };
+  }
+
+  // Get sotr history
+  rpc GetHistory(QueryHist) returns (HistoryList) {
+    option (google.api.http) = {
+      get : "/api/stor/v1/history/{sotr_id}"
+    };
+  }
+
 }
 
 message Dep {
-  uint64 id = 1;
-  string idr = 2;
+  uint64 id = 1  [ json_name = "uid" ];
+  string idr = 2 [ json_name = "id" ];
   string parent = 3;
   string text = 4;
   bool children = 5;
@@ -71,30 +71,66 @@ message Deps {
   repeated Dep Deps = 1;
 }
 
-message QueryString { string str = 1; }
+message QueryDep { 
+  enum DBField {
+    IDR = 0;
+    PARENT = 4;
+  }
+  string str = 1;
+  DBField field = 2;
+}
+
+message QuerySotr { 
+  enum DBField {
+    IDR = 0;
+    MOBILE = 1;
+    FIO = 2;
+    TABNUM = 3;
+  }
+  string str = 1;
+  DBField field = 2;
+}
+
+message QueryHist { 
+  string sotr_id = 1;
+}
+
 
 message Sotr {
-  uint64 id = 1;
-  string idr = 2;
+  uint64 id = 1  [ json_name = "uid" ];
+  string idr = 2 [ json_name = "id" ];
   string tabnum = 3;
   string name = 4;
   string mid_name = 5;
-  string phone = 6;
-  string mobile = 7;
+  repeated string phone = 6;
+  repeated string mobile = 7;
   string email = 8 [ (validate.rules).string.email = true ];
   string avatar = 9;
   string grade = 10;
   bool children = 11;
   string parent_id = 12;
-  repeated History hist = 13;
+  // repeated History hist = 13[ json_name = "history" ];
+  google.protobuf.Timestamp date = 14;
 }
 
 message History {
   google.protobuf.Timestamp date = 1;
   string field = 2;
   string old_value = 3;
+  uint64 sotr_id = 4  [ json_name = "sotr_uid" ];
 }
 
 message Sotrs {
   repeated Sotr sotrs = 1;
+}
+
+message Item {
+  oneof var {
+    Dep dep = 1;
+    Sotr sotr = 2;
+  }
+}
+
+message HistoryList {
+  repeated History history = 1;
 }

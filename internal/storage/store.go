@@ -1,17 +1,38 @@
 package storage
 
 import (
+	"context"
 	"fmt"
 	"strings"
+	"time"
 
+	kbv1 "github.com/mioxin/kbempgo/api/kbemp/v1"
 	"github.com/mioxin/kbempgo/internal/models"
 	"github.com/mioxin/kbempgo/internal/storage/file"
+	"github.com/prometheus/client_golang/prometheus"
+	"google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Store is persistent storage
 type Store interface {
-	Save(item models.Item) error
+	GetDepsBy(context.Context, *kbv1.QueryDep) ([]*kbv1.Dep, error)
+	// GetSotr returns employee data
+	GetSotrsBy(context.Context, *kbv1.QuerySotr) ([]*kbv1.Sotr, error)
+	// GetSotrByFio(context.Context, *kbv1.QuerySotr) (*kbv1.Sotr, error)
+	// GetSotrByMobile(context.Context, *kbv1.QuerySotr) (*kbv1.Sotrs, error)
+	// Save updates Dep data
+	Save(context.Context, models.Item) (*emptypb.Empty, error)
+
+	// Save(item models.Item) error
 	Close() error
+
+	// Migrate apply migrations to the DB
+	Migrate(ctx context.Context, down bool) error
+
+	// Retention deletes entries older than passed time
+	Retention(ctx context.Context, olderThan time.Time) error
+
+	PromCollector() prometheus.Collector
 }
 
 func NewStore(source string) (st Store, err error) {

@@ -3,7 +3,8 @@ package models
 import "time"
 
 type Item interface {
-	IsSotr() bool
+	//	IsSotr() bool
+	GetChildren() bool
 }
 
 type Dep struct {
@@ -15,7 +16,7 @@ type Dep struct {
 	Delete   bool   `json:"delete,omitempty"`
 }
 
-func (d *Dep) IsSotr() bool {
+func (d *Dep) GetChildren() bool {
 	return !d.Children
 }
 
@@ -36,7 +37,7 @@ type Sotr struct {
 }
 
 // IsSotr indicate sotr node
-func (d *Sotr) IsSotr() bool {
+func (d *Sotr) GetChildren() bool {
 	return !d.Children
 }
 

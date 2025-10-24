@@ -15,6 +15,7 @@ import (
 	"time"
 
 	"github.com/imroc/req/v3"
+	kbv1 "github.com/mioxin/kbempgo/api/kbemp/v1"
 	"github.com/mioxin/kbempgo/internal/config"
 	"github.com/mioxin/kbempgo/internal/models"
 	"github.com/mioxin/kbempgo/internal/utils"
@@ -37,7 +38,7 @@ type ErrorMessage struct {
 const TryLimit int = 3
 
 type Item interface {
-	IsSotr() bool
+	GetChildren() bool
 }
 
 type Worker struct {
@@ -154,7 +155,7 @@ func (w *Worker) GetRazd(ctx context.Context, in chan Task, limit int32, depsCou
 			}
 
 			for _, d := range deps {
-				if !d.IsSotr() {
+				if !d.GetChildren() {
 					w.mu.Lock()
 					w.QueueDep.PushBack(d.Idr)
 					w.mu.Unlock()
@@ -266,10 +267,10 @@ func (w *Worker) Dispatcher(ctx context.Context, queue *list.List, out chan<- Ta
 
 // PrepareItem define the item as a deps or an employee and save one
 func (w *Worker) PrepareItem(cli *req.Client, item Item) error {
-	dep := item.(*models.Dep)
+	dep := item.(*kbv1.Dep)
 	dep.Text = html.UnescapeString(dep.Text)
 
-	if item.IsSotr() {
+	if item.GetChildren() {
 		sotr := utils.ParseSotr(dep.Text)
 
 		// send url Avatar image to queue for download
@@ -322,7 +323,7 @@ func (w *Worker) PrepareItem(cli *req.Client, item Item) error {
 		item = sotr
 	}
 
-	err := w.Gl.Store.Save(item)
+	_, err := w.Gl.Store.Save(context.TODO(), item)
 
 	return err
 }

@@ -7,7 +7,6 @@ import (
 	"github.com/alecthomas/kong"
 	"github.com/mioxin/kbempgo/internal/config"
 	httpclient "github.com/mioxin/kbempgo/internal/http_client"
-	"github.com/mioxin/kbempgo/internal/storage"
 	"github.com/mioxin/kbempgo/pkg/kongyaml"
 )
 
@@ -32,9 +31,6 @@ func Main() {
 	cli := &CLI{}
 	defer cli.Done()
 
-	cli.InitLog()
-	cli.Context()
-
 	kctx := kong.Parse(cli,
 		kong.Description("Update kbEmp data base cli tool"),
 		kong.Configuration(kongyaml.Loader, "/etc/kbemp/kb.yaml", "~/.config/kb.yaml"),
@@ -44,20 +40,22 @@ func Main() {
 		kong.DefaultEnvars("KB"),
 	)
 
+	cli.InitLog()
+
 	cli.ClientsPool = httpclient.NewHTTPClient(cli.Debug)
 
-	cli.Store, err = storage.NewStore(cli.DbUrl)
+	store, err := NewPStor(cli)
 	kctx.FatalIfErrorf(err, "create file storage")
 
 	defer func() {
 		cli.Log.Info("Close storage")
 
-		if err := cli.Store.Close(); err != nil {
+		if err := store.Close(); err != nil {
 			kctx.FatalIfErrorf(err)
 		}
 	}()
 
-	err = startGrpc(cli)
+	err = startGrpc(cli, store)
 
 	kctx.FatalIfErrorf(err)
 }

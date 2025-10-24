@@ -35,16 +35,26 @@ var (
 	_ = metadata.Join
 )
 
-func request_Stor_GetDepByIdr_0(ctx context.Context, marshaler runtime.Marshaler, client StorClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_Stor_GetDepsBy_0(ctx context.Context, marshaler runtime.Marshaler, client StorClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq QueryString
+		protoReq QueryDep
 		metadata runtime.ServerMetadata
+		e        int32
 		err      error
 	)
 	if req.Body != nil {
 		_, _ = io.Copy(io.Discard, req.Body)
 	}
-	val, ok := pathParams["str"]
+	val, ok := pathParams["field"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "field")
+	}
+	e, err = runtime.Enum(val, QueryDep_DBField_value)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "field", err)
+	}
+	protoReq.Field = QueryDep_DBField(e)
+	val, ok = pathParams["str"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "str")
 	}
@@ -52,17 +62,27 @@ func request_Stor_GetDepByIdr_0(ctx context.Context, marshaler runtime.Marshaler
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "str", err)
 	}
-	msg, err := client.GetDepByIdr(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.GetDepsBy(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
 
-func local_request_Stor_GetDepByIdr_0(ctx context.Context, marshaler runtime.Marshaler, server StorServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_Stor_GetDepsBy_0(ctx context.Context, marshaler runtime.Marshaler, server StorServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq QueryString
+		protoReq QueryDep
 		metadata runtime.ServerMetadata
+		e        int32
 		err      error
 	)
-	val, ok := pathParams["str"]
+	val, ok := pathParams["field"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "field")
+	}
+	e, err = runtime.Enum(val, QueryDep_DBField_value)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "field", err)
+	}
+	protoReq.Field = QueryDep_DBField(e)
+	val, ok = pathParams["str"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "str")
 	}
@@ -70,59 +90,30 @@ func local_request_Stor_GetDepByIdr_0(ctx context.Context, marshaler runtime.Mar
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "str", err)
 	}
-	msg, err := server.GetDepByIdr(ctx, &protoReq)
+	msg, err := server.GetDepsBy(ctx, &protoReq)
 	return msg, metadata, err
 }
 
-func request_Stor_GetSotrByTabnum_0(ctx context.Context, marshaler runtime.Marshaler, client StorClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_Stor_GetSotrsBy_0(ctx context.Context, marshaler runtime.Marshaler, client StorClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq QueryString
+		protoReq QuerySotr
 		metadata runtime.ServerMetadata
-		err      error
-	)
-	if req.Body != nil {
-		_, _ = io.Copy(io.Discard, req.Body)
-	}
-	val, ok := pathParams["str"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "str")
-	}
-	protoReq.Str, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "str", err)
-	}
-	msg, err := client.GetSotrByTabnum(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
-	return msg, metadata, err
-}
-
-func local_request_Stor_GetSotrByTabnum_0(ctx context.Context, marshaler runtime.Marshaler, server StorServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var (
-		protoReq QueryString
-		metadata runtime.ServerMetadata
-		err      error
-	)
-	val, ok := pathParams["str"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "str")
-	}
-	protoReq.Str, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "str", err)
-	}
-	msg, err := server.GetSotrByTabnum(ctx, &protoReq)
-	return msg, metadata, err
-}
-
-func request_Stor_GetSotrByFio_0(ctx context.Context, marshaler runtime.Marshaler, client StorClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var (
-		protoReq QueryString
-		metadata runtime.ServerMetadata
+		e        int32
 		err      error
 	)
 	if req.Body != nil {
 		_, _ = io.Copy(io.Discard, req.Body)
 	}
-	val, ok := pathParams["str"]
+	val, ok := pathParams["field"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "field")
+	}
+	e, err = runtime.Enum(val, QuerySotr_DBField_value)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "field", err)
+	}
+	protoReq.Field = QuerySotr_DBField(e)
+	val, ok = pathParams["str"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "str")
 	}
@@ -130,17 +121,27 @@ func request_Stor_GetSotrByFio_0(ctx context.Context, marshaler runtime.Marshale
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "str", err)
 	}
-	msg, err := client.GetSotrByFio(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.GetSotrsBy(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
 
-func local_request_Stor_GetSotrByFio_0(ctx context.Context, marshaler runtime.Marshaler, server StorServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_Stor_GetSotrsBy_0(ctx context.Context, marshaler runtime.Marshaler, server StorServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq QueryString
+		protoReq QuerySotr
 		metadata runtime.ServerMetadata
+		e        int32
 		err      error
 	)
-	val, ok := pathParams["str"]
+	val, ok := pathParams["field"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "field")
+	}
+	e, err = runtime.Enum(val, QuerySotr_DBField_value)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "field", err)
+	}
+	protoReq.Field = QuerySotr_DBField(e)
+	val, ok = pathParams["str"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "str")
 	}
@@ -148,52 +149,13 @@ func local_request_Stor_GetSotrByFio_0(ctx context.Context, marshaler runtime.Ma
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "str", err)
 	}
-	msg, err := server.GetSotrByFio(ctx, &protoReq)
-	return msg, metadata, err
-}
-
-func request_Stor_GetSotrByMobile_0(ctx context.Context, marshaler runtime.Marshaler, client StorClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var (
-		protoReq QueryString
-		metadata runtime.ServerMetadata
-		err      error
-	)
-	if req.Body != nil {
-		_, _ = io.Copy(io.Discard, req.Body)
-	}
-	val, ok := pathParams["str"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "str")
-	}
-	protoReq.Str, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "str", err)
-	}
-	msg, err := client.GetSotrByMobile(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
-	return msg, metadata, err
-}
-
-func local_request_Stor_GetSotrByMobile_0(ctx context.Context, marshaler runtime.Marshaler, server StorServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var (
-		protoReq QueryString
-		metadata runtime.ServerMetadata
-		err      error
-	)
-	val, ok := pathParams["str"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "str")
-	}
-	protoReq.Str, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "str", err)
-	}
-	msg, err := server.GetSotrByMobile(ctx, &protoReq)
+	msg, err := server.GetSotrsBy(ctx, &protoReq)
 	return msg, metadata, err
 }
 
 func request_Stor_Save_0(ctx context.Context, marshaler runtime.Marshaler, client StorClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq Dep
+		protoReq Item
 		metadata runtime.ServerMetadata
 	)
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
@@ -208,7 +170,7 @@ func request_Stor_Save_0(ctx context.Context, marshaler runtime.Marshaler, clien
 
 func local_request_Stor_Save_0(ctx context.Context, marshaler runtime.Marshaler, server StorServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq Dep
+		protoReq Item
 		metadata runtime.ServerMetadata
 	)
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
@@ -220,7 +182,7 @@ func local_request_Stor_Save_0(ctx context.Context, marshaler runtime.Marshaler,
 
 func request_Stor_Save_1(ctx context.Context, marshaler runtime.Marshaler, client StorClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq Dep
+		protoReq Item
 		metadata runtime.ServerMetadata
 	)
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
@@ -235,7 +197,7 @@ func request_Stor_Save_1(ctx context.Context, marshaler runtime.Marshaler, clien
 
 func local_request_Stor_Save_1(ctx context.Context, marshaler runtime.Marshaler, server StorServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq Dep
+		protoReq Item
 		metadata runtime.ServerMetadata
 	)
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
@@ -245,9 +207,9 @@ func local_request_Stor_Save_1(ctx context.Context, marshaler runtime.Marshaler,
 	return msg, metadata, err
 }
 
-func request_Stor_Save_2(ctx context.Context, marshaler runtime.Marshaler, client StorClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_Stor_Update_0(ctx context.Context, marshaler runtime.Marshaler, client StorClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq Dep
+		protoReq Sotr
 		metadata runtime.ServerMetadata
 	)
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
@@ -256,19 +218,58 @@ func request_Stor_Save_2(ctx context.Context, marshaler runtime.Marshaler, clien
 	if req.Body != nil {
 		_, _ = io.Copy(io.Discard, req.Body)
 	}
-	msg, err := client.Save(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.Update(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
 
-func local_request_Stor_Save_2(ctx context.Context, marshaler runtime.Marshaler, server StorServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_Stor_Update_0(ctx context.Context, marshaler runtime.Marshaler, server StorServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq Dep
+		protoReq Sotr
 		metadata runtime.ServerMetadata
 	)
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	msg, err := server.Save(ctx, &protoReq)
+	msg, err := server.Update(ctx, &protoReq)
+	return msg, metadata, err
+}
+
+func request_Stor_GetHistory_0(ctx context.Context, marshaler runtime.Marshaler, client StorClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq QueryHist
+		metadata runtime.ServerMetadata
+		err      error
+	)
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
+	val, ok := pathParams["sotr_id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "sotr_id")
+	}
+	protoReq.SotrId, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "sotr_id", err)
+	}
+	msg, err := client.GetHistory(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+}
+
+func local_request_Stor_GetHistory_0(ctx context.Context, marshaler runtime.Marshaler, server StorServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq QueryHist
+		metadata runtime.ServerMetadata
+		err      error
+	)
+	val, ok := pathParams["sotr_id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "sotr_id")
+	}
+	protoReq.SotrId, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "sotr_id", err)
+	}
+	msg, err := server.GetHistory(ctx, &protoReq)
 	return msg, metadata, err
 }
 
@@ -278,85 +279,45 @@ func local_request_Stor_Save_2(ctx context.Context, marshaler runtime.Marshaler,
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterStorHandlerFromEndpoint instead.
 // GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
 func RegisterStorHandlerServer(ctx context.Context, mux *runtime.ServeMux, server StorServer) error {
-	mux.Handle(http.MethodGet, pattern_Stor_GetDepByIdr_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_Stor_GetDepsBy_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/kb.v1.Stor/GetDepByIdr", runtime.WithHTTPPathPattern("/api/stor/v1/dep/{str}"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/kb.v1.Stor/GetDepsBy", runtime.WithHTTPPathPattern("/api/stor/v1/dep/{field}/{str}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_Stor_GetDepByIdr_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_Stor_GetDepsBy_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_Stor_GetDepByIdr_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Stor_GetDepsBy_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodGet, pattern_Stor_GetSotrByTabnum_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_Stor_GetSotrsBy_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/kb.v1.Stor/GetSotrByTabnum", runtime.WithHTTPPathPattern("/api/stor/v1/employee/tabnum/{str}"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/kb.v1.Stor/GetSotrsBy", runtime.WithHTTPPathPattern("/api/stor/v1/employee/{field}/{str}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_Stor_GetSotrByTabnum_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_Stor_GetSotrsBy_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_Stor_GetSotrByTabnum_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-	})
-	mux.Handle(http.MethodGet, pattern_Stor_GetSotrByFio_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
-		ctx, cancel := context.WithCancel(req.Context())
-		defer cancel()
-		var stream runtime.ServerTransportStream
-		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
-		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/kb.v1.Stor/GetSotrByFio", runtime.WithHTTPPathPattern("/api/stor/v1/employee/fio/{str}"))
-		if err != nil {
-			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		resp, md, err := local_request_Stor_GetSotrByFio_0(annotatedContext, inboundMarshaler, server, req, pathParams)
-		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
-		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
-		if err != nil {
-			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		forward_Stor_GetSotrByFio_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-	})
-	mux.Handle(http.MethodGet, pattern_Stor_GetSotrByMobile_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
-		ctx, cancel := context.WithCancel(req.Context())
-		defer cancel()
-		var stream runtime.ServerTransportStream
-		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
-		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/kb.v1.Stor/GetSotrByMobile", runtime.WithHTTPPathPattern("/api/stor/v1/employee/mobile/{str}"))
-		if err != nil {
-			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		resp, md, err := local_request_Stor_GetSotrByMobile_0(annotatedContext, inboundMarshaler, server, req, pathParams)
-		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
-		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
-		if err != nil {
-			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		forward_Stor_GetSotrByMobile_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Stor_GetSotrsBy_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 	mux.Handle(http.MethodPost, pattern_Stor_Save_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
@@ -398,25 +359,45 @@ func RegisterStorHandlerServer(ctx context.Context, mux *runtime.ServeMux, serve
 		}
 		forward_Stor_Save_1(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPatch, pattern_Stor_Save_2, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPatch, pattern_Stor_Update_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/kb.v1.Stor/Save", runtime.WithHTTPPathPattern("/api/stor/v1/save"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/kb.v1.Stor/Update", runtime.WithHTTPPathPattern("/api/stor/v1/save"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_Stor_Save_2(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_Stor_Update_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_Stor_Save_2(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Stor_Update_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodGet, pattern_Stor_GetHistory_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/kb.v1.Stor/GetHistory", runtime.WithHTTPPathPattern("/api/stor/v1/history/{sotr_id}"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_Stor_GetHistory_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_Stor_GetHistory_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 
 	return nil
@@ -458,73 +439,39 @@ func RegisterStorHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
 // "StorClient" to call the correct interceptors. This client ignores the HTTP middlewares.
 func RegisterStorHandlerClient(ctx context.Context, mux *runtime.ServeMux, client StorClient) error {
-	mux.Handle(http.MethodGet, pattern_Stor_GetDepByIdr_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_Stor_GetDepsBy_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/kb.v1.Stor/GetDepByIdr", runtime.WithHTTPPathPattern("/api/stor/v1/dep/{str}"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/kb.v1.Stor/GetDepsBy", runtime.WithHTTPPathPattern("/api/stor/v1/dep/{field}/{str}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_Stor_GetDepByIdr_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Stor_GetDepsBy_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_Stor_GetDepByIdr_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Stor_GetDepsBy_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodGet, pattern_Stor_GetSotrByTabnum_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_Stor_GetSotrsBy_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/kb.v1.Stor/GetSotrByTabnum", runtime.WithHTTPPathPattern("/api/stor/v1/employee/tabnum/{str}"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/kb.v1.Stor/GetSotrsBy", runtime.WithHTTPPathPattern("/api/stor/v1/employee/{field}/{str}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_Stor_GetSotrByTabnum_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Stor_GetSotrsBy_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_Stor_GetSotrByTabnum_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-	})
-	mux.Handle(http.MethodGet, pattern_Stor_GetSotrByFio_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
-		ctx, cancel := context.WithCancel(req.Context())
-		defer cancel()
-		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/kb.v1.Stor/GetSotrByFio", runtime.WithHTTPPathPattern("/api/stor/v1/employee/fio/{str}"))
-		if err != nil {
-			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		resp, md, err := request_Stor_GetSotrByFio_0(annotatedContext, inboundMarshaler, client, req, pathParams)
-		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
-		if err != nil {
-			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		forward_Stor_GetSotrByFio_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-	})
-	mux.Handle(http.MethodGet, pattern_Stor_GetSotrByMobile_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
-		ctx, cancel := context.WithCancel(req.Context())
-		defer cancel()
-		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/kb.v1.Stor/GetSotrByMobile", runtime.WithHTTPPathPattern("/api/stor/v1/employee/mobile/{str}"))
-		if err != nil {
-			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		resp, md, err := request_Stor_GetSotrByMobile_0(annotatedContext, inboundMarshaler, client, req, pathParams)
-		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
-		if err != nil {
-			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		forward_Stor_GetSotrByMobile_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Stor_GetSotrsBy_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 	mux.Handle(http.MethodPost, pattern_Stor_Save_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
@@ -560,42 +507,57 @@ func RegisterStorHandlerClient(ctx context.Context, mux *runtime.ServeMux, clien
 		}
 		forward_Stor_Save_1(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPatch, pattern_Stor_Save_2, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPatch, pattern_Stor_Update_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/kb.v1.Stor/Save", runtime.WithHTTPPathPattern("/api/stor/v1/save"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/kb.v1.Stor/Update", runtime.WithHTTPPathPattern("/api/stor/v1/save"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_Stor_Save_2(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Stor_Update_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_Stor_Save_2(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Stor_Update_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodGet, pattern_Stor_GetHistory_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/kb.v1.Stor/GetHistory", runtime.WithHTTPPathPattern("/api/stor/v1/history/{sotr_id}"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_Stor_GetHistory_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_Stor_GetHistory_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 	return nil
 }
 
 var (
-	pattern_Stor_GetDepByIdr_0     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "stor", "v1", "dep", "str"}, ""))
-	pattern_Stor_GetSotrByTabnum_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "stor", "v1", "employee", "tabnum", "str"}, ""))
-	pattern_Stor_GetSotrByFio_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "stor", "v1", "employee", "fio", "str"}, ""))
-	pattern_Stor_GetSotrByMobile_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "stor", "v1", "employee", "mobile", "str"}, ""))
-	pattern_Stor_Save_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "stor", "v1", "save"}, ""))
-	pattern_Stor_Save_1            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "stor", "v1", "save"}, ""))
-	pattern_Stor_Save_2            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "stor", "v1", "save"}, ""))
+	pattern_Stor_GetDepsBy_0  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "stor", "v1", "dep", "field", "str"}, ""))
+	pattern_Stor_GetSotrsBy_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "stor", "v1", "employee", "field", "str"}, ""))
+	pattern_Stor_Save_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "stor", "v1", "save"}, ""))
+	pattern_Stor_Save_1       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "stor", "v1", "save"}, ""))
+	pattern_Stor_Update_0     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "stor", "v1", "save"}, ""))
+	pattern_Stor_GetHistory_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "stor", "v1", "history", "sotr_id"}, ""))
 )
 
 var (
-	forward_Stor_GetDepByIdr_0     = runtime.ForwardResponseMessage
-	forward_Stor_GetSotrByTabnum_0 = runtime.ForwardResponseMessage
-	forward_Stor_GetSotrByFio_0    = runtime.ForwardResponseMessage
-	forward_Stor_GetSotrByMobile_0 = runtime.ForwardResponseMessage
-	forward_Stor_Save_0            = runtime.ForwardResponseMessage
-	forward_Stor_Save_1            = runtime.ForwardResponseMessage
-	forward_Stor_Save_2            = runtime.ForwardResponseMessage
+	forward_Stor_GetDepsBy_0  = runtime.ForwardResponseMessage
+	forward_Stor_GetSotrsBy_0 = runtime.ForwardResponseMessage
+	forward_Stor_Save_0       = runtime.ForwardResponseMessage
+	forward_Stor_Save_1       = runtime.ForwardResponseMessage
+	forward_Stor_Update_0     = runtime.ForwardResponseMessage
+	forward_Stor_GetHistory_0 = runtime.ForwardResponseMessage
 )
