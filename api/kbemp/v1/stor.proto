@@ -43,7 +43,7 @@ service Stor {
   }
 
   // Update sotr if it exists by tabnum field
-  rpc Update(Sotr) returns (google.protobuf.Empty) {
+  rpc Update(QueryUpdateSotr) returns (google.protobuf.Empty) {
     option (google.api.http) = {
         patch : "/api/stor/v1/save"
         body : "*"
@@ -132,5 +132,10 @@ message Item {
 }
 
 message HistoryList {
-  repeated History history = 1;
+  repeated History history_list = 1;
+}
+
+message QueryUpdateSotr {
+  Sotr sotr = 1;
+  repeated History history_list = 2;
 }

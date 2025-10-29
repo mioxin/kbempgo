@@ -4,11 +4,14 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+	"sort"
+	"strings"
 
 	kbv1 "github.com/mioxin/kbempgo/api/kbemp/v1"
 	"github.com/mioxin/kbempgo/internal/storage"
 	"github.com/prometheus/client_golang/prometheus"
 	"google.golang.org/protobuf/types/known/emptypb"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // PStor implements persistent storage.Stor
@@ -83,11 +86,44 @@ func (ps *PStor) Save(ctx context.Context, query *kbv1.Item) (empty *emptypb.Emp
 			return
 		}
 
+		// doublicates not found
+		if len(sotr) == 0 {
+			_, err = ps.stor.Save(ctx, item.Sotr)
+			return
+		}
+
+		sort.Slice(sotr, func(i, j int) bool {
+			return sotr[i].Date.AsTime().Before(sotr[j].Date.AsTime())
+		})
+		// get newest raw
+		oldSotr := sotr[len(sotr)-1]
+
 		// if double raw exists then compare for define difference
-
+		diff, _ := kbv1.CompareSotr(oldSotr, item.Sotr)
 		// if diff exists than save diff to history and update old sotr
+		if len(diff) > 0 {
+			hs := make([]*kbv1.History, 0)
+			for _, df := range diff {
 
-		_, err = ps.stor.Save(ctx, item.Sotr)
+				value := ""
+
+				switch t := df.Val.(type) {
+				case string:
+					value = string(t)
+				case []string:
+					value = strings.Join(t, ",")
+				}
+
+				hs = append(hs, &kbv1.History{
+					Date:     timestamppb.Now(),
+					Field:    df.FieldName,
+					OldValue: value,
+					SotrId:   oldSotr.Id,
+				})
+			}
+			_, err = ps.stor.Update(ctx, &kbv1.QueryUpdateSotr{Sotr: item.Sotr, HistoryList: hs})
+		}
+
 	default:
 		err = fmt.Errorf("can't save invalid query %v", query)
 	}

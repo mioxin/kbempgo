@@ -209,7 +209,7 @@ func local_request_Stor_Save_1(ctx context.Context, marshaler runtime.Marshaler,
 
 func request_Stor_Update_0(ctx context.Context, marshaler runtime.Marshaler, client StorClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq Sotr
+		protoReq QueryUpdateSotr
 		metadata runtime.ServerMetadata
 	)
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
@@ -224,7 +224,7 @@ func request_Stor_Update_0(ctx context.Context, marshaler runtime.Marshaler, cli
 
 func local_request_Stor_Update_0(ctx context.Context, marshaler runtime.Marshaler, server StorServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq Sotr
+		protoReq QueryUpdateSotr
 		metadata runtime.ServerMetadata
 	)
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {

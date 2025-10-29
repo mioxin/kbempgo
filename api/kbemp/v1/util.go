@@ -2,7 +2,6 @@ package kbv1
 
 import (
 	"maps"
-	"slices"
 )
 
 type Diff struct {
@@ -10,14 +9,9 @@ type Diff struct {
 	Val       any
 }
 
-func CompareSotr(oldSotrs []*Sotr, newSotr *Sotr) ([]*Diff, error) {
+func CompareSotr(oldSotr *Sotr, newSotr *Sotr) ([]*Diff, error) {
 
 	diffs := make([]*Diff, 0)
-	slices.SortStableFunc(oldSotrs, func(a, b *Sotr) int {
-		return a.Date.AsTime().Compare(b.Date.AsTime())
-	})
-	// get newest raw
-	oldSotr := oldSotrs[len(oldSotrs)-1]
 
 	for _, f := range []string{"Name", "Phone", "Mobile", "Email", "Avatar", "Grade", "ParentId"} {
 		switch f {

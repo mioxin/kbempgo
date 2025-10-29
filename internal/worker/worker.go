@@ -3,6 +3,7 @@ package worker
 import (
 	"container/list"
 	"context"
+	"encoding/json"
 	"fmt"
 	"html"
 	"log/slog"
@@ -17,8 +18,8 @@ import (
 	"github.com/imroc/req/v3"
 	kbv1 "github.com/mioxin/kbempgo/api/kbemp/v1"
 	"github.com/mioxin/kbempgo/internal/config"
-	"github.com/mioxin/kbempgo/internal/models"
 	"github.com/mioxin/kbempgo/internal/utils"
+	"google.golang.org/protobuf/encoding/protojson"
 )
 
 type Task struct {
@@ -92,10 +93,10 @@ func (w *Worker) GetRazd(ctx context.Context, in chan Task, limit int32, depsCou
 
 	for r := range in {
 		cnt := depsCount.Load() + sotrCount.Load()
+
 		if limit > 0 && cnt > limit {
 			w.Lg.Info("Worker: Count limited", "count", cnt)
 			w.Gl.Done()
-
 			return
 		}
 
@@ -106,13 +107,13 @@ func (w *Worker) GetRazd(ctx context.Context, in chan Task, limit int32, depsCou
 
 		w.Lg.Debug("Worker:", "dep", r.Data, "try", r.Num)
 
-		deps := make([]*models.Dep, 0)
+		// deps := make([]*kbv1.Dep, 0)
 
 		// retry if successful req but empty deps
 		resp, err := cli.R().
 			SetErrorResult(&errMsg). // Unmarshal response body into errMsg automatically if status code >= 400.
 			EnableDump().            // Enable dump at request level, only print dump content if there is an error or some unknown situation occurs to help troubleshoot.
-			SetSuccessResult(&deps). // Unmarshal response body into userInfo automatically if status code is between 200 and 299.
+			// SetSuccessResult(&deps). // Unmarshal response body into userInfo automatically if status code is between 200 and 299.
 			// SetContext(ctx).
 			Get(w.Gl.UrlRazd + r.Data)
 
@@ -137,6 +138,30 @@ func (w *Worker) GetRazd(ctx context.Context, in chan Task, limit int32, depsCou
 		}
 
 		if resp.IsSuccessState() { // Status code is between 200 and 299.
+
+			body, err := resp.ToBytes()
+			if err != nil {
+				w.Lg.Error("Worker: get body:", "err", err, "time", resp.TotalTime())
+			}
+
+			var raw []json.RawMessage
+			if err := json.Unmarshal(body, &raw); err != nil {
+				w.Lg.Error("Worker: unmurshal body to []Raw:", "err", err, "time", resp.TotalTime())
+			}
+
+			deps := make([]*kbv1.Dep, len(raw))
+			opts := &protojson.UnmarshalOptions{DiscardUnknown: true}
+
+			for i, rm := range raw {
+				dep := &kbv1.Dep{} // Новое сообщение
+
+				if err := opts.Unmarshal([]byte(rm), dep); err != nil {
+					w.Lg.Error("Worker: unmurshal []Raw :", "err", err, "time", resp.TotalTime())
+				}
+
+				deps[i] = dep
+			}
+
 			rBytes := []byte{}
 			for _, r := range deps {
 				rBytes = append(rBytes, []byte(r.Idr)...)
@@ -155,7 +180,7 @@ func (w *Worker) GetRazd(ctx context.Context, in chan Task, limit int32, depsCou
 			}
 
 			for _, d := range deps {
-				if !d.GetChildren() {
+				if d.GetChildren() {
 					w.mu.Lock()
 					w.QueueDep.PushBack(d.Idr)
 					w.mu.Unlock()
@@ -270,7 +295,7 @@ func (w *Worker) PrepareItem(cli *req.Client, item Item) error {
 	dep := item.(*kbv1.Dep)
 	dep.Text = html.UnescapeString(dep.Text)
 
-	if item.GetChildren() {
+	if !item.GetChildren() {
 		sotr := utils.ParseSotr(dep.Text)
 
 		// send url Avatar image to queue for download
@@ -300,7 +325,7 @@ func (w *Worker) PrepareItem(cli *req.Client, item Item) error {
 		}
 
 		// define mobile phone
-		if sotr.Mobile == "" {
+		if len(sotr.Mobile) == 0 {
 			text, err = w.getData(cli, w.Gl.UrlMobile, sotr.Tabnum)
 		}
 
@@ -317,7 +342,7 @@ func (w *Worker) PrepareItem(cli *req.Client, item Item) error {
 				w.Lg.Warn("Mobile get unsuccess", "sotr_name", sotr.Name+sotr.MidName, "tabnum", sotr.Tabnum, "responce", html.UnescapeString(text))
 			}
 
-			sotr.Mobile = mob.Data
+			sotr.Mobile = strings.Split(mob.Data, ",")
 		}
 
 		item = sotr
@@ -338,9 +363,8 @@ func (w *Worker) getData(cli *req.Client, ajaxUrl, query string) (string, error)
 		SetErrorResult(&errMsg). // Unmarshal response body into errMsg automatically if status code >= 400.
 		Get(ajaxUrl + url.PathEscape(query))
 	if err != nil { // Error handling.
-		err = fmt.Errorf("get mobile: error handling %w", err)
-
-		w.Lg.Debug("Get Mobile error: raw content", "resp_dump", resp.Dump()) // Record raw content when error occurs.
+		w.Lg.Debug("Get Data: raw content", "url", ajaxUrl, "resp_dump", resp.Dump()) // Record raw content when error occurs.
+		err = fmt.Errorf("get url %s: error handling %w", ajaxUrl, err)
 	}
 
 	if resp.IsErrorState() { // Status code >= 400.
@@ -354,7 +378,7 @@ func (w *Worker) getData(cli *req.Client, ajaxUrl, query string) (string, error)
 	return (body), err
 }
 
-func (w *Worker) GetAvatar(_ context.Context, in <-chan Task, limit int32,
+func (w *Worker) GetAvatar(ctx context.Context, in <-chan Task, limit int32,
 	depsCount *atomic.Int32, sotrCount *atomic.Int32, fileCollection map[string]AvatarInfo) {
 	var errMsg ErrorMessage
 

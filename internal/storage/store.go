@@ -18,11 +18,10 @@ type Store interface {
 	GetDepsBy(context.Context, *kbv1.QueryDep) ([]*kbv1.Dep, error)
 	// GetSotr returns employee data
 	GetSotrsBy(context.Context, *kbv1.QuerySotr) ([]*kbv1.Sotr, error)
-	// GetSotrByFio(context.Context, *kbv1.QuerySotr) (*kbv1.Sotr, error)
-	// GetSotrByMobile(context.Context, *kbv1.QuerySotr) (*kbv1.Sotrs, error)
-	// Save updates Dep data
+	// Save Item data
 	Save(context.Context, models.Item) (*emptypb.Empty, error)
 
+	Update(context.Context, *kbv1.QueryUpdateSotr) (*emptypb.Empty, error)
 	// Save(item models.Item) error
 	Close() error
 

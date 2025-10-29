@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"log/slog"
@@ -78,7 +79,7 @@ func (f *FileStore[T]) Save(_ context.Context, item T) (_ *emptypb.Empty, err er
 	f.mt.Lock()
 	defer f.mt.Unlock()
 
-	if item.GetChildren() {
+	if !item.GetChildren() {
 		_, err = f.rwrSotr.Write(b)
 		// slog.Debug("Save to file sotr:", "item", item)
 	} else {
@@ -89,28 +90,52 @@ func (f *FileStore[T]) Save(_ context.Context, item T) (_ *emptypb.Empty, err er
 	return
 }
 
+func (f *FileStore[T]) Update(_ context.Context, query *kbv1.QueryUpdateSotr) (_ *emptypb.Empty, err error) {
+	b, err := json.Marshal(query.Sotr)
+	if err != nil {
+		return
+	}
+	b = append(b, "\n"...)
+
+	f.mt.Lock()
+	defer f.mt.Unlock()
+
+	_, err = f.rwrSotr.Write(b)
+
+	return
+}
+
 func (f *FileStore[T]) Close() (err error) {
+	f.mt.Lock()
+	defer f.mt.Unlock()
+
+	errs := make([]error, 0)
+
 	e := f.rwrDep.Flush()
 	if e != nil {
 		err = fmt.Errorf("%w; %w", err, e)
+		errs = append(errs, err)
 	}
 
 	e1 := f.rwrSotr.Flush()
 	if e1 != nil {
 		err = fmt.Errorf("%w; %w", err, e1)
+		errs = append(errs, err)
 	}
 
 	e2 := f.flD.Close()
 	if e2 != nil {
 		err = fmt.Errorf("%w; %w", err, e2)
+		errs = append(errs, err)
 	}
 
 	e3 := f.flS.Close()
 	if e3 != nil {
 		err = fmt.Errorf("%w; %w", err, e3)
+		errs = append(errs, err)
 	}
 
-	return
+	return errors.Join(errs...)
 }
 
 func (f *FileStore[T]) GetDepsBy(ctx context.Context, query *kbv1.QueryDep) (deps []*kbv1.Dep, err error) {

@@ -43,7 +43,7 @@ type StorClient interface {
 	// Save updates Dep data
 	Save(ctx context.Context, in *Item, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// Update sotr if it exists by tabnum field
-	Update(ctx context.Context, in *Sotr, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Update(ctx context.Context, in *QueryUpdateSotr, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// Get sotr history
 	GetHistory(ctx context.Context, in *QueryHist, opts ...grpc.CallOption) (*HistoryList, error)
 }
@@ -86,7 +86,7 @@ func (c *storClient) Save(ctx context.Context, in *Item, opts ...grpc.CallOption
 	return out, nil
 }
 
-func (c *storClient) Update(ctx context.Context, in *Sotr, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *storClient) Update(ctx context.Context, in *QueryUpdateSotr, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, Stor_Update_FullMethodName, in, out, cOpts...)
@@ -119,7 +119,7 @@ type StorServer interface {
 	// Save updates Dep data
 	Save(context.Context, *Item) (*emptypb.Empty, error)
 	// Update sotr if it exists by tabnum field
-	Update(context.Context, *Sotr) (*emptypb.Empty, error)
+	Update(context.Context, *QueryUpdateSotr) (*emptypb.Empty, error)
 	// Get sotr history
 	GetHistory(context.Context, *QueryHist) (*HistoryList, error)
 	mustEmbedUnimplementedStorServer()
@@ -141,7 +141,7 @@ func (UnimplementedStorServer) GetSotrsBy(context.Context, *QuerySotr) (*Sotrs, 
 func (UnimplementedStorServer) Save(context.Context, *Item) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Save not implemented")
 }
-func (UnimplementedStorServer) Update(context.Context, *Sotr) (*emptypb.Empty, error) {
+func (UnimplementedStorServer) Update(context.Context, *QueryUpdateSotr) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
 func (UnimplementedStorServer) GetHistory(context.Context, *QueryHist) (*HistoryList, error) {
@@ -223,7 +223,7 @@ func _Stor_Save_Handler(srv interface{}, ctx context.Context, dec func(interface
 }
 
 func _Stor_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Sotr)
+	in := new(QueryUpdateSotr)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -235,7 +235,7 @@ func _Stor_Update_Handler(srv interface{}, ctx context.Context, dec func(interfa
 		FullMethod: Stor_Update_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StorServer).Update(ctx, req.(*Sotr))
+		return srv.(StorServer).Update(ctx, req.(*QueryUpdateSotr))
 	}
 	return interceptor(ctx, in, info, handler)
 }

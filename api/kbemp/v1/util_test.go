@@ -105,7 +105,7 @@ func TestCompareSotr(t *testing.T) {
 
 	for _, test := range tc {
 		t.Run(test.name, func(t *testing.T) {
-			actualDiff, _ := CompareSotr([]*Sotr{test.old}, test.new)
+			actualDiff, _ := CompareSotr(test.old, test.new)
 			assert.Equal(t, test.diff, actualDiff)
 		})
 	}

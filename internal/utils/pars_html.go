@@ -6,7 +6,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/mioxin/kbempgo/internal/models"
+	kbv1 "github.com/mioxin/kbempgo/api/kbemp/v1"
 )
 
 func FindBetween(s, start, end string) string {
@@ -26,7 +26,8 @@ func FindBetween(s, start, end string) string {
 }
 
 // parsing by find string index
-func ParseSotr(unescaped string) *models.Sotr {
+func ParseSotr(unescaped string) *kbv1.Sotr {
+	var p, m []string
 	// Tabnum
 	tabnum := FindBetween(unescaped, `data-tabnum="`, `"`)
 
@@ -44,10 +45,16 @@ func ParseSotr(unescaped string) *models.Sotr {
 	// Phone
 	phone := FindBetween(unescaped, `<span class="s_3">вн</span> <b>`, "</b>")
 	phone = strings.TrimSpace(phone)
+	if phone != "" {
+		p = strings.Split(phone, ",")
+	}
 
 	// Mobile
 	mobile := FindBetween(unescaped, `<td width="130" class="s_2">`, "</td>")
 	mobile = strings.TrimSpace(mobile)
+	if mobile != "" {
+		m = strings.Split(mobile, ",")
+	}
 
 	// Email
 	email := FindBetween(unescaped, `<a href="mailto:`, `"`)
@@ -57,11 +64,11 @@ func ParseSotr(unescaped string) *models.Sotr {
 	grade := FindBetween(unescaped, `<td colspan="4"class="s_4">`, "</td>")
 	grade = strings.TrimSpace(grade)
 
-	return &models.Sotr{
+	return &kbv1.Sotr{
 		Tabnum: tabnum,
 		Name:   fio,
-		Phone:  phone,
-		Mobile: mobile,
+		Phone:  p,
+		Mobile: m,
 		Email:  email,
 		Avatar: avatar,
 		Grade:  grade,
@@ -69,7 +76,7 @@ func ParseSotr(unescaped string) *models.Sotr {
 }
 
 // parsing mid name
-func ParseMidName(sotr *models.Sotr, unescaped string) string {
+func ParseMidName(sotr *kbv1.Sotr, unescaped string) string {
 	slText := strings.Split(unescaped, "</div><div class=sotr_td3")
 
 	for _, t := range slText {
@@ -106,7 +113,9 @@ func ParseMobile(unescaped string) (*Mobile, error) {
 }
 
 // parsing by regexp
-func ParseSotrRe(htmlStr string) (*models.Sotr, error) {
+func ParseSotrRe(htmlStr string) (*kbv1.Sotr, error) {
+	var p, m []string
+
 	unescaped := html.UnescapeString(htmlStr)
 
 	tabnumRe := regexp.MustCompile(`data-tabnum="(\d+)"`)
@@ -120,16 +129,23 @@ func ParseSotrRe(htmlStr string) (*models.Sotr, error) {
 	tabnum := findFirst(tabnumRe, unescaped)
 	fio := strings.TrimSpace(findFirst(fioRe, unescaped))
 	phone := findFirst(phoneRe, unescaped)
+	if phone != "" {
+		p = strings.Split(phone, ",")
+	}
+
 	mobile := findFirst(mobileRe, unescaped)
+	if mobile != "" {
+		m = strings.Split(mobile, ",")
+	}
 	email := findFirst(emailRe, unescaped)
 	avatar := findFirst(avatarRe, unescaped)
 	grade := strings.TrimSpace(findFirst(gradeRe, unescaped))
 
-	return &models.Sotr{
+	return &kbv1.Sotr{
 		Tabnum: tabnum,
 		Name:   fio,
-		Phone:  phone,
-		Mobile: mobile,
+		Phone:  p,
+		Mobile: m,
 		Email:  email,
 		Avatar: avatar,
 		Grade:  grade,

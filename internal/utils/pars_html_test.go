@@ -9,9 +9,11 @@ import (
 	"strings"
 	"testing"
 
+	kbv1 "github.com/mioxin/kbempgo/api/kbemp/v1"
 	"github.com/mioxin/kbempgo/internal/models"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 var (
@@ -62,16 +64,16 @@ var (
 	</table>
 </div><div class=s_1 style="border-bottom: 1px solid #eeeeee; cursor: pointer; display: flex; align-items: center;justify-content: space-around;padding: 15px 0;"><span class="s_1">← Сюда некуда</span> <span class="s_1">Туда некуда  →</span> </div>`
 
-	sotr models.Sotr = models.Sotr{
+	sotr kbv1.Sotr = kbv1.Sotr{
 		Name:   "Антропов Антон",
 		Avatar: "/avatar/12227.jpg",
 	}
 
-	expect *models.Sotr = &models.Sotr{
+	expect *kbv1.Sotr = &kbv1.Sotr{
 		Tabnum: "1000380",
 		Name:   "ГасХХХХХХ Ольга",
-		Phone:  "400-11-27",
-		Mobile: "", // "+7 (701) 872-11-11,+7 (701) 911-01-11",
+		Phone:  []string{"400-11-27"},
+		Mobile: nil, // "+7 (701) 872-11-11,+7 (701) 911-01-11",
 		Email:  "Olga.Gasxxxxxx@xxxxx.kz",
 		Avatar: "/avatar/1000380.jpg",
 		Grade:  "Главный бухгалтер",
@@ -215,8 +217,8 @@ func TestCheckSotr(t *testing.T) {
 	}
 }
 
-func getSotr(f string) (map[string]*models.Sotr, error) {
-	users := make(map[string]*models.Sotr, 1000)
+func getSotr(f string) (map[string]*kbv1.Sotr, error) {
+	users := make(map[string]*kbv1.Sotr, 1000)
 
 	file, err := os.Open(f)
 	if err != nil {
@@ -238,11 +240,25 @@ func getSotr(f string) (map[string]*models.Sotr, error) {
 
 		err := json.Unmarshal([]byte(text), &user)
 		if err != nil {
-			fmt.Printf("err unmarshall: %v\n", err)
+			fmt.Printf("err unmarshall: %v\ntext: %s", err, text)
 			continue
 		}
 
-		users[user.Tabnum] = &user
+		users[user.Tabnum] = &kbv1.Sotr{
+			Id:       0,
+			Idr:      user.Idr,
+			Name:     user.Name,
+			MidName:  user.MidName,
+			Tabnum:   user.Tabnum,
+			Phone:    strings.Split(user.Phone, ","),
+			Mobile:   strings.Split(user.Mobile, ","),
+			Email:    user.Email,
+			Avatar:   user.Avatar,
+			Grade:    user.Grade,
+			Children: user.Children,
+			ParentId: user.ParentId,
+			Date:     timestamppb.Now(),
+		}
 	}
 
 	return users, nil
@@ -285,7 +301,7 @@ type ErrorMessage struct {
 // 	wg.Wait()
 // }
 
-// func download(cli *req.Client, u *models.Sotr, name string, count int) {
+// func download(cli *req.Client, u *kbv1.Sotr, name string, count int) {
 // 	var errMsg ErrorMessage
 
 // 	filename := filepath.Join("../../.kbemp-store", u.Avatar)
@@ -416,7 +432,7 @@ type ErrorMessage struct {
 // 	wg.Wait()
 // }
 
-// func saveUser(wrSotr io.Writer, u *models.Sotr, mt *sync.Mutex) (err error) {
+// func saveUser(wrSotr io.Writer, u *kbv1.Sotr, mt *sync.Mutex) (err error) {
 // 	b, err := json.Marshal(u)
 // 	if err != nil {
 // 		return

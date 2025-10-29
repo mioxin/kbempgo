@@ -97,6 +97,7 @@ func (e *employCommand) Run(gl *config.Globals) error {
 		for {
 			select {
 			case <-e.Glob.Ctx.Done():
+				return
 			case <-timer.C:
 				if len(razdCh) == 0 && len(avatarCh) == 0 {
 					e.Lg.Info("Chanals razd&avatar is empty too long time: Timer cancel")
@@ -113,7 +114,7 @@ func (e *employCommand) Run(gl *config.Globals) error {
 
 	wgD.Wait()
 	wg.Wait()
-	e.Lg.Debug("Stop wait group... Close depsCh.")
+	e.Lg.Debug("Stop wait group... Close chanels.")
 	e.Lg.Info("Collected.", "sotr", e.SotrCounter.Load(), "deps", e.DepsCounter.Load())
 
 	return nil

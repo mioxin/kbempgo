@@ -48,6 +48,7 @@ type Globals struct {
 func (gl *Globals) Done() {
 	if gl.Cf != nil {
 		gl.Cf()
+		gl.Log.Debug("Global Done happens...")
 	}
 }
 

@@ -731,7 +731,7 @@ func (*Item_Sotr) isItem_Var() {}
 
 type HistoryList struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	History       []*History             `protobuf:"bytes,1,rep,name=history,proto3" json:"history,omitempty"`
+	HistoryList   []*History             `protobuf:"bytes,1,rep,name=history_list,json=historyList,proto3" json:"history_list,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -766,9 +766,61 @@ func (*HistoryList) Descriptor() ([]byte, []int) {
 	return file_stor_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *HistoryList) GetHistory() []*History {
+func (x *HistoryList) GetHistoryList() []*History {
 	if x != nil {
-		return x.History
+		return x.HistoryList
+	}
+	return nil
+}
+
+type QueryUpdateSotr struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Sotr          *Sotr                  `protobuf:"bytes,1,opt,name=sotr,proto3" json:"sotr,omitempty"`
+	HistoryList   []*History             `protobuf:"bytes,2,rep,name=history_list,json=historyList,proto3" json:"history_list,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *QueryUpdateSotr) Reset() {
+	*x = QueryUpdateSotr{}
+	mi := &file_stor_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *QueryUpdateSotr) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QueryUpdateSotr) ProtoMessage() {}
+
+func (x *QueryUpdateSotr) ProtoReflect() protoreflect.Message {
+	mi := &file_stor_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use QueryUpdateSotr.ProtoReflect.Descriptor instead.
+func (*QueryUpdateSotr) Descriptor() ([]byte, []int) {
+	return file_stor_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *QueryUpdateSotr) GetSotr() *Sotr {
+	if x != nil {
+		return x.Sotr
+	}
+	return nil
+}
+
+func (x *QueryUpdateSotr) GetHistoryList() []*History {
+	if x != nil {
+		return x.HistoryList
 	}
 	return nil
 }
@@ -833,15 +885,18 @@ const file_stor_proto_rawDesc = "" +
 	"\x03dep\x18\x01 \x01(\v2\n" +
 	".kb.v1.DepH\x00R\x03dep\x12!\n" +
 	"\x04sotr\x18\x02 \x01(\v2\v.kb.v1.SotrH\x00R\x04sotrB\x05\n" +
-	"\x03var\"7\n" +
-	"\vHistoryList\x12(\n" +
-	"\ahistory\x18\x01 \x03(\v2\x0e.kb.v1.HistoryR\ahistory2\xc0\x03\n" +
+	"\x03var\"@\n" +
+	"\vHistoryList\x121\n" +
+	"\fhistory_list\x18\x01 \x03(\v2\x0e.kb.v1.HistoryR\vhistoryList\"e\n" +
+	"\x0fQueryUpdateSotr\x12\x1f\n" +
+	"\x04sotr\x18\x01 \x01(\v2\v.kb.v1.SotrR\x04sotr\x121\n" +
+	"\fhistory_list\x18\x02 \x03(\v2\x0e.kb.v1.HistoryR\vhistoryList2\xcb\x03\n" +
 	"\x04Stor\x12Q\n" +
 	"\tGetDepsBy\x12\x0f.kb.v1.QueryDep\x1a\v.kb.v1.Deps\"&\x82\xd3\xe4\x93\x02 \x12\x1e/api/stor/v1/dep/{field}/{str}\x12Y\n" +
 	"\n" +
 	"GetSotrsBy\x12\x10.kb.v1.QuerySotr\x1a\f.kb.v1.Sotrs\"+\x82\xd3\xe4\x93\x02%\x12#/api/stor/v1/employee/{field}/{str}\x12a\n" +
-	"\x04Save\x12\v.kb.v1.Item\x1a\x16.google.protobuf.Empty\"4\x82\xd3\xe4\x93\x02.:\x01*Z\x16:\x01*\x1a\x11/api/stor/v1/save\"\x11/api/stor/v1/save\x12K\n" +
-	"\x06Update\x12\v.kb.v1.Sotr\x1a\x16.google.protobuf.Empty\"\x1c\x82\xd3\xe4\x93\x02\x16:\x01*2\x11/api/stor/v1/save\x12Z\n" +
+	"\x04Save\x12\v.kb.v1.Item\x1a\x16.google.protobuf.Empty\"4\x82\xd3\xe4\x93\x02.:\x01*Z\x16:\x01*\x1a\x11/api/stor/v1/save\"\x11/api/stor/v1/save\x12V\n" +
+	"\x06Update\x12\x16.kb.v1.QueryUpdateSotr\x1a\x16.google.protobuf.Empty\"\x1c\x82\xd3\xe4\x93\x02\x16:\x01*2\x11/api/stor/v1/save\x12Z\n" +
 	"\n" +
 	"GetHistory\x12\x10.kb.v1.QueryHist\x1a\x12.kb.v1.HistoryList\"&\x82\xd3\xe4\x93\x02 \x12\x1e/api/stor/v1/history/{sotr_id}B-Z+github.com/mioxin/kbempgo/api/kbemp/v1;kbv1b\x06proto3"
 
@@ -858,7 +913,7 @@ func file_stor_proto_rawDescGZIP() []byte {
 }
 
 var file_stor_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_stor_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_stor_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_stor_proto_goTypes = []any{
 	(QueryDep_DBField)(0),         // 0: kb.v1.QueryDep.DBField
 	(QuerySotr_DBField)(0),        // 1: kb.v1.QuerySotr.DBField
@@ -872,34 +927,37 @@ var file_stor_proto_goTypes = []any{
 	(*Sotrs)(nil),                 // 9: kb.v1.Sotrs
 	(*Item)(nil),                  // 10: kb.v1.Item
 	(*HistoryList)(nil),           // 11: kb.v1.HistoryList
-	(*timestamppb.Timestamp)(nil), // 12: google.protobuf.Timestamp
-	(*emptypb.Empty)(nil),         // 13: google.protobuf.Empty
+	(*QueryUpdateSotr)(nil),       // 12: kb.v1.QueryUpdateSotr
+	(*timestamppb.Timestamp)(nil), // 13: google.protobuf.Timestamp
+	(*emptypb.Empty)(nil),         // 14: google.protobuf.Empty
 }
 var file_stor_proto_depIdxs = []int32{
 	2,  // 0: kb.v1.Deps.Deps:type_name -> kb.v1.Dep
 	0,  // 1: kb.v1.QueryDep.field:type_name -> kb.v1.QueryDep.DBField
 	1,  // 2: kb.v1.QuerySotr.field:type_name -> kb.v1.QuerySotr.DBField
-	12, // 3: kb.v1.Sotr.date:type_name -> google.protobuf.Timestamp
-	12, // 4: kb.v1.History.date:type_name -> google.protobuf.Timestamp
+	13, // 3: kb.v1.Sotr.date:type_name -> google.protobuf.Timestamp
+	13, // 4: kb.v1.History.date:type_name -> google.protobuf.Timestamp
 	7,  // 5: kb.v1.Sotrs.sotrs:type_name -> kb.v1.Sotr
 	2,  // 6: kb.v1.Item.dep:type_name -> kb.v1.Dep
 	7,  // 7: kb.v1.Item.sotr:type_name -> kb.v1.Sotr
-	8,  // 8: kb.v1.HistoryList.history:type_name -> kb.v1.History
-	4,  // 9: kb.v1.Stor.GetDepsBy:input_type -> kb.v1.QueryDep
-	5,  // 10: kb.v1.Stor.GetSotrsBy:input_type -> kb.v1.QuerySotr
-	10, // 11: kb.v1.Stor.Save:input_type -> kb.v1.Item
-	7,  // 12: kb.v1.Stor.Update:input_type -> kb.v1.Sotr
-	6,  // 13: kb.v1.Stor.GetHistory:input_type -> kb.v1.QueryHist
-	3,  // 14: kb.v1.Stor.GetDepsBy:output_type -> kb.v1.Deps
-	9,  // 15: kb.v1.Stor.GetSotrsBy:output_type -> kb.v1.Sotrs
-	13, // 16: kb.v1.Stor.Save:output_type -> google.protobuf.Empty
-	13, // 17: kb.v1.Stor.Update:output_type -> google.protobuf.Empty
-	11, // 18: kb.v1.Stor.GetHistory:output_type -> kb.v1.HistoryList
-	14, // [14:19] is the sub-list for method output_type
-	9,  // [9:14] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	8,  // 8: kb.v1.HistoryList.history_list:type_name -> kb.v1.History
+	7,  // 9: kb.v1.QueryUpdateSotr.sotr:type_name -> kb.v1.Sotr
+	8,  // 10: kb.v1.QueryUpdateSotr.history_list:type_name -> kb.v1.History
+	4,  // 11: kb.v1.Stor.GetDepsBy:input_type -> kb.v1.QueryDep
+	5,  // 12: kb.v1.Stor.GetSotrsBy:input_type -> kb.v1.QuerySotr
+	10, // 13: kb.v1.Stor.Save:input_type -> kb.v1.Item
+	12, // 14: kb.v1.Stor.Update:input_type -> kb.v1.QueryUpdateSotr
+	6,  // 15: kb.v1.Stor.GetHistory:input_type -> kb.v1.QueryHist
+	3,  // 16: kb.v1.Stor.GetDepsBy:output_type -> kb.v1.Deps
+	9,  // 17: kb.v1.Stor.GetSotrsBy:output_type -> kb.v1.Sotrs
+	14, // 18: kb.v1.Stor.Save:output_type -> google.protobuf.Empty
+	14, // 19: kb.v1.Stor.Update:output_type -> google.protobuf.Empty
+	11, // 20: kb.v1.Stor.GetHistory:output_type -> kb.v1.HistoryList
+	16, // [16:21] is the sub-list for method output_type
+	11, // [11:16] is the sub-list for method input_type
+	11, // [11:11] is the sub-list for extension type_name
+	11, // [11:11] is the sub-list for extension extendee
+	0,  // [0:11] is the sub-list for field type_name
 }
 
 func init() { file_stor_proto_init() }
@@ -917,7 +975,7 @@ func file_stor_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_stor_proto_rawDesc), len(file_stor_proto_rawDesc)),
 			NumEnums:      2,
-			NumMessages:   10,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

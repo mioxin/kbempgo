@@ -1261,7 +1261,7 @@ func (m *HistoryList) validate(all bool) error {
 
 	var errors []error
 
-	for idx, item := range m.GetHistory() {
+	for idx, item := range m.GetHistoryList() {
 		_, _ = idx, item
 
 		if all {
@@ -1269,7 +1269,7 @@ func (m *HistoryList) validate(all bool) error {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
 					errors = append(errors, HistoryListValidationError{
-						field:  fmt.Sprintf("History[%v]", idx),
+						field:  fmt.Sprintf("HistoryList[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
@@ -1277,7 +1277,7 @@ func (m *HistoryList) validate(all bool) error {
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
 					errors = append(errors, HistoryListValidationError{
-						field:  fmt.Sprintf("History[%v]", idx),
+						field:  fmt.Sprintf("HistoryList[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
@@ -1286,7 +1286,7 @@ func (m *HistoryList) validate(all bool) error {
 		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
 				return HistoryListValidationError{
-					field:  fmt.Sprintf("History[%v]", idx),
+					field:  fmt.Sprintf("HistoryList[%v]", idx),
 					reason: "embedded message failed validation",
 					cause:  err,
 				}
@@ -1371,3 +1371,166 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = HistoryListValidationError{}
+
+// Validate checks the field values on QueryUpdateSotr with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *QueryUpdateSotr) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on QueryUpdateSotr with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// QueryUpdateSotrMultiError, or nil if none found.
+func (m *QueryUpdateSotr) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *QueryUpdateSotr) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetSotr()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, QueryUpdateSotrValidationError{
+					field:  "Sotr",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, QueryUpdateSotrValidationError{
+					field:  "Sotr",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetSotr()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return QueryUpdateSotrValidationError{
+				field:  "Sotr",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	for idx, item := range m.GetHistoryList() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, QueryUpdateSotrValidationError{
+						field:  fmt.Sprintf("HistoryList[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, QueryUpdateSotrValidationError{
+						field:  fmt.Sprintf("HistoryList[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return QueryUpdateSotrValidationError{
+					field:  fmt.Sprintf("HistoryList[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return QueryUpdateSotrMultiError(errors)
+	}
+
+	return nil
+}
+
+// QueryUpdateSotrMultiError is an error wrapping multiple validation errors
+// returned by QueryUpdateSotr.ValidateAll() if the designated constraints
+// aren't met.
+type QueryUpdateSotrMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m QueryUpdateSotrMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m QueryUpdateSotrMultiError) AllErrors() []error { return m }
+
+// QueryUpdateSotrValidationError is the validation error returned by
+// QueryUpdateSotr.Validate if the designated constraints aren't met.
+type QueryUpdateSotrValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e QueryUpdateSotrValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e QueryUpdateSotrValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e QueryUpdateSotrValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e QueryUpdateSotrValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e QueryUpdateSotrValidationError) ErrorName() string { return "QueryUpdateSotrValidationError" }
+
+// Error satisfies the builtin error interface
+func (e QueryUpdateSotrValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sQueryUpdateSotr.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = QueryUpdateSotrValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = QueryUpdateSotrValidationError{}
