@@ -20,7 +20,7 @@ type ClientConfig struct {
 	tlsutil.TLSConfig `embed:"" yaml:",inline"`
 
 	Address              string         `name:"address" json:"address" help:"Remote address"`
-	Endpoints            []string       `name:"endpoint" json:"endpoints" help:"Remote endpoint (same as address)"` // XXX TODO(vermakov)
+	Endpoints            []string       `name:"endpoint" json:"endpoints" help:"Remote endpoint (same as address)"` // XXX TODO
 	DialTimeout          time.Duration  `name:"dial-timeout" json:"dial-timeout" default:"10s" help:"Dial timeout"`
 	DialKeepAliveTime    time.Duration  `name:"dial-keepalive-time" json:"dial-keepalive-time" help:"Keepalive time"`
 	DialKeepAliveTimeout time.Duration  `name:"dial-keepalive-timeout" json:"dial-keepalive-timeout" default:"10s" help:"Keepalive timeout"`

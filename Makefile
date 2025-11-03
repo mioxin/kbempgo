@@ -20,9 +20,10 @@ test:
 proto-fmt: $(shell find ./api -type f -name '*.proto')
 	clang-format -i $?
 
-vendor: always
-	go mod vendor
-
+build: always
+	go build -o kbsrv ./cmd/srv/main.go
+	go build -o kbcli ./cmd/cli/main.go
+	
 .PHONY: generate
 
 always:

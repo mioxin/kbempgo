@@ -16,7 +16,7 @@ func Loader(r io.Reader) (kong.Resolver, error) {
 	err := yaml.NewDecoder(r).Decode(&values)
 
 	if err != nil && err != io.EOF {
-		// NOTE(vermakov): masking of EOF required to be able to read empty yamls
+		// NOTE: masking of EOF required to be able to read empty yamls
 		//                 (e.g. sample file where all options commented out)
 		return nil, fmt.Errorf("kyaml: %w", err)
 	}

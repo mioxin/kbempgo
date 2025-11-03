@@ -20,6 +20,7 @@ import (
 	"github.com/mioxin/kbempgo/internal/config"
 	"github.com/mioxin/kbempgo/internal/utils"
 	"google.golang.org/protobuf/encoding/protojson"
+	"google.golang.org/protobuf/proto"
 )
 
 type Task struct {
@@ -39,6 +40,7 @@ type ErrorMessage struct {
 const TryLimit int = 3
 
 type Item interface {
+	proto.Message
 	GetChildren() bool
 }
 

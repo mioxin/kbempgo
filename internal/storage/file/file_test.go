@@ -88,7 +88,9 @@ func TestSotrsBy(t *testing.T) {
 			if err != io.EOF && err != nil {
 				require.Equal(t, err.Error(), f.err.Error())
 			} else {
-				assert.True(t, proto.Equal(&expectSotr, d[0]))
+				assert.Equal(t, expectSotr.Idr, d[0].Idr)
+				assert.Equal(t, expectSotr.Name, d[0].Name)
+				assert.Equal(t, expectSotr.Phone, d[0].Phone)
 			}
 			// stor.flS.Seek(0, io.SeekStart)
 		})

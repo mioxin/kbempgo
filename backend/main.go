@@ -6,7 +6,6 @@ import (
 
 	"github.com/alecthomas/kong"
 	"github.com/mioxin/kbempgo/internal/config"
-	httpclient "github.com/mioxin/kbempgo/internal/http_client"
 	"github.com/mioxin/kbempgo/pkg/kongyaml"
 )
 
@@ -42,7 +41,7 @@ func Main() {
 
 	cli.InitLog()
 
-	cli.ClientsPool = httpclient.NewHTTPClient(cli.Debug)
+	// cli.ClientsPool = httpclient.NewHTTPClient(cli.Debug)
 
 	store, err := NewPStor(cli)
 	kctx.FatalIfErrorf(err, "create file storage")

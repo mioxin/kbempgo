@@ -11,6 +11,8 @@
 *.gz
 meta-*.json
 lint-report.*
+kbsrv
+kbcli
 
 # Test binary, built with `go test -c`
 *.test

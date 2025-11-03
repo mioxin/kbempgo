@@ -24,6 +24,7 @@ type Store interface {
 	Update(context.Context, *kbv1.QueryUpdateSotr) (*emptypb.Empty, error)
 	// Save(item models.Item) error
 	Close() error
+	Flush() error
 
 	// Migrate apply migrations to the DB
 	Migrate(ctx context.Context, down bool) error

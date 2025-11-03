@@ -613,16 +613,20 @@ func (m *Sotr) validate(all bool) error {
 
 	// no validation rules for MidName
 
-	if err := m._validateEmail(m.GetEmail()); err != nil {
-		err = SotrValidationError{
-			field:  "Email",
-			reason: "value must be a valid email address",
-			cause:  err,
+	if m.GetEmail() != "" {
+
+		if err := m._validateEmail(m.GetEmail()); err != nil {
+			err = SotrValidationError{
+				field:  "Email",
+				reason: "value must be a valid email address",
+				cause:  err,
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
 		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
+
 	}
 
 	// no validation rules for Avatar

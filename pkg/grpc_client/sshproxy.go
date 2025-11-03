@@ -161,7 +161,7 @@ func NewConnProxyDialer(config *ClientConfig) func(context.Context, string) (net
 		}()
 
 		go func() {
-			// NOTE(vermakov): we do not expect to see any messages here
+			// NOTE: we do not expect to see any messages here
 			scaner := bufio.NewScanner(stdout)
 			for scaner.Scan() {
 				msg := scaner.Text()

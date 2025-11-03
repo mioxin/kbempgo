@@ -69,7 +69,10 @@ func NewFileStore[T models.Item](fname string) (*FileStore[T], error) {
 }
 
 func (f *FileStore[T]) Save(_ context.Context, item T) (_ *emptypb.Empty, err error) {
-	b, err := json.Marshal(item)
+	marshaler := protojson.MarshalOptions{
+		EmitUnpopulated: true, // for sure includes bool fields =  false/0/""
+	}
+	b, err := marshaler.Marshal(item)
 	if err != nil {
 		return
 	}
@@ -103,6 +106,27 @@ func (f *FileStore[T]) Update(_ context.Context, query *kbv1.QueryUpdateSotr) (_
 	_, err = f.rwrSotr.Write(b)
 
 	return
+}
+
+func (f *FileStore[T]) Flush() (err error) {
+	f.mt.Lock()
+	defer f.mt.Unlock()
+
+	errs := make([]error, 0)
+
+	e := f.rwrDep.Flush()
+	if e != nil {
+		err = fmt.Errorf("%w; %w", err, e)
+		errs = append(errs, err)
+	}
+
+	e1 := f.rwrSotr.Flush()
+	if e1 != nil {
+		err = fmt.Errorf("%w; %w", err, e1)
+		errs = append(errs, err)
+	}
+
+	return errors.Join(errs...)
 }
 
 func (f *FileStore[T]) Close() (err error) {
@@ -139,7 +163,9 @@ func (f *FileStore[T]) Close() (err error) {
 }
 
 func (f *FileStore[T]) GetDepsBy(ctx context.Context, query *kbv1.QueryDep) (deps []*kbv1.Dep, err error) {
-	defer f.flS.Seek(0, io.SeekStart)
+	f.mt.Lock()
+	defer f.mt.Unlock()
+	f.flD.Seek(0, io.SeekStart)
 
 	var s, fieldValue string
 	field := query.Field
@@ -190,7 +216,9 @@ func (f *FileStore[T]) GetSotrsBy(ctx context.Context, query *kbv1.QuerySotr) (s
 		fieldValue string
 	)
 
-	defer f.flS.Seek(0, io.SeekStart)
+	f.mt.Lock()
+	defer f.mt.Unlock()
+	f.flS.Seek(0, io.SeekStart)
 
 	field := query.Field
 
@@ -208,6 +236,7 @@ func (f *FileStore[T]) GetSotrsBy(ctx context.Context, query *kbv1.QuerySotr) (s
 			return
 		}
 
+		// opts := &protojson.UnmarshalOptions{DiscardUnknown: true, AllowPartial: true}
 		err = protojson.Unmarshal([]byte(s), sotr)
 		if err != nil {
 			slog.Error("GetSotrsBy: unmurshall json", "error", err, "field", field, "json", s)
@@ -239,6 +268,9 @@ func (f *FileStore[T]) GetSotrsBy(ctx context.Context, query *kbv1.QuerySotr) (s
 
 func (f *FileStore[T]) GetDepByIdr1(ctx context.Context, idr *kbv1.QueryDep) (dep *kbv1.Dep, err error) {
 	var s string
+	f.mt.Lock()
+	defer f.mt.Unlock()
+
 	sComp := fmt.Sprintf("{\"id\":\"%s\",", idr.Str)
 
 	for err != io.EOF {

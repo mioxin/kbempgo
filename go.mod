@@ -4,6 +4,7 @@ go 1.24.2
 
 require (
 	github.com/alecthomas/kong v1.12.1
+	github.com/alta/protopatch v0.5.3
 	github.com/cenkalti/backoff/v4 v4.3.0
 	github.com/dustin/go-humanize v1.0.1
 	github.com/envoyproxy/protoc-gen-validate v1.2.1
@@ -39,7 +40,6 @@ require (
 	cloud.google.com/go/compute/metadata v0.7.0 // indirect
 	github.com/Masterminds/semver v1.4.2 // indirect
 	github.com/Masterminds/sprig v2.15.0+incompatible // indirect
-	github.com/alta/protopatch v0.5.3 // indirect
 	github.com/aokoli/goutils v1.0.1 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cenkalti/backoff/v5 v5.0.3 // indirect

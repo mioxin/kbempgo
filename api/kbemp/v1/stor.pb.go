@@ -128,8 +128,8 @@ func (QuerySotr_DBField) EnumDescriptor() ([]byte, []int) {
 
 type Dep struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            uint64                 `protobuf:"varint,1,opt,name=id,json=uid,proto3" json:"id,omitempty"`
-	Idr           string                 `protobuf:"bytes,2,opt,name=idr,json=id,proto3" json:"idr,omitempty"`
+	Id            uint64                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Idr           string                 `protobuf:"bytes,2,opt,name=idr,proto3" json:"idr,omitempty"`
 	Parent        string                 `protobuf:"bytes,3,opt,name=parent,proto3" json:"parent,omitempty"`
 	Text          string                 `protobuf:"bytes,4,opt,name=text,proto3" json:"text,omitempty"`
 	Children      bool                   `protobuf:"varint,5,opt,name=children,proto3" json:"children,omitempty"`
@@ -396,8 +396,8 @@ func (x *QueryHist) GetSotrId() string {
 
 type Sotr struct {
 	state    protoimpl.MessageState `protogen:"open.v1"`
-	Id       uint64                 `protobuf:"varint,1,opt,name=id,json=uid,proto3" json:"id,omitempty"`
-	Idr      string                 `protobuf:"bytes,2,opt,name=idr,json=id,proto3" json:"idr,omitempty"`
+	Id       uint64                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Idr      string                 `protobuf:"bytes,2,opt,name=idr,proto3" json:"idr,omitempty"`
 	Tabnum   string                 `protobuf:"bytes,3,opt,name=tabnum,proto3" json:"tabnum,omitempty"`
 	Name     string                 `protobuf:"bytes,4,opt,name=name,proto3" json:"name,omitempty"`
 	MidName  string                 `protobuf:"bytes,5,opt,name=mid_name,json=midName,proto3" json:"mid_name,omitempty"`
@@ -831,9 +831,9 @@ const file_stor_proto_rawDesc = "" +
 	"\n" +
 	"\n" +
 	"stor.proto\x12\x05kb.v1\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x17validate/validate.proto\"o\n" +
-	"\x03Dep\x12\x0f\n" +
-	"\x02id\x18\x01 \x01(\x04R\x03uid\x12\x0f\n" +
-	"\x03idr\x18\x02 \x01(\tR\x02id\x12\x16\n" +
+	"\x03Dep\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x04R\x02id\x12\x10\n" +
+	"\x03idr\x18\x02 \x01(\tR\x03idr\x12\x16\n" +
 	"\x06parent\x18\x03 \x01(\tR\x06parent\x12\x12\n" +
 	"\x04text\x18\x04 \x01(\tR\x04text\x12\x1a\n" +
 	"\bchildren\x18\x05 \x01(\bR\bchildren\"&\n" +
@@ -858,16 +858,17 @@ const file_stor_proto_rawDesc = "" +
 	"\n" +
 	"\x06TABNUM\x10\x03\"$\n" +
 	"\tQueryHist\x12\x17\n" +
-	"\asotr_id\x18\x01 \x01(\tR\x06sotrId\"\xd3\x02\n" +
-	"\x04Sotr\x12\x0f\n" +
-	"\x02id\x18\x01 \x01(\x04R\x03uid\x12\x0f\n" +
-	"\x03idr\x18\x02 \x01(\tR\x02id\x12\x16\n" +
+	"\asotr_id\x18\x01 \x01(\tR\x06sotrId\"\xd6\x02\n" +
+	"\x04Sotr\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x04R\x02id\x12\x10\n" +
+	"\x03idr\x18\x02 \x01(\tR\x03idr\x12\x16\n" +
 	"\x06tabnum\x18\x03 \x01(\tR\x06tabnum\x12\x12\n" +
 	"\x04name\x18\x04 \x01(\tR\x04name\x12\x19\n" +
 	"\bmid_name\x18\x05 \x01(\tR\amidName\x12\x14\n" +
 	"\x05phone\x18\x06 \x03(\tR\x05phone\x12\x16\n" +
-	"\x06mobile\x18\a \x03(\tR\x06mobile\x12\x1d\n" +
-	"\x05email\x18\b \x01(\tB\a\xfaB\x04r\x02`\x01R\x05email\x12\x16\n" +
+	"\x06mobile\x18\a \x03(\tR\x06mobile\x12 \n" +
+	"\x05email\x18\b \x01(\tB\n" +
+	"\xfaB\ar\x05\xd0\x01\x01`\x01R\x05email\x12\x16\n" +
 	"\x06avatar\x18\t \x01(\tR\x06avatar\x12\x14\n" +
 	"\x05grade\x18\n" +
 	" \x01(\tR\x05grade\x12\x1a\n" +
@@ -890,11 +891,12 @@ const file_stor_proto_rawDesc = "" +
 	"\fhistory_list\x18\x01 \x03(\v2\x0e.kb.v1.HistoryR\vhistoryList\"e\n" +
 	"\x0fQueryUpdateSotr\x12\x1f\n" +
 	"\x04sotr\x18\x01 \x01(\v2\v.kb.v1.SotrR\x04sotr\x121\n" +
-	"\fhistory_list\x18\x02 \x03(\v2\x0e.kb.v1.HistoryR\vhistoryList2\xcb\x03\n" +
+	"\fhistory_list\x18\x02 \x03(\v2\x0e.kb.v1.HistoryR\vhistoryList2\xa3\x04\n" +
 	"\x04Stor\x12Q\n" +
 	"\tGetDepsBy\x12\x0f.kb.v1.QueryDep\x1a\v.kb.v1.Deps\"&\x82\xd3\xe4\x93\x02 \x12\x1e/api/stor/v1/dep/{field}/{str}\x12Y\n" +
 	"\n" +
-	"GetSotrsBy\x12\x10.kb.v1.QuerySotr\x1a\f.kb.v1.Sotrs\"+\x82\xd3\xe4\x93\x02%\x12#/api/stor/v1/employee/{field}/{str}\x12a\n" +
+	"GetSotrsBy\x12\x10.kb.v1.QuerySotr\x1a\f.kb.v1.Sotrs\"+\x82\xd3\xe4\x93\x02%\x12#/api/stor/v1/employee/{field}/{str}\x12V\n" +
+	"\x05Flush\x12\x16.google.protobuf.Empty\x1a\x16.google.protobuf.Empty\"\x1d\x82\xd3\xe4\x93\x02\x17:\x01*\"\x12/api/stor/v1/flush\x12a\n" +
 	"\x04Save\x12\v.kb.v1.Item\x1a\x16.google.protobuf.Empty\"4\x82\xd3\xe4\x93\x02.:\x01*Z\x16:\x01*\x1a\x11/api/stor/v1/save\"\x11/api/stor/v1/save\x12V\n" +
 	"\x06Update\x12\x16.kb.v1.QueryUpdateSotr\x1a\x16.google.protobuf.Empty\"\x1c\x82\xd3\xe4\x93\x02\x16:\x01*2\x11/api/stor/v1/save\x12Z\n" +
 	"\n" +
@@ -945,16 +947,18 @@ var file_stor_proto_depIdxs = []int32{
 	8,  // 10: kb.v1.QueryUpdateSotr.history_list:type_name -> kb.v1.History
 	4,  // 11: kb.v1.Stor.GetDepsBy:input_type -> kb.v1.QueryDep
 	5,  // 12: kb.v1.Stor.GetSotrsBy:input_type -> kb.v1.QuerySotr
-	10, // 13: kb.v1.Stor.Save:input_type -> kb.v1.Item
-	12, // 14: kb.v1.Stor.Update:input_type -> kb.v1.QueryUpdateSotr
-	6,  // 15: kb.v1.Stor.GetHistory:input_type -> kb.v1.QueryHist
-	3,  // 16: kb.v1.Stor.GetDepsBy:output_type -> kb.v1.Deps
-	9,  // 17: kb.v1.Stor.GetSotrsBy:output_type -> kb.v1.Sotrs
-	14, // 18: kb.v1.Stor.Save:output_type -> google.protobuf.Empty
-	14, // 19: kb.v1.Stor.Update:output_type -> google.protobuf.Empty
-	11, // 20: kb.v1.Stor.GetHistory:output_type -> kb.v1.HistoryList
-	16, // [16:21] is the sub-list for method output_type
-	11, // [11:16] is the sub-list for method input_type
+	14, // 13: kb.v1.Stor.Flush:input_type -> google.protobuf.Empty
+	10, // 14: kb.v1.Stor.Save:input_type -> kb.v1.Item
+	12, // 15: kb.v1.Stor.Update:input_type -> kb.v1.QueryUpdateSotr
+	6,  // 16: kb.v1.Stor.GetHistory:input_type -> kb.v1.QueryHist
+	3,  // 17: kb.v1.Stor.GetDepsBy:output_type -> kb.v1.Deps
+	9,  // 18: kb.v1.Stor.GetSotrsBy:output_type -> kb.v1.Sotrs
+	14, // 19: kb.v1.Stor.Flush:output_type -> google.protobuf.Empty
+	14, // 20: kb.v1.Stor.Save:output_type -> google.protobuf.Empty
+	14, // 21: kb.v1.Stor.Update:output_type -> google.protobuf.Empty
+	11, // 22: kb.v1.Stor.GetHistory:output_type -> kb.v1.HistoryList
+	17, // [17:23] is the sub-list for method output_type
+	11, // [11:17] is the sub-list for method input_type
 	11, // [11:11] is the sub-list for extension type_name
 	11, // [11:11] is the sub-list for extension extendee
 	0,  // [0:11] is the sub-list for field type_name

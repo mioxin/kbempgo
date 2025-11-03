@@ -65,23 +65,24 @@ func (ps *PStor) Save(ctx context.Context, query *kbv1.Item) (empty *emptypb.Emp
 		}
 
 		// check double raw
-		isDouble := false
 		for _, d := range dep {
 			if d.Parent == item.Dep.Parent && d.Text == item.Dep.Text {
-				isDouble = true
-				break
+				ps.lg.Debug("Save GetDepBy: Dep exist", "IDR", item.Dep.Idr, "dep", dep)
+				return
 			}
 		}
+		ps.lg.Debug("Save Dep to Stor:", "item.dep", item.Dep)
 
-		if !isDouble {
-			_, err = ps.stor.Save(ctx, item.Dep)
+		_, err = ps.stor.Save(ctx, item.Dep)
+		if err != nil {
+			return
 		}
 
 	case *kbv1.Item_Sotr:
 		var sotr []*kbv1.Sotr
 
 		// get sotr if exists for define double raw
-		sotr, err = ps.stor.GetSotrsBy(context.Background(), &kbv1.QuerySotr{Field: kbv1.QuerySotr_IDR, Str: item.Sotr.Idr})
+		sotr, err = ps.stor.GetSotrsBy(context.Background(), &kbv1.QuerySotr{Field: kbv1.QuerySotr_TABNUM, Str: item.Sotr.Tabnum})
 		if err != nil {
 			return
 		}
@@ -89,8 +90,15 @@ func (ps *PStor) Save(ctx context.Context, query *kbv1.Item) (empty *emptypb.Emp
 		// doublicates not found
 		if len(sotr) == 0 {
 			_, err = ps.stor.Save(ctx, item.Sotr)
+			ps.lg.Debug("Save Sotr to Stor:", "item.sotr", item.Sotr)
+			if err != nil {
+				err = fmt.Errorf("error save Sotr to Stor: %w", err)
+				return
+			}
 			return
 		}
+
+		ps.lg.Debug("Save GetDepBy: Sotr exist", "TABNUM", item.Sotr.Tabnum, "sotr", sotr)
 
 		sort.Slice(sotr, func(i, j int) bool {
 			return sotr[i].Date.AsTime().Before(sotr[j].Date.AsTime())
@@ -122,6 +130,9 @@ func (ps *PStor) Save(ctx context.Context, query *kbv1.Item) (empty *emptypb.Emp
 				})
 			}
 			_, err = ps.stor.Update(ctx, &kbv1.QueryUpdateSotr{Sotr: item.Sotr, HistoryList: hs})
+			ps.lg.Debug("Update Sotr to Stor:", "item.sotr", item.Sotr)
+		} else {
+			ps.lg.Debug("Sotr exist in Stor:", "item.sotr", item.Sotr)
 		}
 
 	default:
@@ -130,6 +141,10 @@ func (ps *PStor) Save(ctx context.Context, query *kbv1.Item) (empty *emptypb.Emp
 
 	fmt.Println(err)
 	return
+}
+
+func (ps *PStor) Flush(_ context.Context, _ *emptypb.Empty) (*emptypb.Empty, error) {
+	return &emptypb.Empty{}, ps.stor.Flush()
 }
 
 func (ps *PStor) Close() error {

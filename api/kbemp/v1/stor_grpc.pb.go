@@ -25,6 +25,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	Stor_GetDepsBy_FullMethodName  = "/kb.v1.Stor/GetDepsBy"
 	Stor_GetSotrsBy_FullMethodName = "/kb.v1.Stor/GetSotrsBy"
+	Stor_Flush_FullMethodName      = "/kb.v1.Stor/Flush"
 	Stor_Save_FullMethodName       = "/kb.v1.Stor/Save"
 	Stor_Update_FullMethodName     = "/kb.v1.Stor/Update"
 	Stor_GetHistory_FullMethodName = "/kb.v1.Stor/GetHistory"
@@ -40,6 +41,8 @@ type StorClient interface {
 	GetDepsBy(ctx context.Context, in *QueryDep, opts ...grpc.CallOption) (*Deps, error)
 	// GetSotr returns employee data by field
 	GetSotrsBy(ctx context.Context, in *QuerySotr, opts ...grpc.CallOption) (*Sotrs, error)
+	// Flush data
+	Flush(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// Save updates Dep data
 	Save(ctx context.Context, in *Item, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// Update sotr if it exists by tabnum field
@@ -70,6 +73,16 @@ func (c *storClient) GetSotrsBy(ctx context.Context, in *QuerySotr, opts ...grpc
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(Sotrs)
 	err := c.cc.Invoke(ctx, Stor_GetSotrsBy_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storClient) Flush(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, Stor_Flush_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -116,6 +129,8 @@ type StorServer interface {
 	GetDepsBy(context.Context, *QueryDep) (*Deps, error)
 	// GetSotr returns employee data by field
 	GetSotrsBy(context.Context, *QuerySotr) (*Sotrs, error)
+	// Flush data
+	Flush(context.Context, *emptypb.Empty) (*emptypb.Empty, error)
 	// Save updates Dep data
 	Save(context.Context, *Item) (*emptypb.Empty, error)
 	// Update sotr if it exists by tabnum field
@@ -137,6 +152,9 @@ func (UnimplementedStorServer) GetDepsBy(context.Context, *QueryDep) (*Deps, err
 }
 func (UnimplementedStorServer) GetSotrsBy(context.Context, *QuerySotr) (*Sotrs, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSotrsBy not implemented")
+}
+func (UnimplementedStorServer) Flush(context.Context, *emptypb.Empty) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Flush not implemented")
 }
 func (UnimplementedStorServer) Save(context.Context, *Item) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Save not implemented")
@@ -200,6 +218,24 @@ func _Stor_GetSotrsBy_Handler(srv interface{}, ctx context.Context, dec func(int
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(StorServer).GetSotrsBy(ctx, req.(*QuerySotr))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Stor_Flush_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorServer).Flush(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Stor_Flush_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorServer).Flush(ctx, req.(*emptypb.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -272,6 +308,10 @@ var Stor_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetSotrsBy",
 			Handler:    _Stor_GetSotrsBy_Handler,
+		},
+		{
+			MethodName: "Flush",
+			Handler:    _Stor_Flush_Handler,
 		},
 		{
 			MethodName: "Save",

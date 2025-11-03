@@ -30,6 +30,14 @@ service Stor {
     };
   }
 
+  // Flush data
+  rpc Flush(google.protobuf.Empty) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post : "/api/stor/v1/flush"
+      body : "*"
+    };
+  }
+
   // Save updates Dep data
   rpc Save(Item) returns (google.protobuf.Empty) {
     option (google.api.http) = {
@@ -60,8 +68,8 @@ service Stor {
 }
 
 message Dep {
-  uint64 id = 1  [ json_name = "uid" ];
-  string idr = 2 [ json_name = "id" ];
+  uint64 id = 1;
+  string idr = 2;
   string parent = 3;
   string text = 4;
   bool children = 5;
@@ -97,14 +105,14 @@ message QueryHist {
 
 
 message Sotr {
-  uint64 id = 1  [ json_name = "uid" ];
-  string idr = 2 [ json_name = "id" ];
+  uint64 id = 1 ;
+  string idr = 2;
   string tabnum = 3;
   string name = 4;
   string mid_name = 5;
   repeated string phone = 6;
   repeated string mobile = 7;
-  string email = 8 [ (validate.rules).string.email = true ];
+  string email = 8 [ (validate.rules).string = {email: true, ignore_empty: true} ];
   string avatar = 9;
   string grade = 10;
   bool children = 11;
