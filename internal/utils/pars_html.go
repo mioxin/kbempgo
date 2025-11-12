@@ -108,6 +108,7 @@ type Mobile struct {
 func ParseMobile(unescaped string) (*Mobile, error) {
 	m := new(Mobile)
 	err := json.Unmarshal([]byte(unescaped), m)
+	m.Data = strings.Trim(m.Data, " \n\r\t")
 
 	return m, err
 }

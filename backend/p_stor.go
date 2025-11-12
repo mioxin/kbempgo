@@ -54,12 +54,14 @@ func (ps *PStor) GetSotrsBy(ctx context.Context, query *kbv1.QuerySotr) (*kbv1.S
 }
 
 func (ps *PStor) Save(ctx context.Context, query *kbv1.Item) (empty *emptypb.Empty, err error) {
+	empty = &emptypb.Empty{}
+
 	switch item := query.Var.(type) {
 	case *kbv1.Item_Dep:
 		var dep []*kbv1.Dep
 
 		// get dep if exists for define double raw
-		dep, err = ps.stor.GetDepsBy(context.Background(), &kbv1.QueryDep{Field: kbv1.QueryDep_IDR, Str: item.Dep.Idr})
+		dep, err = ps.stor.GetDepsBy(ctx, &kbv1.QueryDep{Field: kbv1.QueryDep_IDR, Str: item.Dep.Idr})
 		if err != nil {
 			return
 		}
@@ -82,7 +84,7 @@ func (ps *PStor) Save(ctx context.Context, query *kbv1.Item) (empty *emptypb.Emp
 		var sotr []*kbv1.Sotr
 
 		// get sotr if exists for define double raw
-		sotr, err = ps.stor.GetSotrsBy(context.Background(), &kbv1.QuerySotr{Field: kbv1.QuerySotr_TABNUM, Str: item.Sotr.Tabnum})
+		sotr, err = ps.stor.GetSotrsBy(ctx, &kbv1.QuerySotr{Field: kbv1.QuerySotr_TABNUM, Str: item.Sotr.Tabnum})
 		if err != nil {
 			return
 		}
@@ -101,6 +103,12 @@ func (ps *PStor) Save(ctx context.Context, query *kbv1.Item) (empty *emptypb.Emp
 		ps.lg.Debug("Save GetDepBy: Sotr exist", "TABNUM", item.Sotr.Tabnum, "sotr", sotr)
 
 		sort.Slice(sotr, func(i, j int) bool {
+			if sotr[i].Date == nil {
+				return true
+			}
+			if sotr[j].Date == nil {
+				return false
+			}
 			return sotr[i].Date.AsTime().Before(sotr[j].Date.AsTime())
 		})
 		// get newest raw
@@ -139,7 +147,7 @@ func (ps *PStor) Save(ctx context.Context, query *kbv1.Item) (empty *emptypb.Emp
 		err = fmt.Errorf("can't save invalid query %v", query)
 	}
 
-	fmt.Println(err)
+	ps.lg.Debug("Saved item", "item", query.Var, "err", err)
 	return
 }
 

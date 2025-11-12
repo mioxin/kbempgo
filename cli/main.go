@@ -5,14 +5,15 @@ import (
 	"time"
 
 	"github.com/alecthomas/kong"
+	"github.com/imroc/req/v3"
 	"github.com/mioxin/kbempgo/internal/config"
-	httpclient "github.com/mioxin/kbempgo/internal/http_client"
-	"github.com/mioxin/kbempgo/internal/storage"
+	"github.com/mioxin/kbempgo/internal/worker"
 	"github.com/mioxin/kbempgo/pkg/kongyaml"
 )
 
 // CLI all commands
 type CLI struct {
+	worker.Config
 	config.Globals
 
 	Employes employCommand `cmd:"" aliases:"empl" help:"Update or get employes DB"`
@@ -30,7 +31,6 @@ func Main() {
 	}()
 
 	cli := &CLI{}
-	defer cli.Done()
 
 	kctx := kong.Parse(cli,
 		kong.Description("Update kbEmp data base cli tool"),
@@ -41,19 +41,9 @@ func Main() {
 		kong.DefaultEnvars("KB"),
 	)
 
-	cli.ClientsPool = httpclient.NewHTTPClient(cli.Debug)
+	cli.HttpClientPool = make(map[string]*req.Client, 5)
+	cli.InitLog()
 
-	cli.Store, err = storage.NewStore(cli.DbUrl)
-	kctx.FatalIfErrorf(err, "create file storage")
-
-	defer func() {
-		cli.Log.Info("Close storage")
-
-		if err := cli.Store.Close(); err != nil {
-			kctx.FatalIfErrorf(err)
-		}
-	}()
-
-	err = kctx.Run(&cli.Globals)
+	err = kctx.Run(&cli)
 	kctx.FatalIfErrorf(err)
 }

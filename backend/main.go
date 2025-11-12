@@ -21,14 +21,13 @@ type CLI struct {
 func Main() {
 	var err error
 	// defer zap.S().Sync() // nolint
-	start := time.Now()
+	startTime := time.Now()
 
 	defer func() {
-		fmt.Println("Time:", time.Since(start))
+		fmt.Println("Time:", time.Since(startTime))
 	}()
 
 	cli := &CLI{}
-	defer cli.Done()
 
 	kctx := kong.Parse(cli,
 		kong.Description("Update kbEmp data base cli tool"),
@@ -54,7 +53,7 @@ func Main() {
 		}
 	}()
 
-	err = startGrpc(cli, store)
+	err = start(cli, store)
 
 	kctx.FatalIfErrorf(err)
 }

@@ -53,3 +53,8 @@ services:
 #    networks:
 #      - postgres
 
+#redis -p 6379:6379 redis
+#victoria
+#grafana
+#loki
+#jaeger

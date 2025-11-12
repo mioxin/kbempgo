@@ -3,7 +3,6 @@ package cli
 import (
 	"testing"
 
-	"github.com/mioxin/kbempgo/internal/config"
 	wrk "github.com/mioxin/kbempgo/internal/worker"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -17,13 +16,9 @@ func TestGetFileCollection(t *testing.T) {
 		"54877": {ActualName: "54877 (2).jpg", Num: 2, Size: 33, Hash: "23974fabd80666c1"},
 	}
 
-	e := &employCommand{
-		Glob: &config.Globals{
-			Avatars: "./testdata",
-		},
-	}
+	e := &employCommand{}
 
-	fc, err := e.getFileCollection()
+	fc, err := e.getFileCollection("./testdata")
 	require.NoError(t, err)
 
 	assert.Equal(t, fc, fexpected)

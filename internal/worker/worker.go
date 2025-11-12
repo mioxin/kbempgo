@@ -17,9 +17,9 @@ import (
 
 	"github.com/imroc/req/v3"
 	kbv1 "github.com/mioxin/kbempgo/api/kbemp/v1"
-	"github.com/mioxin/kbempgo/internal/config"
+	httpclient "github.com/mioxin/kbempgo/internal/http_client"
+	"github.com/mioxin/kbempgo/internal/models"
 	"github.com/mioxin/kbempgo/internal/utils"
-	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 )
 
@@ -32,8 +32,21 @@ func NewTask(data string) *Task {
 	return &Task{data, 0}
 }
 
-type ErrorMessage struct {
+type ReqMessageError struct {
 	Message string `json:"message"`
+}
+
+type TaskLimitExceededError struct {
+	val int
+}
+
+func (e *TaskLimitExceededError) Error() string {
+	return fmt.Sprintf("limit of requests is exeded, count: %d", e.val)
+}
+
+func (e *TaskLimitExceededError) Is(err error) bool {
+	_, ok := err.(*TaskLimitExceededError)
+	return ok
 }
 
 // TryLimit is retry get razd if empty one
@@ -49,175 +62,187 @@ type Worker struct {
 	Name        string
 	QueueDep    *list.List
 	QueueAvatar *list.List
-	Gl          *config.Globals
+	Conf        *Config
 	IsData      chan struct{}
 	IsDataA     chan struct{}
 	Lg          *slog.Logger
+	httpClient  *req.Client
 }
 
-func NewWorker(gl *config.Globals, name string) *Worker {
-	lg := gl.Log.With("worker", name)
+func NewWorker(conf *Config, name string, debugLevel int, logger *slog.Logger) *Worker {
+	lg := logger.With("worker", name)
 	isData := make(chan struct{}, 1500)
 	IsDataA := make(chan struct{}, 1500)
+	cli := httpclient.NewHTTPClient(debugLevel)
+	cli.SetBaseURL(conf.KbUrl).
+		SetTimeout(conf.HttpReqTimeout).
+		SetLogger(&ReqLogger{Logger: *lg})
 
 	return &Worker{Name: name,
 		QueueDep:    list.New(),
 		QueueAvatar: list.New(),
-		Gl:          gl,
+		Conf:        conf,
 		Lg:          lg,
 		IsData:      isData,
 		IsDataA:     IsDataA,
+		httpClient:  cli,
 	}
 }
 
 // GetRazd ...
-func (w *Worker) GetRazd(ctx context.Context, in chan Task, limit int32, depsCount *atomic.Int32, sotrCount *atomic.Int32) {
+func (w *Worker) GetRazd(ctx context.Context, in chan Task, limit int32, depsCount *atomic.Int32, sotrCount *atomic.Int32) (err error) {
 	var (
-		errMsg ErrorMessage
+		errMsg ReqMessageError
+		// cli *req.Client
 	)
 
 	w.Lg.Info("Worker: Start Getting...")
 
-	var cli *req.Client
-
 	defer func() {
-		// w.Gl.ClientsPool.Push(cli)
+		close(w.IsDataA)
+		close(w.IsData)
 		w.Lg.Info("Worker: END")
 	}()
 
-	// get client from pool
-	// cli = w.Gl.ClientsPool.Get()
-	cli = w.Gl.ClientsPool
+	cli := w.httpClient
 
-	cli.SetBaseURL(w.Gl.KbUrl).
-		SetTimeout(w.Gl.HttpReqTimeout).
-		SetLogger(&ReqLogger{Logger: *w.Lg})
-
-	for r := range in {
-		cnt := depsCount.Load() + sotrCount.Load()
-
-		if limit > 0 && cnt > limit {
-			w.Lg.Info("Worker: Count limited", "count", cnt)
-			w.Gl.Done()
-			return
-		}
-
-		if r.Num > TryLimit {
-			w.Lg.Warn("Worker: Out of try limit", "try", r.Num, "req_dep", r.Data)
-			break
-		}
-
-		w.Lg.Debug("Worker:", "dep", r.Data, "try", r.Num)
-
-		// deps := make([]*kbv1.Dep, 0)
-
-		// retry if successful req but empty deps
-		resp, err := cli.R().
-			SetErrorResult(&errMsg). // Unmarshal response body into errMsg automatically if status code >= 400.
-			EnableDump().            // Enable dump at request level, only print dump content if there is an error or some unknown situation occurs to help troubleshoot.
-			// SetSuccessResult(&deps). // Unmarshal response body into userInfo automatically if status code is between 200 and 299.
-			// SetContext(ctx).
-			Get(w.Gl.UrlRazd + r.Data)
-
+	for {
 		select {
-		case <-ctx.Done():
-			w.Lg.Info("Worker:", "err", ctx.Err().Error())
-			return
-		default:
-		}
 
-		if err != nil { // Error handling.
-			w.Lg.Error("Worker:", "error handling", err)
-			w.Lg.Debug("Worker:", "resp dump", resp.Dump()) // Record raw content when error occurs.
+		case task := <-in:
+			cnt := depsCount.Load() + sotrCount.Load()
 
-			break
-		}
-
-		if resp.IsErrorState() { // Status code >= 400.
-			w.Lg.Error("Worker:", "err", errMsg.Message) // Record error message returned.
-
-			break
-		}
-
-		if resp.IsSuccessState() { // Status code is between 200 and 299.
-
-			body, err := resp.ToBytes()
-			if err != nil {
-				w.Lg.Error("Worker: get body:", "err", err, "time", resp.TotalTime())
+			if limit > 0 && cnt > limit {
+				w.Lg.Info("Worker: Count limited", "count", cnt)
+				return &TaskLimitExceededError{val: int(cnt)}
 			}
 
-			var raw []json.RawMessage
-			if err := json.Unmarshal(body, &raw); err != nil {
-				w.Lg.Error("Worker: unmurshal body to []Raw:", "err", err, "time", resp.TotalTime())
+			if task.Num > TryLimit {
+				w.Lg.Warn("Worker: Out of retry limit", "try", task.Num, "req_dep", task.Data)
+				break
 			}
 
-			deps := make([]*kbv1.Dep, len(raw))
-			opts := &protojson.UnmarshalOptions{DiscardUnknown: true}
+			w.Lg.Debug("Worker:", "dep", task.Data, "try", task.Num)
 
-			for i, rm := range raw {
-				dep := &kbv1.Dep{} // Новое сообщение
+			// deps := make([]*kbv1.Dep, 0)
 
-				if err := opts.Unmarshal([]byte(rm), dep); err != nil {
-					w.Lg.Error("Worker: unmurshal []Raw :", "err", err, "time", resp.TotalTime())
+			// retry if successful req but empty deps
+			resp, err := cli.R().
+				SetErrorResult(&errMsg). // Unmarshal response body into errMsg automatically if status code >= 400.
+				EnableDump().            // Enable dump at request level, only print dump content if there is an error or some unknown situation occurs to help troubleshoot.
+				// SetSuccessResult(&deps). // Unmarshal response body into userInfo automatically if status code is between 200 and 299.
+				// SetContext(ctx).
+				Get(w.Conf.UrlRazd + task.Data)
+
+			select {
+			case <-ctx.Done():
+				w.Lg.Info("Worker:", "err", ctx.Err().Error())
+				return ctx.Err()
+			default:
+				if err := ctx.Err(); err != nil {
+					return err
 				}
-
-				deps[i] = dep
 			}
 
-			rBytes := []byte{}
-			for _, r := range deps {
-				rBytes = append(rBytes, []byte(r.Idr)...)
-				rBytes = append(rBytes, []byte("; ")...)
+			if err != nil { // Error handling.
+				w.Lg.Error("Worker:", "error handling", err)
+				w.Lg.Debug("Worker:", "resp dump", resp.Dump()) // Record raw content when error occurs.
+
+				break
 			}
 
-			w.Lg.Debug("Worker: responce:", "razd", string(rBytes), "deps_length", len(deps), "time", resp.TotalTime())
+			if resp.IsErrorState() { // Status code >= 400.
+				w.Lg.Error("Worker:", "err", errMsg.Message) // Record error message returned.
 
-			// retry get razd
-			if string(rBytes) == "" { // && resp.TotalTime() > 4*time.Second {
-				w.Lg.Warn("Worker: Empty response ", "try", r.Num, "req_dep", r.Data, "resp", resp.Dump(), "time", resp.TotalTime())
-
-				in <- Task{r.Data, r.Num + 1}
-
-				continue
+				break
 			}
 
-			for _, d := range deps {
-				if d.GetChildren() {
-					w.mu.Lock()
-					w.QueueDep.PushBack(d.Idr)
-					w.mu.Unlock()
+			if resp.IsSuccessState() { // Status code is between 200 and 299.
 
-					depsCount.Add(1)
-
-					select {
-					case w.IsData <- struct{}{}:
-					default:
-					}
-				} else {
-					sotrCount.Add(1)
-				}
-
-				err := w.PrepareItem(cli, d)
+				body, err := resp.ToBytes()
 				if err != nil {
-					w.Lg.Error("Worker: Prepare dep", "err", err, "dep", d)
+					w.Lg.Error("Worker: get body:", "err", err, "time", resp.TotalTime())
+				}
+
+				var raw []json.RawMessage
+				if err := json.Unmarshal(body, &raw); err != nil {
+					w.Lg.Error("Worker: unmurshal body to []Raw:", "err", err, "time", resp.TotalTime())
+				}
+
+				deps := make([]*kbv1.Dep, len(raw))
+				// opts := &protojson.UnmarshalOptions{DiscardUnknown: true}
+
+				for i, rm := range raw {
+					dep := &models.Dep{} // Новое сообщение
+
+					if err := json.Unmarshal([]byte(rm), dep); err != nil {
+						w.Lg.Error("Worker: unmurshal []Raw :", "err", err, "time", resp.TotalTime())
+					}
+
+					deps[i] = dep.Conv2Kbv().GetDep()
+				}
+
+				// construct string for debug output
+				rBytes := []byte{}
+				for _, dep := range deps {
+					rBytes = append(rBytes, []byte(dep.Idr)...)
+					rBytes = append(rBytes, []byte("; ")...)
+				}
+
+				w.Lg.Debug("Worker: responce:", "razd", string(rBytes), "deps_length", len(deps), "time", resp.TotalTime())
+
+				// retry get razd
+				if len(deps) == 0 { // && resp.TotalTime() > 4*time.Second {
+					w.Lg.Warn("Worker: Empty response ", "try", task.Num, "req_dep", task.Data, "resp", resp.Dump(), "time", resp.TotalTime())
+
+					in <- Task{task.Data, task.Num + 1}
+					continue
+				}
+
+				for _, d := range deps {
+					if d.GetChildren() {
+						w.mu.Lock()
+						w.QueueDep.PushBack(d.Idr)
+						w.mu.Unlock()
+
+						depsCount.Add(1)
+
+						select {
+						case w.IsData <- struct{}{}:
+						default:
+						}
+					} else {
+						sotrCount.Add(1)
+					}
+
+					err := w.PrepareItem(ctx, d)
+					if err != nil {
+						w.Lg.Error("Worker: Prepare dep", "err", err, "dep", d)
+					}
 				}
 			}
+
+			w.mu.Lock()
+			lenQ := w.QueueDep.Len()
+			w.mu.Unlock()
+
+			w.Lg.Debug("Worker Len of QueueDep:", "len", lenQ)
+
+		case <-ctx.Done():
+			return ctx.Err()
 		}
-
-		w.mu.Lock()
-		lenQ := w.QueueDep.Len()
-		w.mu.Unlock()
-
-		w.Lg.Debug("Worker Len of QueueDep:", "len", lenQ)
 	}
+	return
 }
 
 // Dispatcher wolking accross worker queues for forwarding idr/avatar to worker input chanal
-func (w *Worker) Dispatcher(ctx context.Context, queue *list.List, out chan<- Task, isData <-chan struct{}) {
+func (w *Worker) Dispatcher(ctx context.Context, dispName string, queue *list.List, out chan<- Task, isData <-chan struct{}) {
 	var (
 		count, lenQ int
 		s           string
 	)
+
+	defer w.Lg.Info(fmt.Sprintf("Dispatcher %s: END...", dispName))
 
 	send2chan := func(q *list.List, outCh chan<- Task) (ok bool) {
 		ok = true
@@ -229,10 +254,10 @@ func (w *Worker) Dispatcher(ctx context.Context, queue *list.List, out chan<- Ta
 		w.mu.Unlock()
 
 		if lenQ == 0 {
-			w.Lg.Info("Dispatcher error isData when Queue len =0")
+			w.Lg.Info(fmt.Sprintf("Dispatcher %s: isData when Queue len =0", dispName))
 			return
 		}
-		// w.Lg.Debug("Dispatcher. Get new data from Queue...")
+
 		// get data from queue
 		w.mu.Lock()
 		s = q.Remove(q.Front()).(string)
@@ -247,7 +272,7 @@ func (w *Worker) Dispatcher(ctx context.Context, queue *list.List, out chan<- Ta
 			lenQ = q.Len()
 			w.mu.Unlock()
 
-			w.Lg.Info("Dispatcher: general cancel:", "err", ctx.Err().Error(), "QueueLen", lenQ) // , "DepsQueueLen", lenQD)
+			w.Lg.Info(fmt.Sprintf("Dispatcher %s: general cancel:", dispName), "err", ctx.Err().Error(), "QueueLen", lenQ) // , "DepsQueueLen", lenQD)
 			ok = false
 
 			return
@@ -259,12 +284,16 @@ func (w *Worker) Dispatcher(ctx context.Context, queue *list.List, out chan<- Ta
 	for {
 		// if the dispatcher faster a workers then isData indicate new data in the queue
 		// if w.QueueDep.Len() == 0 {
-		w.Lg.Debug("Dispatcher. Getting data from Queue...")
+		w.Lg.Debug(fmt.Sprintf("Dispatcher %s: Getting data from Queue...", dispName))
 
 		timeStart := time.Now()
 
 		select {
 		case _, ok := <-isData:
+			if err := ctx.Err(); err != nil {
+				return
+			}
+
 			if !ok {
 				return
 			}
@@ -277,14 +306,14 @@ func (w *Worker) Dispatcher(ctx context.Context, queue *list.List, out chan<- Ta
 			lenQ := queue.Len()
 			w.mu.Unlock()
 
-			w.Lg.Info("Dispatcher: Get from queue", "count", count, "data", s, "QueueLen", lenQ, "time", time.Since(timeStart))
+			w.Lg.Info(fmt.Sprintf("Dispatcher %s: Get from queue", dispName), "count", count, "data", s, "QueueLen", lenQ, "time", time.Since(timeStart))
 
 		case <-ctx.Done():
 			w.mu.Lock()
 			lenQ := queue.Len()
 			w.mu.Unlock()
 
-			w.Lg.Debug("Dispatcher: general cancel in loop:", "err", ctx.Err().Error(), "QueueLen", lenQ, "IsData", len(isData)) // , "DepsQueueLen", lenQD, "DepsIsData", len(w.isData))
+			w.Lg.Debug(fmt.Sprintf("Dispatcher %s: general cancel in loop:", dispName), "err", ctx.Err().Error(), "QueueLen", lenQ, "IsData", len(isData)) // , "DepsQueueLen", lenQD, "DepsIsData", len(w.isData))
 
 			return
 		}
@@ -293,7 +322,7 @@ func (w *Worker) Dispatcher(ctx context.Context, queue *list.List, out chan<- Ta
 }
 
 // PrepareItem define the item as a deps or an employee and save one
-func (w *Worker) PrepareItem(cli *req.Client, item Item) error {
+func (w *Worker) PrepareItem(ctx context.Context, item Item) error {
 	dep := item.(*kbv1.Dep)
 	dep.Text = html.UnescapeString(dep.Text)
 
@@ -315,7 +344,7 @@ func (w *Worker) PrepareItem(cli *req.Client, item Item) error {
 		sotr.ParentId = dep.Parent
 
 		// define the middle name of employee
-		text, err := w.getData(cli, w.Gl.UrlFio, sotr.Name)
+		text, err := w.getData(w.Conf.UrlFio, sotr.Name)
 		if err != nil {
 			w.Lg.Error("Get middle name:", "err", err.Error())
 		} else {
@@ -328,7 +357,7 @@ func (w *Worker) PrepareItem(cli *req.Client, item Item) error {
 
 		// define mobile phone
 		if len(sotr.Mobile) == 0 {
-			text, err = w.getData(cli, w.Gl.UrlMobile, sotr.Tabnum)
+			text, err = w.getData(w.Conf.UrlMobile, sotr.Tabnum)
 		}
 
 		var mob *utils.Mobile
@@ -343,24 +372,27 @@ func (w *Worker) PrepareItem(cli *req.Client, item Item) error {
 			} else if !mob.Success {
 				w.Lg.Warn("Mobile get unsuccess", "sotr_name", sotr.Name+sotr.MidName, "tabnum", sotr.Tabnum, "responce", html.UnescapeString(text))
 			}
+			if mob.Data != "" {
+				sotr.Mobile = strings.Split(mob.Data, ",")
+			}
 
-			sotr.Mobile = strings.Split(mob.Data, ",")
 		}
 
 		item = sotr
 	}
 
-	_, err := w.Gl.Store.Save(context.TODO(), item)
+	_, err := w.Conf.Store.Save(context.TODO(), item.(models.Item))
 
 	return err
 }
 
-func (w *Worker) getData(cli *req.Client, ajaxUrl, query string) (string, error) {
+func (w *Worker) getData(ajaxUrl, query string) (string, error) {
 	var (
-		errMsg ErrorMessage
+		errMsg ReqMessageError
 		body   string // []byte
 	)
 
+	cli := w.httpClient
 	resp, err := cli.R().
 		SetErrorResult(&errMsg). // Unmarshal response body into errMsg automatically if status code >= 400.
 		Get(ajaxUrl + url.PathEscape(query))
@@ -381,22 +413,16 @@ func (w *Worker) getData(cli *req.Client, ajaxUrl, query string) (string, error)
 }
 
 func (w *Worker) GetAvatar(ctx context.Context, in <-chan Task, limit int32,
-	depsCount *atomic.Int32, sotrCount *atomic.Int32, fileCollection map[string]AvatarInfo) {
-	var errMsg ErrorMessage
+	depsCount *atomic.Int32, sotrCount *atomic.Int32, fileCollection map[string]AvatarInfo) (err error) {
+	var errMsg ReqMessageError
 
 	w.Lg.Info("Worker avatar: Start Getting...")
-
-	var cli *req.Client
 
 	defer func() {
 		w.Lg.Info("Worker avatar: END")
 	}()
 
-	cli = w.Gl.ClientsPool
-
-	cli.SetBaseURL(w.Gl.KbUrl).
-		SetTimeout(w.Gl.HttpReqTimeout).
-		SetLogger(&ReqLogger{Logger: *w.Lg})
+	cli := w.httpClient
 
 	callback := func(info req.DownloadInfo) {
 		if info.Response.Response != nil {
@@ -404,72 +430,78 @@ func (w *Worker) GetAvatar(ctx context.Context, in <-chan Task, limit int32,
 		}
 	}
 
-	for task := range in {
-		ava := task.Data
+	for {
+		select {
 
-		cnt := depsCount.Load() + sotrCount.Load()
-		if limit > 0 && cnt > limit {
-			w.Lg.Info("Worker avatar: Count limited", "count", cnt)
-			w.Gl.Done()
+		case task := <-in:
+			ava := task.Data
 
-			return
-		}
-
-		w.Lg.Debug("Worker avatar:", "avatar", ava)
-
-		// get head for compare file size
-		r := cli.Head(ava).
-			Do()
-
-		if r.Err != nil {
-			fmt.Println(r.Err.Error(), ava)
-		}
-
-		filename := filepath.Join(w.Gl.Avatars, ava)
-
-		key := strings.Split(filepath.Base(ava), ".")[0]
-		avaInfo, ok := fileCollection[key]
-
-		if ok {
-			if r.ContentLength == avaInfo.Size {
-				w.Lg.Debug("Worker avatar: Skip existing >>>", "file", ava, "avaInfo", avaInfo)
-				continue
+			cnt := depsCount.Load() + sotrCount.Load()
+			if limit > 0 && cnt > limit {
+				w.Lg.Info("Worker avatar: Count limited", "count", cnt)
+				return &TaskLimitExceededError{val: int(cnt)}
 			}
-			// new name like "dir/8768768 (2).jpg"
-			filename = filepath.Join(filepath.Dir(filename),
-				fmt.Sprintf("%s (%d)%s",
-					key,
-					avaInfo.Num+1,
-					filepath.Ext(avaInfo.ActualName)))
-		}
 
-		tFilename := filename + ".tmp"
+			w.Lg.Debug("Worker avatar:", "avatar", ava)
 
-		resp, err := cli.R().
-			SetErrorResult(&errMsg). // Unmarshal response body into errMsg automatically if status code >= 400.
-			SetOutputFile(tFilename).
-			SetDownloadCallback(callback).
-			Get(ava)
-		if err != nil { // Error handling.
-			w.Lg.Error("Worker avatar: request handling", "error", err)
+			// get head for compare file size
+			r := cli.Head(ava).
+				Do()
 
-			err = os.Remove(tFilename)
-			if err != nil {
-				w.Lg.Error("Worker avatar: delete temp file", "error", err)
+			if r.Err != nil {
+				fmt.Println(r.Err.Error(), ava)
 			}
-		}
 
-		if resp.IsErrorState() { // Status code >= 400.
-			w.Lg.Error("Worker avatar:", "err", errMsg.Message) // Record error message returned.
-		}
+			filename := filepath.Join(w.Conf.Avatars, ava)
 
-		if resp.IsSuccessState() { // Status code is between 200 and 299.
-			w.Lg.Info("Worker avatar: downloaded", "avatar", ava, "syze", resp.ContentLength, "file_name", filename, "time", resp.TotalTime())
+			key := strings.Split(filepath.Base(ava), ".")[0]
+			avaInfo, ok := fileCollection[key]
 
-			err = os.Rename(tFilename, filename)
-			if err != nil {
-				w.Lg.Error("Worker avatar: rename temp file", "error", err)
+			if ok {
+				if r.ContentLength == avaInfo.Size {
+					w.Lg.Debug("Worker avatar: Skip existing >>>", "file", ava, "avaInfo", avaInfo)
+					continue
+				}
+				// new name like "dir/8768768 (2).jpg"
+				filename = filepath.Join(filepath.Dir(filename),
+					fmt.Sprintf("%s (%d)%s",
+						key,
+						avaInfo.Num+1,
+						filepath.Ext(avaInfo.ActualName)))
 			}
+
+			tFilename := filename + ".tmp"
+
+			resp, err := cli.R().
+				SetErrorResult(&errMsg). // Unmarshal response body into errMsg automatically if status code >= 400.
+				SetOutputFile(tFilename).
+				SetDownloadCallback(callback).
+				Get(ava)
+			if err != nil { // Error handling.
+				w.Lg.Error("Worker avatar: request handling", "error", err)
+
+				err = os.Remove(tFilename)
+				if err != nil {
+					w.Lg.Error("Worker avatar: delete temp file", "error", err)
+				}
+			}
+
+			if resp.IsErrorState() { // Status code >= 400.
+				w.Lg.Error("Worker avatar:", "err", errMsg.Message) // Record error message returned.
+			}
+
+			if resp.IsSuccessState() { // Status code is between 200 and 299.
+				w.Lg.Info("Worker avatar: downloaded", "avatar", ava, "syze", resp.ContentLength, "file_name", filename, "time", resp.TotalTime())
+
+				err = os.Rename(tFilename, filename)
+				if err != nil {
+					w.Lg.Error("Worker avatar: rename temp file", "error", err)
+				}
+			}
+
+		case <-ctx.Done():
+			return ctx.Err()
 		}
 	}
+	return
 }

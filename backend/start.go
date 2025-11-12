@@ -1,6 +1,7 @@
 package backend
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"os/signal"
@@ -12,8 +13,9 @@ import (
 
 const ProgName string = "kbsrv"
 
-func startGrpc(e *CLI, store *PStor) error {
-	e.Context()
+func start(e *CLI, store *PStor) error {
+	ctx, cancel := context.WithTimeout(context.Background(), e.Globals.OpTimeout)
+	defer cancel()
 
 	// start gRPC server
 	opts := &gsrv.ServerOptions{
@@ -21,7 +23,7 @@ func startGrpc(e *CLI, store *PStor) error {
 		WithPrometheus:    true,
 		WithHealth:        true,
 		WithValidator:     true,
-		WithPingServer:    true,
+		WithPingServer:    false,
 		WithVersionServer: true,
 		ProgramName:       ProgName,
 		Lg:                e.Log.With("srv", "gRPC"),
@@ -60,7 +62,7 @@ func startGrpc(e *CLI, store *PStor) error {
 	gwOpts := &gsrv.GatewayOptions{
 		WithPrometheus: true,
 		Lg:             e.Log.With("srv", "gRPC_proxy"),
-		Ctx:            e.Ctx,
+		Ctx:            ctx,
 	}
 
 	gw, err := gsrv.NewGateway(&e.GrpcProxy, gwOpts)
@@ -74,7 +76,7 @@ func startGrpc(e *CLI, store *PStor) error {
 		gw.Stop()
 	}()
 
-	err = gw.Connect(e.Ctx, sock.Addr(), &e.Grpc)
+	err = gw.Connect(ctx, sock.Addr(), &e.Grpc)
 	if err != nil {
 		e.Log.Error("gRPC Proxy connect failed", "error", err, "remote", sock.Addr())
 		return err
