@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"log/slog"
 	"testing"
 
 	kbv1 "github.com/mioxin/kbempgo/api/kbemp/v1"
@@ -19,7 +20,7 @@ func TestGetDepsBy(t *testing.T) {
 		Text:     "Управление разработки",
 		Children: true,
 	}
-	stor, err := NewFileStore[*kbv1.Dep]("./testdata")
+	stor, err := NewFileStore[*kbv1.Dep]("./testdata", slog.Default())
 
 	require.NoError(t, err)
 	defer stor.Close()
@@ -76,7 +77,7 @@ func TestSotrsBy(t *testing.T) {
 
 	d := make([]*kbv1.Sotr, 0)
 
-	stor, err := NewFileStore[*kbv1.Sotr]("./testdata")
+	stor, err := NewFileStore[*kbv1.Sotr]("./testdata", slog.Default())
 
 	require.NoError(t, err)
 	defer stor.Close()
@@ -84,7 +85,9 @@ func TestSotrsBy(t *testing.T) {
 	for _, f := range fields {
 		t.Run(f.name.String(), func(t *testing.T) {
 			d, err = stor.GetSotrsBy(context.TODO(), &kbv1.QuerySotr{Field: f.name, Str: f.value})
-
+			if f.name != 10 {
+				require.Less(t, 0, len(d))
+			}
 			if err != io.EOF && err != nil {
 				require.Equal(t, err.Error(), f.err.Error())
 			} else {
@@ -134,7 +137,7 @@ func TestSotrsBy(t *testing.T) {
 // }
 
 func BenchmarkGetSotrByTabnum(b *testing.B) {
-	stor, err := NewFileStore[*kbv1.Sotr]("./testdata")
+	stor, err := NewFileStore[*kbv1.Sotr]("./testdata", slog.Default())
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -148,7 +151,7 @@ func BenchmarkGetSotrByTabnum(b *testing.B) {
 }
 
 func BenchmarkGetSotrByField(b *testing.B) {
-	stor, err := NewFileStore[*kbv1.Sotr]("./testdata")
+	stor, err := NewFileStore[*kbv1.Sotr]("./testdata", slog.Default())
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -161,7 +164,7 @@ func BenchmarkGetSotrByField(b *testing.B) {
 }
 
 func BenchmarkGetDepByIdr(b *testing.B) {
-	stor, err := NewFileStore[*kbv1.Sotr]("./testdata")
+	stor, err := NewFileStore[*kbv1.Sotr]("./testdata", slog.Default())
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -175,7 +178,7 @@ func BenchmarkGetDepByIdr(b *testing.B) {
 }
 
 func BenchmarkGetDepByIdr1(b *testing.B) {
-	stor, err := NewFileStore[*kbv1.Sotr]("./testdata")
+	stor, err := NewFileStore[*kbv1.Sotr]("./testdata", slog.Default())
 	if err != nil {
 		fmt.Println(err)
 		return

@@ -73,7 +73,7 @@ func NewWorker(conf *Config, name string, debugLevel int, logger *slog.Logger) *
 	lg := logger.With("worker", name)
 	isData := make(chan struct{}, 1500)
 	IsDataA := make(chan struct{}, 1500)
-	cli := httpclient.NewHTTPClient(debugLevel)
+	cli := httpclient.NewHTTPClient(debugLevel, conf.Headers)
 	cli.SetBaseURL(conf.KbUrl).
 		SetTimeout(conf.HttpReqTimeout).
 		SetLogger(&ReqLogger{Logger: *lg})
@@ -161,12 +161,12 @@ func (w *Worker) GetRazd(ctx context.Context, in chan Task, limit int32, depsCou
 
 				body, err := resp.ToBytes()
 				if err != nil {
-					w.Lg.Error("Worker: get body:", "err", err, "time", resp.TotalTime())
+					w.Lg.Error("Worker: get body:", "err", err, "delay", resp.TotalTime())
 				}
 
 				var raw []json.RawMessage
 				if err := json.Unmarshal(body, &raw); err != nil {
-					w.Lg.Error("Worker: unmurshal body to []Raw:", "err", err, "time", resp.TotalTime())
+					w.Lg.Error("Worker: unmurshal body to []Raw:", "err", err, "delay", resp.TotalTime())
 				}
 
 				deps := make([]*kbv1.Dep, len(raw))
@@ -176,7 +176,7 @@ func (w *Worker) GetRazd(ctx context.Context, in chan Task, limit int32, depsCou
 					dep := &models.Dep{} // Новое сообщение
 
 					if err := json.Unmarshal([]byte(rm), dep); err != nil {
-						w.Lg.Error("Worker: unmurshal []Raw :", "err", err, "time", resp.TotalTime())
+						w.Lg.Error("Worker: unmurshal []Raw :", "err", err, "delay", resp.TotalTime())
 					}
 
 					deps[i] = dep.Conv2Kbv().GetDep()
@@ -189,11 +189,11 @@ func (w *Worker) GetRazd(ctx context.Context, in chan Task, limit int32, depsCou
 					rBytes = append(rBytes, []byte("; ")...)
 				}
 
-				w.Lg.Debug("Worker: responce:", "razd", string(rBytes), "deps_length", len(deps), "time", resp.TotalTime())
+				w.Lg.Debug("Worker: responce:", "razd", string(rBytes), "deps_length", len(deps), "delay", resp.TotalTime())
 
 				// retry get razd
 				if len(deps) == 0 { // && resp.TotalTime() > 4*time.Second {
-					w.Lg.Warn("Worker: Empty response ", "try", task.Num, "req_dep", task.Data, "resp", resp.Dump(), "time", resp.TotalTime())
+					w.Lg.Warn("Worker: Empty response ", "try", task.Num, "req_dep", task.Data, "resp", resp.Dump(), "delay", resp.TotalTime())
 
 					in <- Task{task.Data, task.Num + 1}
 					continue
@@ -306,7 +306,7 @@ func (w *Worker) Dispatcher(ctx context.Context, dispName string, queue *list.Li
 			lenQ := queue.Len()
 			w.mu.Unlock()
 
-			w.Lg.Info(fmt.Sprintf("Dispatcher %s: Get from queue", dispName), "count", count, "data", s, "QueueLen", lenQ, "time", time.Since(timeStart))
+			w.Lg.Info(fmt.Sprintf("Dispatcher %s: Get from queue", dispName), "count", count, "data", s, "QueueLen", lenQ, "delay", time.Since(timeStart))
 
 		case <-ctx.Done():
 			w.mu.Lock()
@@ -322,7 +322,7 @@ func (w *Worker) Dispatcher(ctx context.Context, dispName string, queue *list.Li
 }
 
 // PrepareItem define the item as a deps or an employee and save one
-func (w *Worker) PrepareItem(ctx context.Context, item Item) error {
+func (w *Worker) PrepareItem(ctx context.Context, item models.Item) error {
 	dep := item.(*kbv1.Dep)
 	dep.Text = html.UnescapeString(dep.Text)
 
@@ -381,7 +381,7 @@ func (w *Worker) PrepareItem(ctx context.Context, item Item) error {
 		item = sotr
 	}
 
-	_, err := w.Conf.Store.Save(context.TODO(), item.(models.Item))
+	_, err := w.Conf.Store.Save(ctx, item)
 
 	return err
 }
@@ -491,7 +491,7 @@ func (w *Worker) GetAvatar(ctx context.Context, in <-chan Task, limit int32,
 			}
 
 			if resp.IsSuccessState() { // Status code is between 200 and 299.
-				w.Lg.Info("Worker avatar: downloaded", "avatar", ava, "syze", resp.ContentLength, "file_name", filename, "time", resp.TotalTime())
+				w.Lg.Info("Worker avatar: downloaded", "avatar", ava, "syze", resp.ContentLength, "file_name", filename, "delay", resp.TotalTime())
 
 				err = os.Rename(tFilename, filename)
 				if err != nil {

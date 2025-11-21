@@ -1,6 +1,8 @@
 package cli
 
 import (
+	"context"
+	"errors"
 	"fmt"
 	"time"
 
@@ -45,5 +47,10 @@ func Main() {
 	cli.InitLog()
 
 	err = kctx.Run(&cli)
+	if errors.Is(err, context.Canceled) {
+		err = nil
+		cli.Log.Error("end cmd with error", "err", err)
+	}
+
 	kctx.FatalIfErrorf(err)
 }

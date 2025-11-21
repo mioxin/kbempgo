@@ -1,6 +1,7 @@
 package config
 
 import (
+	"io"
 	"log/slog"
 	"os"
 	"sync"
@@ -11,6 +12,7 @@ import (
 )
 
 type Globals struct {
+	Env             string          `name:"env" env:"KB_ENV" enum:"local,dev,prod" default:"local" help:"App Enviroment: local, dev, prod"`
 	ConfigFile      kong.ConfigFlag `name:"config-file" short:"c" type:"existingfile" help:"Config file location"`
 	OpTimeout       time.Duration   `name:"op-timeout" default:"1600s" help:"timeout for Main getting"`
 	WaitDataTimeout time.Duration   `name:"wait-timeout" default:"20s" help:"timeout for waiting data in dispatcher of worker"`
@@ -26,17 +28,9 @@ type Globals struct {
 
 func (gl *Globals) InitLog() {
 	gl.lgInitOnce.Do(func() {
-		opts := &slog.HandlerOptions{}
-		out := os.Stdout
 
-		if gl.LogOutput != "" {
-			f, err := os.OpenFile(gl.LogOutput, os.O_RDWR|os.O_APPEND|os.O_CREATE, 0644)
-			if err != nil {
-				slog.Error("error open log file", "file", gl.LogOutput, "err", err)
-			} else {
-				out = f
-			}
-		}
+		var out io.Writer
+		opts := &slog.HandlerOptions{}
 
 		if gl.Debug > 0 {
 			opts.Level = slog.LevelDebug
@@ -46,12 +40,25 @@ func (gl *Globals) InitLog() {
 			opts.AddSource = true
 		}
 
-		if gl.JsonLog {
-			gl.Log = slog.New(slog.NewJSONHandler(out, opts))
-		} else {
+		switch gl.Env {
+		case "local":
+			out = os.Stdout
+
+			if gl.LogOutput != "" {
+				f, err := os.OpenFile(gl.LogOutput, os.O_RDWR|os.O_APPEND|os.O_CREATE, 0644)
+				if err != nil {
+					slog.Error("error open log file", "file", gl.LogOutput, "err", err)
+				} else {
+					out = f
+				}
+			}
 			gl.Log = slog.New(slog.NewTextHandler(out, opts))
+
+		case "prod", "dev":
+			// TODO: add handler for loki and ELK
+			// out = Loki
+			gl.Log = slog.New(slog.NewJSONHandler(out, opts))
 		}
 
-		// TODO: add handler for loki and ELK
 	})
 }

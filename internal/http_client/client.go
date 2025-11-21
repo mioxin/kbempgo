@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/imroc/req/v3"
@@ -11,24 +12,35 @@ import (
 
 const MaxIdleConnsPerHost int = 20
 
-// NewClientsPool create Http clients pool based on chanal. Count is a max number of clients in the pool
-func NewHTTPClient(debLevel int) *req.Client {
+// NewHTTPClient create Http client
+func NewHTTPClient(debLevel int, headers []string) *req.Client {
 	hdrs := map[string]string{
 		"Accept":                    "*/*",
 		"Accept-Language":           "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
 		"Cache-Control":             "max-age=0",
 		"Connection":                "keep-alive",
-		"Cookie":                    "PHPSESSID=88ae87fcac04e76c600c14d250e041a4; ssaid=bcf81880-7c02-11f0-91d1-fde5c8f9f783; test.user.group=26; redirected=true; test.user.group_exp=76; test.user.group_exp2=13; __tld__=null; NSC_nz.lbtqj.la-443=ffffffff091900d245525d5f4f58455e445a4a423660",
+		"Cookie":                    "PHPSESSID=88ae87fcac04e76c600c14d250e041a4; ssaid=bcf81880-7c02-11f0-91d1-fde5c8f9f783; test.user.group=26; redirected=true; test.user.group_exp=76; test.user.group_exp2=13; __tld__=null; NSC_nz.lbtqj.la=ffffffff091900d545525d5f4f58455e445a4a423660",
 		"DNT":                       "1",
 		"Sec-Fetch-Dest":            "document",
 		"Sec-Fetch-Mode":            "navigate",
 		"Sec-Fetch-Site":            "none",
 		"Sec-Fetch-User":            "?1",
 		"Upgrade-Insecure-Requests": "1",
-		"User-Agent":                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
-		"sec-ch-ua":                 "\"Chromium\";v=\"140\", \"Not=A?Brand\";v=\"24\", \"Google Chrome\";v=\"140\"",
+		"User-Agent":                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",
+		"sec-ch-ua":                 "\"Chromium\";v=\"142\", \"Not=A?Brand\";v=\"99\", \"Google Chrome\";v=\"142\"",
 		"sec-ch-ua-mobile":          "?0",
 		"sec-ch-ua-platform":        "\"Windows\"",
+	}
+
+	// TODO read headers from config file Headers []string
+	if len(headers) > 0 {
+		for _, h := range headers {
+			parts := strings.SplitN(h, ":", 2)
+			if len(parts) != 2 {
+				continue
+			}
+			hdrs[strings.TrimSpace(parts[0])] = strings.TrimSpace(parts[1])
+		}
 	}
 
 	cli := req.C().

@@ -81,7 +81,8 @@ message Deps {
 
 message QueryDep { 
   enum DBField {
-    IDR = 0;
+    EMPTY = 0;
+    IDR = 1;
     PARENT = 4;
   }
   string str = 1;
@@ -90,10 +91,11 @@ message QueryDep {
 
 message QuerySotr { 
   enum DBField {
-    IDR = 0;
+    EMPTY = 0;
     MOBILE = 1;
     FIO = 2;
     TABNUM = 3;
+    IDR = 4;
   }
   string str = 1;
   DBField field = 2;

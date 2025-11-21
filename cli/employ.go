@@ -17,7 +17,7 @@ import (
 	"time"
 
 	kbv1 "github.com/mioxin/kbempgo/api/kbemp/v1"
-	"github.com/mioxin/kbempgo/internal/models"
+	"github.com/mioxin/kbempgo/internal/datasource"
 	"github.com/mioxin/kbempgo/internal/storage"
 	"github.com/mioxin/kbempgo/internal/utils"
 	wrk "github.com/mioxin/kbempgo/internal/worker"
@@ -61,6 +61,7 @@ func (e *employCommand) Run(cli *CLI) error {
 	// if FileSource setted then load data from source to storage
 	if e.FileSource != "" {
 		err := e.LoadDataToStor(ctx)
+		e.Lg.Info("Loaded from", "dir", e.FileSource, "dep_count", e.DepsCounter.Load(), "sotr_count", e.SotrCounter.Load())
 		return err
 	}
 	// ********************
@@ -68,7 +69,7 @@ func (e *employCommand) Run(cli *CLI) error {
 	// ********************
 
 	// open storage
-	cli.Store, err = storage.NewStore(cli.DbUrl)
+	cli.Store, err = storage.NewStore(cli.DbUrl, e.Lg)
 	if err != nil {
 		return fmt.Errorf("create storage %w", err)
 	}
@@ -101,6 +102,11 @@ func (e *employCommand) Run(cli *CLI) error {
 	razdCh := make(chan wrk.Task, 10)
 	avatarCh := make(chan wrk.Task, 10)
 
+	defer func() {
+		close(razdCh)
+		close(avatarCh)
+	}()
+
 	for _, w := range pool {
 		eg.Go(func() error {
 			return w.GetRazd(ctxErr, razdCh, int32(e.Limit), &(e.DepsCounter), &(e.SotrCounter))
@@ -129,11 +135,6 @@ func (e *employCommand) Run(cli *CLI) error {
 
 	// Close Chanals if empty
 	go func() {
-		defer func() {
-			close(razdCh)
-			close(avatarCh)
-		}()
-
 		timer := time.NewTicker(cli.WaitDataTimeout)
 
 		for {
@@ -159,13 +160,13 @@ func (e *employCommand) Run(cli *CLI) error {
 	// Start root section
 	razdCh <- *wrk.NewTask(e.RootRazd)
 
-	eg.Wait()
+	err = eg.Wait()
 	wgD.Wait()
 
 	e.Lg.Debug("Stop wait group... Close chanels.")
 	e.Lg.Info("Collected.", "sotr", e.SotrCounter.Load(), "deps", e.DepsCounter.Load())
 
-	return nil
+	return err
 }
 
 func (e *employCommand) getFileCollection(avatarsPath string) (fColection map[string]wrk.AvatarInfo, err error) {
@@ -259,25 +260,29 @@ func (e *employCommand) InsertFrom(ctx context.Context) (err error) {
 	gcli := kbv1.NewStorClient(e.grpcClient)
 
 	fPath := filepath.Join(e.FileSource, "dep.json")
-	err = insert[models.Dep](ctx, fPath, gcli)
+	err = e.insert(ctx, fPath, gcli, true)
 
 	fPath = filepath.Join(e.FileSource, "sotr.json")
-	err1 := insert[models.Sotr](ctx, fPath, gcli)
+	err1 := e.insert(ctx, fPath, gcli, false)
 
 	err = errors.Join(err, err1)
 
 	return
 }
 
-type ItemKbv interface {
-	Conv2Kbv() *kbv1.Item
-}
-
-func insert[T ItemKbv](ctx context.Context, path string, gcli kbv1.StorClient) (err error) {
+func (e *employCommand) insert(ctx context.Context, path string, gcli kbv1.StorClient, isDep bool) (err error) {
 	var (
-		s string
+		s    string
+		item datasource.Item
 	)
-	item := new(T)
+
+	if isDep {
+		item = &datasource.Dep{}
+		e.Lg.Debug("Load deps...", "dir", e.FileSource)
+	} else {
+		item = &datasource.Sotr{}
+		e.Lg.Debug("Load sotrs...", "dir", e.FileSource)
+	}
 
 	f, err := os.Open(path)
 	if err != nil {
@@ -287,11 +292,11 @@ func insert[T ItemKbv](ctx context.Context, path string, gcli kbv1.StorClient) (
 	defer func() {
 		err := f.Close()
 		if err != nil {
-			slog.Error("defer close in insert()", "file", path, "err", err)
+			e.Lg.Error("defer close in insert()", "file", path, "err", err)
 		}
 		_, err = gcli.Flush(ctx, &emptypb.Empty{})
 		if err != nil {
-			slog.Error("defer Flush in insert()", "file", path, "err", err)
+			e.Lg.Error("defer Flush in insert()", "file", path, "err", err)
 		}
 	}()
 
@@ -311,24 +316,44 @@ func insert[T ItemKbv](ctx context.Context, path string, gcli kbv1.StorClient) (
 
 		err = json.Unmarshal([]byte(s), item)
 		if err != nil {
-			slog.Error("insert: unmurshall json", "error", err, "json", s)
+			e.Lg.Error("insert: unmurshall json", "error", err, "json", s)
 			continue
 		}
 
-		switch it := any(item).(type) {
-		case *models.Dep:
-			_, err = gcli.Save(ctx, it.Conv2Kbv())
-			if err != nil {
-				slog.Error("insert: error save models.Dep", "err", err)
-			}
-		case *models.Sotr:
-			_, err = gcli.Save(ctx, it.Conv2Kbv())
-			if err != nil {
-				slog.Error("insert: error save models.Sotr", "err", err)
-			}
-		default:
-			slog.Error("insert: error cast item to models.Dep or models.Sotr", "json", s)
+		// 	switch it := any(item).(type) {
+
+		// 	case *datasource.Dep:
+		// 		_, err = gcli.Save(ctx, &kbv1.Item{Var: &kbv1.Item_Dep{Dep: it}})
+		// 		if err != nil {
+		// 			e.Lg.Error("insert: error save datasource.Dep", "err", err)
+		// 		} else {
+		// 			e.DepsCounter.Add(1)
+		// 		}
+
+		// 	case *datasource.Sotr:
+		// 		_, err = gcli.Save(ctx, &kbv1.Item{Var: &kbv1.Item_Sotr{Sotr: it}})
+		// 		if err != nil {
+		// 			e.Lg.Error("insert: error save datasource.Sotr", "err", err)
+		// 		} else {
+		// 			e.SotrCounter.Add(1)
+		// 		}
+
+		// 	default:
+		// 		e.Lg.Error("insert: error cast item to datasource.Dep or datasource.Sotr", "json", s)
+		// 	}
+
+		_, err = gcli.Save(ctx, item.Conv2Kbv())
+		if err != nil {
+			e.Lg.Error("insert: error save datasource.Dep", "err", err)
+			continue
+		}
+
+		if isDep {
+			e.DepsCounter.Add(1)
+		} else {
+			e.SotrCounter.Add(1)
 		}
 	}
+
 	return
 }

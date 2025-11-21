@@ -31,18 +31,21 @@ const (
 type QueryDep_DBField int32
 
 const (
-	QueryDep_IDR    QueryDep_DBField = 0
+	QueryDep_EMPTY  QueryDep_DBField = 0
+	QueryDep_IDR    QueryDep_DBField = 1
 	QueryDep_PARENT QueryDep_DBField = 4
 )
 
 // Enum value maps for QueryDep_DBField.
 var (
 	QueryDep_DBField_name = map[int32]string{
-		0: "IDR",
+		0: "EMPTY",
+		1: "IDR",
 		4: "PARENT",
 	}
 	QueryDep_DBField_value = map[string]int32{
-		"IDR":    0,
+		"EMPTY":  0,
+		"IDR":    1,
 		"PARENT": 4,
 	}
 )
@@ -77,25 +80,28 @@ func (QueryDep_DBField) EnumDescriptor() ([]byte, []int) {
 type QuerySotr_DBField int32
 
 const (
-	QuerySotr_IDR    QuerySotr_DBField = 0
+	QuerySotr_EMPTY  QuerySotr_DBField = 0
 	QuerySotr_MOBILE QuerySotr_DBField = 1
 	QuerySotr_FIO    QuerySotr_DBField = 2
 	QuerySotr_TABNUM QuerySotr_DBField = 3
+	QuerySotr_IDR    QuerySotr_DBField = 4
 )
 
 // Enum value maps for QuerySotr_DBField.
 var (
 	QuerySotr_DBField_name = map[int32]string{
-		0: "IDR",
+		0: "EMPTY",
 		1: "MOBILE",
 		2: "FIO",
 		3: "TABNUM",
+		4: "IDR",
 	}
 	QuerySotr_DBField_value = map[string]int32{
-		"IDR":    0,
+		"EMPTY":  0,
 		"MOBILE": 1,
 		"FIO":    2,
 		"TABNUM": 3,
+		"IDR":    4,
 	}
 )
 
@@ -295,7 +301,7 @@ func (x *QueryDep) GetField() QueryDep_DBField {
 	if x != nil {
 		return x.Field
 	}
-	return QueryDep_IDR
+	return QueryDep_EMPTY
 }
 
 type QuerySotr struct {
@@ -347,7 +353,7 @@ func (x *QuerySotr) GetField() QuerySotr_DBField {
 	if x != nil {
 		return x.Field
 	}
-	return QuerySotr_IDR
+	return QuerySotr_EMPTY
 }
 
 type QueryHist struct {
@@ -839,24 +845,26 @@ const file_stor_proto_rawDesc = "" +
 	"\bchildren\x18\x05 \x01(\bR\bchildren\"&\n" +
 	"\x04Deps\x12\x1e\n" +
 	"\x04Deps\x18\x01 \x03(\v2\n" +
-	".kb.v1.DepR\x04Deps\"k\n" +
+	".kb.v1.DepR\x04Deps\"v\n" +
 	"\bQueryDep\x12\x10\n" +
 	"\x03str\x18\x01 \x01(\tR\x03str\x12-\n" +
-	"\x05field\x18\x02 \x01(\x0e2\x17.kb.v1.QueryDep.DBFieldR\x05field\"\x1e\n" +
-	"\aDBField\x12\a\n" +
-	"\x03IDR\x10\x00\x12\n" +
+	"\x05field\x18\x02 \x01(\x0e2\x17.kb.v1.QueryDep.DBFieldR\x05field\")\n" +
+	"\aDBField\x12\t\n" +
+	"\x05EMPTY\x10\x00\x12\a\n" +
+	"\x03IDR\x10\x01\x12\n" +
 	"\n" +
-	"\x06PARENT\x10\x04\"\x82\x01\n" +
+	"\x06PARENT\x10\x04\"\x8d\x01\n" +
 	"\tQuerySotr\x12\x10\n" +
 	"\x03str\x18\x01 \x01(\tR\x03str\x12.\n" +
-	"\x05field\x18\x02 \x01(\x0e2\x18.kb.v1.QuerySotr.DBFieldR\x05field\"3\n" +
-	"\aDBField\x12\a\n" +
-	"\x03IDR\x10\x00\x12\n" +
+	"\x05field\x18\x02 \x01(\x0e2\x18.kb.v1.QuerySotr.DBFieldR\x05field\">\n" +
+	"\aDBField\x12\t\n" +
+	"\x05EMPTY\x10\x00\x12\n" +
 	"\n" +
 	"\x06MOBILE\x10\x01\x12\a\n" +
 	"\x03FIO\x10\x02\x12\n" +
 	"\n" +
-	"\x06TABNUM\x10\x03\"$\n" +
+	"\x06TABNUM\x10\x03\x12\a\n" +
+	"\x03IDR\x10\x04\"$\n" +
 	"\tQueryHist\x12\x17\n" +
 	"\asotr_id\x18\x01 \x01(\tR\x06sotrId\"\xd6\x02\n" +
 	"\x04Sotr\x12\x0e\n" +

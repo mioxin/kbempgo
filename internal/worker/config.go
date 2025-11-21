@@ -16,5 +16,6 @@ type Config struct {
 	HttpReqTimeout time.Duration `name:"req-timeout" default:"10s" help:"Http request timeout for worker"`
 	// WaitDataTimeout time.Duration `name:"wait-timeout" default:"20s" help:"timeout for waiting data in dispatcher of worker"`
 
-	Store storage.Store `kong:"-"`
+	Headers []string      `name:"scrape-headers" yaml:"headers" help:"Headers of http requsts as map[string]string in config file"`
+	Store   storage.Store `kong:"-"`
 }

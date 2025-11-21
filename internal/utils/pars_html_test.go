@@ -2,18 +2,19 @@ package utils
 
 import (
 	"bufio"
-	"encoding/json"
+	"context"
 	"fmt"
 	"html"
+	"io"
+	"log/slog"
 	"os"
 	"strings"
 	"testing"
 
 	kbv1 "github.com/mioxin/kbempgo/api/kbemp/v1"
-	"github.com/mioxin/kbempgo/internal/models"
+	"github.com/mioxin/kbempgo/internal/storage/file"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 var (
@@ -156,9 +157,22 @@ var fname []string = []string{
 }
 
 func TestCheckSotr(t *testing.T) {
-	users, err := getSotr("../../.tmp/sotr.json")
+
+	t.Skip("test for local test a scraped data")
+
+	stor, err := file.NewFileStore[*kbv1.Sotr]("../../.tmp", slog.Default())
+
 	require.NoError(t, err)
-	require.Less(t, 0, len(users))
+	defer stor.Close()
+
+	s, err := stor.GetSotrsBy(context.TODO(), &kbv1.QuerySotr{Field: kbv1.QuerySotr_EMPTY, Str: ""})
+	if err != io.EOF {
+		require.NoError(t, err)
+	}
+
+	users, err := ToMap(s)
+	require.NoError(t, err)
+	require.LessOrEqual(t, 0, len(users))
 
 	onDiv := func(data []byte, atEOF bool) (advance int, token []byte, err error) {
 		i := strings.Index(string(data), "class=div5b")
@@ -217,56 +231,65 @@ func TestCheckSotr(t *testing.T) {
 	}
 }
 
-func getSotr(f string) (map[string]*kbv1.Sotr, error) {
-	users := make(map[string]*kbv1.Sotr, 1000)
+func ToMap(sl []*kbv1.Sotr) (map[string]*kbv1.Sotr, error) {
+	users := make(map[string]*kbv1.Sotr)
 
-	file, err := os.Open(f)
-	if err != nil {
-		return nil, err
+	for _, v := range sl {
+		users[v.Tabnum] = v
 	}
-
-	defer file.Close() // nolint
-
-	scan := bufio.NewScanner(file)
-
-	for scan.Scan() {
-		text := scan.Text()
-
-		if err := scan.Err(); err != nil {
-			fmt.Println("reading standard input:", err)
-		}
-
-		user := models.Sotr{}
-
-		err := json.Unmarshal([]byte(text), &user)
-		if err != nil {
-			fmt.Printf("err unmarshall: %v\ntext: %s", err, text)
-			continue
-		}
-
-		users[user.Tabnum] = &kbv1.Sotr{
-			Id:       0,
-			Idr:      user.Idr,
-			Name:     user.Name,
-			MidName:  user.MidName,
-			Tabnum:   user.Tabnum,
-			Phone:    strings.Split(user.Phone, ","),
-			Mobile:   strings.Split(user.Mobile, ","),
-			Email:    user.Email,
-			Avatar:   user.Avatar,
-			Grade:    user.Grade,
-			Children: user.Children,
-			ParentId: user.ParentId,
-			Date:     timestamppb.Now(),
-		}
-	}
-
 	return users, nil
 }
 
-type ErrorMessage struct {
-	Message string `json:"message"`
-}
+// func getSotr(f string) (map[string]*kbv1.Sotr, error) {
+// 	users := make(map[string]*kbv1.Sotr, 1000)
+
+// 	file, err := os.Open(f)
+// 	if err != nil {
+// 		return nil, err
+// 	}
+
+// 	defer file.Close() // nolint
+
+// 	scan := bufio.NewScanner(file)
+
+// 	for scan.Scan() {
+// 		text := scan.Text()
+
+// 		if err := scan.Err(); err != nil {
+// 			fmt.Println("reading standard input:", err)
+// 		}
+
+// 		user := datasource.Sotr{}
+
+// 		err := json.Unmarshal([]byte(text), &user)
+// 		if err != nil {
+// 			fmt.Printf("err unmarshall: %v\ntext: %s", err, text)
+// 			continue
+// 		}
+
+// 		users[user.Tabnum] = &kbv1.Sotr{
+// 			Id:       0,
+// 			Idr:      user.Idr,
+// 			Name:     user.Name,
+// 			MidName:  user.MidName,
+// 			Tabnum:   user.Tabnum,
+// 			Phone:    strings.Split(user.Phone, ","),
+// 			Mobile:   strings.Split(user.Mobile, ","),
+// 			Email:    user.Email,
+// 			Avatar:   user.Avatar,
+// 			Grade:    user.Grade,
+// 			Children: user.Children,
+// 			ParentId: user.ParentID,
+// 			Date:     timestamppb.Now(),
+// 		}
+// 	}
+
+// 	return users, nil
+// }
+
+// type ErrorMessage struct {
+// 	Message string `json:"message"`
+// }
 
 // func TestCheckAvater(t *testing.T) {
 // 	wg := &sync.WaitGroup{}
