@@ -25,7 +25,7 @@ func TestGetDepsBy(t *testing.T) {
 	require.NoError(t, err)
 	defer stor.Close()
 
-	d, err := stor.GetDepsBy(context.TODO(), &kbv1.QueryDep{Field: kbv1.QueryDep_IDR, Str: "razd1941.840"})
+	d, err := stor.GetDepsBy(context.TODO(), &kbv1.DepRequest{Field: kbv1.DepRequest_IDR, Str: "razd1941.840"})
 	if err != io.EOF {
 		require.NoError(t, err)
 	}
@@ -50,21 +50,21 @@ var expectSotr kbv1.Sotr = kbv1.Sotr{
 }
 
 type field struct {
-	name  kbv1.QuerySotr_DBField
+	name  kbv1.SotrRequest_DBField
 	value string
 	err   error
 }
 
-func TestSotrsBy(t *testing.T) {
+func TestSotrsResponseBy(t *testing.T) {
 
 	var fields = []field{
 		{
-			name:  (kbv1.QuerySotr_TABNUM),
+			name:  (kbv1.SotrRequest_TABNUM),
 			value: "59029",
 			err:   nil,
 		},
 		{
-			name:  (kbv1.QuerySotr_FIO),
+			name:  (kbv1.SotrRequest_FIO),
 			value: "Бах Инд",
 			err:   nil,
 		},
@@ -84,7 +84,7 @@ func TestSotrsBy(t *testing.T) {
 
 	for _, f := range fields {
 		t.Run(f.name.String(), func(t *testing.T) {
-			d, err = stor.GetSotrsBy(context.TODO(), &kbv1.QuerySotr{Field: f.name, Str: f.value})
+			d, err = stor.GetSotrsBy(context.TODO(), &kbv1.SotrRequest{Field: f.name, Str: f.value})
 			if f.name != 10 {
 				require.Less(t, 0, len(d))
 			}
@@ -100,7 +100,7 @@ func TestSotrsBy(t *testing.T) {
 	}
 }
 
-// func TestSotrsByTabnum(t *testing.T) {
+// func TestSotrsResponseByTabnum(t *testing.T) {
 
 // 	var fields = []field{
 // 		{
@@ -145,7 +145,7 @@ func BenchmarkGetSotrByTabnum(b *testing.B) {
 	defer stor.Close()
 
 	for i := 0; i < b.N; i++ {
-		_, _ = stor.GetSotrByTabnum(context.TODO(), &kbv1.QuerySotr{Str: "59029"})
+		_, _ = stor.GetSotrByTabnum(context.TODO(), &kbv1.SotrRequest{Str: "59029"})
 	}
 
 }
@@ -159,7 +159,7 @@ func BenchmarkGetSotrByField(b *testing.B) {
 	defer stor.Close()
 
 	for i := 0; i < b.N; i++ {
-		_, _ = stor.GetSotrByField(context.TODO(), "tabnum", &kbv1.QuerySotr{Str: "59029"})
+		_, _ = stor.GetSotrByField(context.TODO(), "tabnum", &kbv1.SotrRequest{Str: "59029"})
 	}
 }
 
@@ -172,7 +172,7 @@ func BenchmarkGetDepByIdr(b *testing.B) {
 	defer stor.Close()
 
 	for i := 0; i < b.N; i++ {
-		_, _ = stor.GetDepsBy(context.TODO(), &kbv1.QueryDep{Str: "razd1941.840"})
+		_, _ = stor.GetDepsBy(context.TODO(), &kbv1.DepRequest{Str: "razd1941.840"})
 	}
 
 }
@@ -186,6 +186,6 @@ func BenchmarkGetDepByIdr1(b *testing.B) {
 	defer stor.Close()
 
 	for i := 0; i < b.N; i++ {
-		_, _ = stor.GetDepByIdr1(context.TODO(), &kbv1.QueryDep{Str: "razd1941.840"})
+		_, _ = stor.GetDepByIdr1(context.TODO(), &kbv1.DepRequest{Str: "razd1941.840"})
 	}
 }

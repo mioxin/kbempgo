@@ -90,7 +90,7 @@ func NewWorker(conf *Config, name string, debugLevel int, logger *slog.Logger) *
 }
 
 // GetRazd ...
-func (w *Worker) GetRazd(ctx context.Context, in chan Task, limit int32, depsCount *atomic.Int32, sotrCount *atomic.Int32) (err error) {
+func (w *Worker) GetRazd(ctx context.Context, in chan Task, limit int32, DepsResponseCount *atomic.Int32, sotrCount *atomic.Int32) (err error) {
 	var (
 		errMsg ReqMessageError
 		// cli *req.Client
@@ -110,7 +110,7 @@ func (w *Worker) GetRazd(ctx context.Context, in chan Task, limit int32, depsCou
 		select {
 
 		case task := <-in:
-			cnt := depsCount.Load() + sotrCount.Load()
+			cnt := DepsResponseCount.Load() + sotrCount.Load()
 
 			if limit > 0 && cnt > limit {
 				w.Lg.Info("Worker: Count limited", "count", cnt)
@@ -124,13 +124,13 @@ func (w *Worker) GetRazd(ctx context.Context, in chan Task, limit int32, depsCou
 
 			w.Lg.Debug("Worker:", "dep", task.Data, "try", task.Num)
 
-			// deps := make([]*kbv1.Dep, 0)
+			// DepsResponse := make([]*kbv1.Dep, 0)
 
-			// retry if successful req but empty deps
+			// retry if successful req but empty DepsResponse
 			resp, err := cli.R().
 				SetErrorResult(&errMsg). // Unmarshal response body into errMsg automatically if status code >= 400.
 				EnableDump().            // Enable dump at request level, only print dump content if there is an error or some unknown situation occurs to help troubleshoot.
-				// SetSuccessResult(&deps). // Unmarshal response body into userInfo automatically if status code is between 200 and 299.
+				// SetSuccessResult(&DepsResponse). // Unmarshal response body into userInfo automatically if status code is between 200 and 299.
 				// SetContext(ctx).
 				Get(w.Conf.UrlRazd + task.Data)
 
@@ -169,7 +169,7 @@ func (w *Worker) GetRazd(ctx context.Context, in chan Task, limit int32, depsCou
 					w.Lg.Error("Worker: unmurshal body to []Raw:", "err", err, "delay", resp.TotalTime())
 				}
 
-				deps := make([]*kbv1.Dep, len(raw))
+				DepsResponse := make([]*kbv1.Dep, len(raw))
 				// opts := &protojson.UnmarshalOptions{DiscardUnknown: true}
 
 				for i, rm := range raw {
@@ -179,33 +179,33 @@ func (w *Worker) GetRazd(ctx context.Context, in chan Task, limit int32, depsCou
 						w.Lg.Error("Worker: unmurshal []Raw :", "err", err, "delay", resp.TotalTime())
 					}
 
-					deps[i] = dep.Conv2Kbv().GetDep()
+					DepsResponse[i] = dep.Conv2Kbv().GetDep()
 				}
 
 				// construct string for debug output
 				rBytes := []byte{}
-				for _, dep := range deps {
+				for _, dep := range DepsResponse {
 					rBytes = append(rBytes, []byte(dep.Idr)...)
 					rBytes = append(rBytes, []byte("; ")...)
 				}
 
-				w.Lg.Debug("Worker: responce:", "razd", string(rBytes), "deps_length", len(deps), "delay", resp.TotalTime())
+				w.Lg.Debug("Worker: responce:", "razd", string(rBytes), "DepsResponse_length", len(DepsResponse), "delay", resp.TotalTime())
 
 				// retry get razd
-				if len(deps) == 0 { // && resp.TotalTime() > 4*time.Second {
+				if len(DepsResponse) == 0 { // && resp.TotalTime() > 4*time.Second {
 					w.Lg.Warn("Worker: Empty response ", "try", task.Num, "req_dep", task.Data, "resp", resp.Dump(), "delay", resp.TotalTime())
 
 					in <- Task{task.Data, task.Num + 1}
 					continue
 				}
 
-				for _, d := range deps {
+				for _, d := range DepsResponse {
 					if d.GetChildren() {
 						w.mu.Lock()
 						w.QueueDep.PushBack(d.Idr)
 						w.mu.Unlock()
 
-						depsCount.Add(1)
+						DepsResponseCount.Add(1)
 
 						select {
 						case w.IsData <- struct{}{}:
@@ -272,7 +272,7 @@ func (w *Worker) Dispatcher(ctx context.Context, dispName string, queue *list.Li
 			lenQ = q.Len()
 			w.mu.Unlock()
 
-			w.Lg.Info(fmt.Sprintf("Dispatcher %s: general cancel:", dispName), "err", ctx.Err().Error(), "QueueLen", lenQ) // , "DepsQueueLen", lenQD)
+			w.Lg.Info(fmt.Sprintf("Dispatcher %s: general cancel:", dispName), "err", ctx.Err().Error(), "QueueLen", lenQ) // , "DepsResponseQueueLen", lenQD)
 			ok = false
 
 			return
@@ -313,7 +313,7 @@ func (w *Worker) Dispatcher(ctx context.Context, dispName string, queue *list.Li
 			lenQ := queue.Len()
 			w.mu.Unlock()
 
-			w.Lg.Debug(fmt.Sprintf("Dispatcher %s: general cancel in loop:", dispName), "err", ctx.Err().Error(), "QueueLen", lenQ, "IsData", len(isData)) // , "DepsQueueLen", lenQD, "DepsIsData", len(w.isData))
+			w.Lg.Debug(fmt.Sprintf("Dispatcher %s: general cancel in loop:", dispName), "err", ctx.Err().Error(), "QueueLen", lenQ, "IsData", len(isData)) // , "DepsResponseQueueLen", lenQD, "DepsResponseIsData", len(w.isData))
 
 			return
 		}
@@ -321,7 +321,7 @@ func (w *Worker) Dispatcher(ctx context.Context, dispName string, queue *list.Li
 	}
 }
 
-// PrepareItem define the item as a deps or an employee and save one
+// PrepareItem define the item as a DepsResponse or an employee and save one
 func (w *Worker) PrepareItem(ctx context.Context, item models.Item) error {
 	dep := item.(*kbv1.Dep)
 	dep.Text = html.UnescapeString(dep.Text)
@@ -413,7 +413,7 @@ func (w *Worker) getData(ajaxUrl, query string) (string, error) {
 }
 
 func (w *Worker) GetAvatar(ctx context.Context, in <-chan Task, limit int32,
-	depsCount *atomic.Int32, sotrCount *atomic.Int32, fileCollection map[string]AvatarInfo) (err error) {
+	DepsResponseCount *atomic.Int32, sotrCount *atomic.Int32, fileCollection map[string]AvatarInfo) (err error) {
 	var errMsg ReqMessageError
 
 	w.Lg.Info("Worker avatar: Start Getting...")
@@ -436,7 +436,7 @@ func (w *Worker) GetAvatar(ctx context.Context, in <-chan Task, limit int32,
 		case task := <-in:
 			ava := task.Data
 
-			cnt := depsCount.Load() + sotrCount.Load()
+			cnt := DepsResponseCount.Load() + sotrCount.Load()
 			if limit > 0 && cnt > limit {
 				w.Lg.Info("Worker avatar: Count limited", "count", cnt)
 				return &TaskLimitExceededError{val: int(cnt)}

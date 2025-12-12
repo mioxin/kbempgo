@@ -17,17 +17,17 @@ import (
 
 // Store is persistent storage
 type Store interface {
-	GetDepsBy(context.Context, *kbv1.QueryDep) ([]*kbv1.Dep, error)
+	GetDepsBy(context.Context, *kbv1.DepRequest) ([]*kbv1.Dep, error)
 	// GetSotr returns employee data
-	GetSotrsBy(context.Context, *kbv1.QuerySotr) ([]*kbv1.Sotr, error)
+	GetSotrsBy(context.Context, *kbv1.SotrRequest) ([]*kbv1.Sotr, error)
 	// Save Item data
 	Save(context.Context, models.Item) (*emptypb.Empty, error)
 
-	Update(context.Context, *kbv1.QueryUpdateSotr) (*emptypb.Empty, error)
+	Update(context.Context, *kbv1.UpdateSotrRequest) (*emptypb.Empty, error)
 	// Save(item models.Item) error
 
 	Close() error
-	Flush() error
+	Flush(context.Context, *emptypb.Empty) (*emptypb.Empty, error)
 	PromCollector() prometheus.Collector
 }
 
@@ -53,6 +53,8 @@ func NewStore(source string, log *slog.Logger) (st Store, err error) {
 			err = fmt.Errorf("error create Store, invalid source, %s. %w", source, err)
 			break
 		}
+		err = st.(*pg.PgStore).Migrate(context.TODO(), false)
+
 	case "file":
 		s, ok := strings.CutPrefix(source, "file://")
 		if !ok {

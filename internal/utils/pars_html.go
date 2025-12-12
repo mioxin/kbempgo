@@ -87,7 +87,7 @@ func ParseMidName(sotr *kbv1.Sotr, unescaped string) string {
 			avatar = avatar[:idx]
 		}
 		// FIO
-		fio := FindBetween(t, `onclick="searchG('`, `', 'sotrSearchList')`)
+		fio := FindBetween(t, `onclick="searchG('`, `', 'SotrsResponseearchList')`)
 		fio = strings.TrimSpace(fio)
 		mid, ok := strings.CutPrefix(fio, sotr.Name)
 		// slog.Debug("PARSE MIDNAME:", "mid", mid, "fio", fio, "avatar", avatar, "sotr.avatar", sotr.Avatar)

@@ -3,7 +3,6 @@ package cli
 import (
 	"bufio"
 	"context"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
@@ -17,7 +16,7 @@ import (
 	"time"
 
 	kbv1 "github.com/mioxin/kbempgo/api/kbemp/v1"
-	"github.com/mioxin/kbempgo/internal/datasource"
+	"github.com/mioxin/kbempgo/internal/models"
 	"github.com/mioxin/kbempgo/internal/storage"
 	"github.com/mioxin/kbempgo/internal/utils"
 	wrk "github.com/mioxin/kbempgo/internal/worker"
@@ -25,6 +24,7 @@ import (
 	gsrv "github.com/mioxin/kbempgo/pkg/grpc_server"
 	"golang.org/x/sync/errgroup"
 	"google.golang.org/grpc"
+	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/types/known/emptypb"
 )
 
@@ -44,10 +44,10 @@ type employCommand struct {
 	FileSource string            `name:"file_source" default:"" help:"Path includes dep.json and sotr.json for insert data from ones into storage"`
 	Grpc       gsrv.ServerConfig `embed:"" json:"grpc" prefix:"grpc-"`
 
-	grpcClient  *grpc.ClientConn `kong:"-"`
-	Lg          *slog.Logger     `kong:"-"`
-	DepsCounter atomic.Int32     `kong:"-"`
-	SotrCounter atomic.Int32     `kong:"-"`
+	grpcClient          *grpc.ClientConn `kong:"-"`
+	Lg                  *slog.Logger     `kong:"-"`
+	DepsResponseCounter atomic.Int32     `kong:"-"`
+	SotrCounter         atomic.Int32     `kong:"-"`
 }
 
 func (e *employCommand) Run(cli *CLI) error {
@@ -58,10 +58,12 @@ func (e *employCommand) Run(cli *CLI) error {
 	ctx, cancel := context.WithTimeout(context.Background(), cli.OpTimeout)
 	defer cancel()
 
+	// ****************************************
 	// if FileSource setted then load data from source to storage
+	// ****************************************
 	if e.FileSource != "" {
 		err := e.LoadDataToStor(ctx)
-		e.Lg.Info("Loaded from", "dir", e.FileSource, "dep_count", e.DepsCounter.Load(), "sotr_count", e.SotrCounter.Load())
+		e.Lg.Info("Loaded from", "dir", e.FileSource, "dep_count", e.DepsResponseCounter.Load(), "sotr_count", e.SotrCounter.Load())
 		return err
 	}
 	// ********************
@@ -109,14 +111,14 @@ func (e *employCommand) Run(cli *CLI) error {
 
 	for _, w := range pool {
 		eg.Go(func() error {
-			return w.GetRazd(ctxErr, razdCh, int32(e.Limit), &(e.DepsCounter), &(e.SotrCounter))
+			return w.GetRazd(ctxErr, razdCh, int32(e.Limit), &(e.DepsResponseCounter), &(e.SotrCounter))
 		})
 
 		eg.Go(func() error {
-			return w.GetAvatar(ctxErr, avatarCh, int32(e.Limit), &(e.DepsCounter), &(e.SotrCounter), fileCollection)
+			return w.GetAvatar(ctxErr, avatarCh, int32(e.Limit), &(e.DepsResponseCounter), &(e.SotrCounter), fileCollection)
 		})
 
-		// start dispatcher Deps
+		// start dispatcher DepsResponse
 		wgD.Add(1)
 
 		go func() {
@@ -164,7 +166,7 @@ func (e *employCommand) Run(cli *CLI) error {
 	wgD.Wait()
 
 	e.Lg.Debug("Stop wait group... Close chanels.")
-	e.Lg.Info("Collected.", "sotr", e.SotrCounter.Load(), "deps", e.DepsCounter.Load())
+	e.Lg.Info("Collected.", "sotr", e.SotrCounter.Load(), "DepsResponse", e.DepsResponseCounter.Load())
 
 	return err
 }
@@ -256,32 +258,42 @@ func (e *employCommand) LoadDataToStor(ctx context.Context) (err error) {
 }
 
 func (e *employCommand) InsertFrom(ctx context.Context) (err error) {
-
-	gcli := kbv1.NewStorClient(e.grpcClient)
+	sErr := make([]error, 0)
+	gcli := kbv1.NewStorAPIClient(e.grpcClient)
 
 	fPath := filepath.Join(e.FileSource, "dep.json")
 	err = e.insert(ctx, fPath, gcli, true)
+	if err != nil {
+		sErr = append(sErr, err)
+	}
 
 	fPath = filepath.Join(e.FileSource, "sotr.json")
-	err1 := e.insert(ctx, fPath, gcli, false)
+	err = e.insert(ctx, fPath, gcli, false)
+	if err != nil {
+		sErr = append(sErr, err)
+	}
 
-	err = errors.Join(err, err1)
-
+	if len(sErr) > 0 {
+		err = errors.Join(sErr...)
+	}
 	return
 }
 
-func (e *employCommand) insert(ctx context.Context, path string, gcli kbv1.StorClient, isDep bool) (err error) {
+func (e *employCommand) insert(ctx context.Context, path string, gcli kbv1.StorAPIClient, isDep bool) (err error) {
 	var (
-		s    string
-		item datasource.Item
+		s        string
+		item     models.Item
+		kbv1Item *kbv1.Item
 	)
 
 	if isDep {
-		item = &datasource.Dep{}
-		e.Lg.Debug("Load deps...", "dir", e.FileSource)
+		// item = &datasource.Dep{}
+		item = &kbv1.Dep{}
+		e.Lg.Debug("Load DepsResponse...", "dir", e.FileSource)
 	} else {
-		item = &datasource.Sotr{}
-		e.Lg.Debug("Load sotrs...", "dir", e.FileSource)
+		// item = &datasource.Sotr{}
+		item = &kbv1.Sotr{}
+		e.Lg.Debug("Load SotrsResponse...", "dir", e.FileSource)
 	}
 
 	f, err := os.Open(path)
@@ -314,42 +326,26 @@ func (e *employCommand) insert(ctx context.Context, path string, gcli kbv1.StorC
 			return
 		}
 
-		err = json.Unmarshal([]byte(s), item)
+		err = protojson.Unmarshal([]byte(s), item)
 		if err != nil {
 			e.Lg.Error("insert: unmurshall json", "error", err, "json", s)
 			continue
 		}
 
-		// 	switch it := any(item).(type) {
+		if isDep {
+			kbv1Item = &kbv1.Item{Var: &kbv1.Item_Dep{Dep: item.(*kbv1.Dep)}}
+		} else {
+			kbv1Item = &kbv1.Item{Var: &kbv1.Item_Sotr{Sotr: item.(*kbv1.Sotr)}}
+		}
 
-		// 	case *datasource.Dep:
-		// 		_, err = gcli.Save(ctx, &kbv1.Item{Var: &kbv1.Item_Dep{Dep: it}})
-		// 		if err != nil {
-		// 			e.Lg.Error("insert: error save datasource.Dep", "err", err)
-		// 		} else {
-		// 			e.DepsCounter.Add(1)
-		// 		}
-
-		// 	case *datasource.Sotr:
-		// 		_, err = gcli.Save(ctx, &kbv1.Item{Var: &kbv1.Item_Sotr{Sotr: it}})
-		// 		if err != nil {
-		// 			e.Lg.Error("insert: error save datasource.Sotr", "err", err)
-		// 		} else {
-		// 			e.SotrCounter.Add(1)
-		// 		}
-
-		// 	default:
-		// 		e.Lg.Error("insert: error cast item to datasource.Dep or datasource.Sotr", "json", s)
-		// 	}
-
-		_, err = gcli.Save(ctx, item.Conv2Kbv())
+		_, err = gcli.Save(ctx, kbv1Item)
 		if err != nil {
 			e.Lg.Error("insert: error save datasource.Dep", "err", err)
 			continue
 		}
 
 		if isDep {
-			e.DepsCounter.Add(1)
+			e.DepsResponseCounter.Add(1)
 		} else {
 			e.SotrCounter.Add(1)
 		}

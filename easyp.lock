@@ -1,0 +1,4 @@
+github.com/alta/protopatch v0.5.3 h1:dfxtp3VL+25ji107f6n2cpA0+5UAEUHtH7mGjhjfGPM=
+github.com/envoyproxy/protoc-gen-validate v1.2.1 h1:futtvtATGXDsMGWcAc6sWhAOoFQvmWZLmyHrvupXPig=
+github.com/googleapis/googleapis v0.0.0-20251208172945-c9578f6385fe0fb9067c5dba8d7cdda39efac0ff h1:0C9CdidVraGxdbEO02fLIpVKA8yLyyS/pqh7E6Q1lj4=
+github.com/grpc-ecosystem/grpc-gateway v2.20.0 h1:/ph0MlmEHKJQ1XUKWZFuI9cTAOfVXGD0WNMcCAbdnkM=

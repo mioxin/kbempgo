@@ -14,6 +14,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"google.golang.org/grpc"
+	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/types/known/emptypb"
 )
 
@@ -40,8 +41,8 @@ type Gcli struct{}
 var expextedJsons []string = []string{
 	`{"idr":"razd2916.13.3115.3117","parent":"razd2916.13.3115","text":"Отдел Мониторинга Качества Работы Партнеров","children":true}`,
 	`{"idr":"razd86.119.88","parent":"razd86.119","text":"Администрация","children":true}`,
-	`{"idr":"sotr6323","tabnum":"1000380","name":"Гас Га","mid_name":"Александровна","phone":["400-11-27"],"mobile":["+7 (701) 872-98-99,+7 (701) 996-91-29"],"email":"Ga.Gas@kaspi.kz","avatar":"/avatar/1000380.jpg","grade":"Главный бухгалтер","children":false,"parent_id":"razd1985","date":"0001-01-01T00:00:00Z"}`,
-	`{"idr":"sotr9146","tabnum":"59029","name":"Бах Инд","mid_name":"Болатовна","phone":["423-255, 423-254"],"mobile":["+7 (775) 017-36-00"],"email":"Ind.Bakh@kaspi.kz","avatar":"/avatar/59029.jpg","grade":"Kaspi Гид","children":false,"parent_id":"razd86.99.2433","date":"0001-01-01T00:00:00Z"}`,
+	`{"idr":"sotr6323","tabnum":"1000380","name":"Гас Га","midName":"Александровна","phone":["400-11-27"],"mobile":["+7 (701) 872-98-99","+7 (701) 996-91-29"],"email":"Ga.Gas@kaspi.kz","avatar":"/avatar/1000380.jpg","grade":"Главный бухгалтер","children":false,"parent_id":"razd1985","date":"0001-01-01T00:00:00Z"}`,
+	`{"idr":"sotr9146","tabnum":"59029","name":"Бах Инд","midName":"Болатовна","phone":["423-255, 423-254"],"mobile":["+7 (775) 017-36-00"],"email":"Ind.Bakh@kaspi.kz","avatar":"/avatar/59029.jpg","grade":"Kaspi Гид","children":false,"parent_id":"razd86.99.2433","date":"0001-01-01T00:00:00Z"}`,
 }
 
 func (c *Gcli) Save(ctx context.Context, in *kbv1.Item, opts ...grpc.CallOption) (_ *emptypb.Empty, err error) {
@@ -55,19 +56,28 @@ func (c *Gcli) Save(ctx context.Context, in *kbv1.Item, opts ...grpc.CallOption)
 
 	if !item.GetChildren() {
 		item = in.GetSotr()
-		expected := new(datasource.Sotr)
-		err = json.Unmarshal([]byte(expextedJsons[*count]), expected)
+		sotr := new(kbv1.Sotr)
+		err = protojson.Unmarshal([]byte(expextedJsons[*count]), sotr)
+
 		if err != nil {
 			return nil, err
 		}
-		assert.EqualValues(t, expected, utils.ConvKbv2Ds(item).(*datasource.Sotr))
+
+		expected := utils.ConvKbv2Ds(sotr)
+		actual := utils.ConvKbv2Ds(item).(*datasource.Sotr)
+		assert.EqualValues(t, expected, actual)
+
 	} else {
-		expected := new(datasource.Dep)
-		err = json.Unmarshal([]byte(expextedJsons[*count]), expected)
+		dep := new(kbv1.Dep)
+		err = json.Unmarshal([]byte(expextedJsons[*count]), dep)
+
 		if err != nil {
 			return nil, err
 		}
-		assert.EqualValues(t, expected, utils.ConvKbv2Ds(item).(*datasource.Dep))
+
+		expected := utils.ConvKbv2Ds(dep)
+		actual := utils.ConvKbv2Ds(item).(*datasource.Dep)
+		assert.EqualValues(t, expected, actual)
 	}
 
 	(*count)++
@@ -88,19 +98,19 @@ func TestInsert(t *testing.T) {
 	assert.NoError(t, err)
 }
 
-func (c *Gcli) GetDepsBy(ctx context.Context, in *kbv1.QueryDep, opts ...grpc.CallOption) (*kbv1.Deps, error) {
+func (c *Gcli) GetDepsBy(ctx context.Context, in *kbv1.DepRequest, opts ...grpc.CallOption) (*kbv1.DepsResponse, error) {
 	return nil, nil
 }
-func (c *Gcli) GetSotrsBy(ctx context.Context, in *kbv1.QuerySotr, opts ...grpc.CallOption) (*kbv1.Sotrs, error) {
+func (c *Gcli) GetSotrsBy(ctx context.Context, in *kbv1.SotrRequest, opts ...grpc.CallOption) (*kbv1.SotrsResponse, error) {
 	return nil, nil
 }
 func (c *Gcli) Flush(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	return nil, nil
 }
-func (c *Gcli) Update(ctx context.Context, in *kbv1.QueryUpdateSotr, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *Gcli) Update(ctx context.Context, in *kbv1.UpdateSotrRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	return nil, nil
 }
-func (c *Gcli) GetHistory(ctx context.Context, in *kbv1.QueryHist, opts ...grpc.CallOption) (*kbv1.HistoryList, error) {
+func (c *Gcli) GetHistory(ctx context.Context, in *kbv1.HistRequest, opts ...grpc.CallOption) (*kbv1.HistoryListResponse, error) {
 	return nil, nil
 }
 

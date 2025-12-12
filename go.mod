@@ -71,6 +71,7 @@ require (
 	github.com/pseudomuto/protokit v0.2.0 // indirect
 	github.com/redis/go-redis/extra/rediscmd/v9 v9.14.0 // indirect
 	github.com/spf13/afero v1.10.0 // indirect
+	github.com/stretchr/objx v0.5.2 // indirect
 	go.opentelemetry.io/auto/sdk v1.1.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.38.0 // indirect
 	go.opentelemetry.io/otel/metric v1.38.0 // indirect

@@ -143,21 +143,22 @@ var _ interface {
 	ErrorName() string
 } = DepValidationError{}
 
-// Validate checks the field values on Deps with the rules defined in the proto
-// definition for this message. If any rules are violated, the first error
-// encountered is returned, or nil if there are no violations.
-func (m *Deps) Validate() error {
+// Validate checks the field values on DepsResponse with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *DepsResponse) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on Deps with the rules defined in the
-// proto definition for this message. If any rules are violated, the result is
-// a list of violation errors wrapped in DepsMultiError, or nil if none found.
-func (m *Deps) ValidateAll() error {
+// ValidateAll checks the field values on DepsResponse with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in DepsResponseMultiError, or
+// nil if none found.
+func (m *DepsResponse) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *Deps) validate(all bool) error {
+func (m *DepsResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -171,7 +172,7 @@ func (m *Deps) validate(all bool) error {
 			switch v := interface{}(item).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, DepsValidationError{
+					errors = append(errors, DepsResponseValidationError{
 						field:  fmt.Sprintf("Deps[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -179,7 +180,7 @@ func (m *Deps) validate(all bool) error {
 				}
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
-					errors = append(errors, DepsValidationError{
+					errors = append(errors, DepsResponseValidationError{
 						field:  fmt.Sprintf("Deps[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -188,7 +189,7 @@ func (m *Deps) validate(all bool) error {
 			}
 		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				return DepsValidationError{
+				return DepsResponseValidationError{
 					field:  fmt.Sprintf("Deps[%v]", idx),
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -199,18 +200,18 @@ func (m *Deps) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return DepsMultiError(errors)
+		return DepsResponseMultiError(errors)
 	}
 
 	return nil
 }
 
-// DepsMultiError is an error wrapping multiple validation errors returned by
-// Deps.ValidateAll() if the designated constraints aren't met.
-type DepsMultiError []error
+// DepsResponseMultiError is an error wrapping multiple validation errors
+// returned by DepsResponse.ValidateAll() if the designated constraints aren't met.
+type DepsResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m DepsMultiError) Error() string {
+func (m DepsResponseMultiError) Error() string {
 	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -219,11 +220,11 @@ func (m DepsMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m DepsMultiError) AllErrors() []error { return m }
+func (m DepsResponseMultiError) AllErrors() []error { return m }
 
-// DepsValidationError is the validation error returned by Deps.Validate if the
-// designated constraints aren't met.
-type DepsValidationError struct {
+// DepsResponseValidationError is the validation error returned by
+// DepsResponse.Validate if the designated constraints aren't met.
+type DepsResponseValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -231,22 +232,22 @@ type DepsValidationError struct {
 }
 
 // Field function returns field value.
-func (e DepsValidationError) Field() string { return e.field }
+func (e DepsResponseValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e DepsValidationError) Reason() string { return e.reason }
+func (e DepsResponseValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e DepsValidationError) Cause() error { return e.cause }
+func (e DepsResponseValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e DepsValidationError) Key() bool { return e.key }
+func (e DepsResponseValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e DepsValidationError) ErrorName() string { return "DepsValidationError" }
+func (e DepsResponseValidationError) ErrorName() string { return "DepsResponseValidationError" }
 
 // Error satisfies the builtin error interface
-func (e DepsValidationError) Error() string {
+func (e DepsResponseValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -258,14 +259,14 @@ func (e DepsValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sDeps.%s: %s%s",
+		"invalid %sDepsResponse.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = DepsValidationError{}
+var _ error = DepsResponseValidationError{}
 
 var _ interface {
 	Field() string
@@ -273,24 +274,24 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = DepsValidationError{}
+} = DepsResponseValidationError{}
 
-// Validate checks the field values on QueryDep with the rules defined in the
+// Validate checks the field values on DepRequest with the rules defined in the
 // proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
-func (m *QueryDep) Validate() error {
+func (m *DepRequest) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on QueryDep with the rules defined in
+// ValidateAll checks the field values on DepRequest with the rules defined in
 // the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in QueryDepMultiError, or nil
-// if none found.
-func (m *QueryDep) ValidateAll() error {
+// result is a list of violation errors wrapped in DepRequestMultiError, or
+// nil if none found.
+func (m *DepRequest) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *QueryDep) validate(all bool) error {
+func (m *DepRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -302,18 +303,18 @@ func (m *QueryDep) validate(all bool) error {
 	// no validation rules for Field
 
 	if len(errors) > 0 {
-		return QueryDepMultiError(errors)
+		return DepRequestMultiError(errors)
 	}
 
 	return nil
 }
 
-// QueryDepMultiError is an error wrapping multiple validation errors returned
-// by QueryDep.ValidateAll() if the designated constraints aren't met.
-type QueryDepMultiError []error
+// DepRequestMultiError is an error wrapping multiple validation errors
+// returned by DepRequest.ValidateAll() if the designated constraints aren't met.
+type DepRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m QueryDepMultiError) Error() string {
+func (m DepRequestMultiError) Error() string {
 	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -322,11 +323,11 @@ func (m QueryDepMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m QueryDepMultiError) AllErrors() []error { return m }
+func (m DepRequestMultiError) AllErrors() []error { return m }
 
-// QueryDepValidationError is the validation error returned by
-// QueryDep.Validate if the designated constraints aren't met.
-type QueryDepValidationError struct {
+// DepRequestValidationError is the validation error returned by
+// DepRequest.Validate if the designated constraints aren't met.
+type DepRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -334,22 +335,22 @@ type QueryDepValidationError struct {
 }
 
 // Field function returns field value.
-func (e QueryDepValidationError) Field() string { return e.field }
+func (e DepRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e QueryDepValidationError) Reason() string { return e.reason }
+func (e DepRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e QueryDepValidationError) Cause() error { return e.cause }
+func (e DepRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e QueryDepValidationError) Key() bool { return e.key }
+func (e DepRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e QueryDepValidationError) ErrorName() string { return "QueryDepValidationError" }
+func (e DepRequestValidationError) ErrorName() string { return "DepRequestValidationError" }
 
 // Error satisfies the builtin error interface
-func (e QueryDepValidationError) Error() string {
+func (e DepRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -361,14 +362,14 @@ func (e QueryDepValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sQueryDep.%s: %s%s",
+		"invalid %sDepRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = QueryDepValidationError{}
+var _ error = DepRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -376,24 +377,24 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = QueryDepValidationError{}
+} = DepRequestValidationError{}
 
-// Validate checks the field values on QuerySotr with the rules defined in the
-// proto definition for this message. If any rules are violated, the first
+// Validate checks the field values on SotrRequest with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
-func (m *QuerySotr) Validate() error {
+func (m *SotrRequest) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on QuerySotr with the rules defined in
+// ValidateAll checks the field values on SotrRequest with the rules defined in
 // the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in QuerySotrMultiError, or nil
-// if none found.
-func (m *QuerySotr) ValidateAll() error {
+// result is a list of violation errors wrapped in SotrRequestMultiError, or
+// nil if none found.
+func (m *SotrRequest) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *QuerySotr) validate(all bool) error {
+func (m *SotrRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -405,18 +406,18 @@ func (m *QuerySotr) validate(all bool) error {
 	// no validation rules for Field
 
 	if len(errors) > 0 {
-		return QuerySotrMultiError(errors)
+		return SotrRequestMultiError(errors)
 	}
 
 	return nil
 }
 
-// QuerySotrMultiError is an error wrapping multiple validation errors returned
-// by QuerySotr.ValidateAll() if the designated constraints aren't met.
-type QuerySotrMultiError []error
+// SotrRequestMultiError is an error wrapping multiple validation errors
+// returned by SotrRequest.ValidateAll() if the designated constraints aren't met.
+type SotrRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m QuerySotrMultiError) Error() string {
+func (m SotrRequestMultiError) Error() string {
 	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -425,11 +426,11 @@ func (m QuerySotrMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m QuerySotrMultiError) AllErrors() []error { return m }
+func (m SotrRequestMultiError) AllErrors() []error { return m }
 
-// QuerySotrValidationError is the validation error returned by
-// QuerySotr.Validate if the designated constraints aren't met.
-type QuerySotrValidationError struct {
+// SotrRequestValidationError is the validation error returned by
+// SotrRequest.Validate if the designated constraints aren't met.
+type SotrRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -437,22 +438,22 @@ type QuerySotrValidationError struct {
 }
 
 // Field function returns field value.
-func (e QuerySotrValidationError) Field() string { return e.field }
+func (e SotrRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e QuerySotrValidationError) Reason() string { return e.reason }
+func (e SotrRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e QuerySotrValidationError) Cause() error { return e.cause }
+func (e SotrRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e QuerySotrValidationError) Key() bool { return e.key }
+func (e SotrRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e QuerySotrValidationError) ErrorName() string { return "QuerySotrValidationError" }
+func (e SotrRequestValidationError) ErrorName() string { return "SotrRequestValidationError" }
 
 // Error satisfies the builtin error interface
-func (e QuerySotrValidationError) Error() string {
+func (e SotrRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -464,14 +465,14 @@ func (e QuerySotrValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sQuerySotr.%s: %s%s",
+		"invalid %sSotrRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = QuerySotrValidationError{}
+var _ error = SotrRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -479,24 +480,24 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = QuerySotrValidationError{}
+} = SotrRequestValidationError{}
 
-// Validate checks the field values on QueryHist with the rules defined in the
-// proto definition for this message. If any rules are violated, the first
+// Validate checks the field values on HistRequest with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
-func (m *QueryHist) Validate() error {
+func (m *HistRequest) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on QueryHist with the rules defined in
+// ValidateAll checks the field values on HistRequest with the rules defined in
 // the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in QueryHistMultiError, or nil
-// if none found.
-func (m *QueryHist) ValidateAll() error {
+// result is a list of violation errors wrapped in HistRequestMultiError, or
+// nil if none found.
+func (m *HistRequest) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *QueryHist) validate(all bool) error {
+func (m *HistRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -506,18 +507,18 @@ func (m *QueryHist) validate(all bool) error {
 	// no validation rules for SotrId
 
 	if len(errors) > 0 {
-		return QueryHistMultiError(errors)
+		return HistRequestMultiError(errors)
 	}
 
 	return nil
 }
 
-// QueryHistMultiError is an error wrapping multiple validation errors returned
-// by QueryHist.ValidateAll() if the designated constraints aren't met.
-type QueryHistMultiError []error
+// HistRequestMultiError is an error wrapping multiple validation errors
+// returned by HistRequest.ValidateAll() if the designated constraints aren't met.
+type HistRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m QueryHistMultiError) Error() string {
+func (m HistRequestMultiError) Error() string {
 	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -526,11 +527,11 @@ func (m QueryHistMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m QueryHistMultiError) AllErrors() []error { return m }
+func (m HistRequestMultiError) AllErrors() []error { return m }
 
-// QueryHistValidationError is the validation error returned by
-// QueryHist.Validate if the designated constraints aren't met.
-type QueryHistValidationError struct {
+// HistRequestValidationError is the validation error returned by
+// HistRequest.Validate if the designated constraints aren't met.
+type HistRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -538,22 +539,22 @@ type QueryHistValidationError struct {
 }
 
 // Field function returns field value.
-func (e QueryHistValidationError) Field() string { return e.field }
+func (e HistRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e QueryHistValidationError) Reason() string { return e.reason }
+func (e HistRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e QueryHistValidationError) Cause() error { return e.cause }
+func (e HistRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e QueryHistValidationError) Key() bool { return e.key }
+func (e HistRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e QueryHistValidationError) ErrorName() string { return "QueryHistValidationError" }
+func (e HistRequestValidationError) ErrorName() string { return "HistRequestValidationError" }
 
 // Error satisfies the builtin error interface
-func (e QueryHistValidationError) Error() string {
+func (e HistRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -565,14 +566,14 @@ func (e QueryHistValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sQueryHist.%s: %s%s",
+		"invalid %sHistRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = QueryHistValidationError{}
+var _ error = HistRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -580,7 +581,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = QueryHistValidationError{}
+} = HistRequestValidationError{}
 
 // Validate checks the field values on Sotr with the rules defined in the proto
 // definition for this message. If any rules are violated, the first error
@@ -926,21 +927,22 @@ var _ interface {
 	ErrorName() string
 } = HistoryValidationError{}
 
-// Validate checks the field values on Sotrs with the rules defined in the
-// proto definition for this message. If any rules are violated, the first
+// Validate checks the field values on SotrsResponse with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
-func (m *Sotrs) Validate() error {
+func (m *SotrsResponse) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on Sotrs with the rules defined in the
-// proto definition for this message. If any rules are violated, the result is
-// a list of violation errors wrapped in SotrsMultiError, or nil if none found.
-func (m *Sotrs) ValidateAll() error {
+// ValidateAll checks the field values on SotrsResponse with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in SotrsResponseMultiError, or
+// nil if none found.
+func (m *SotrsResponse) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *Sotrs) validate(all bool) error {
+func (m *SotrsResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -954,7 +956,7 @@ func (m *Sotrs) validate(all bool) error {
 			switch v := interface{}(item).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, SotrsValidationError{
+					errors = append(errors, SotrsResponseValidationError{
 						field:  fmt.Sprintf("Sotrs[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -962,7 +964,7 @@ func (m *Sotrs) validate(all bool) error {
 				}
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
-					errors = append(errors, SotrsValidationError{
+					errors = append(errors, SotrsResponseValidationError{
 						field:  fmt.Sprintf("Sotrs[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -971,7 +973,7 @@ func (m *Sotrs) validate(all bool) error {
 			}
 		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				return SotrsValidationError{
+				return SotrsResponseValidationError{
 					field:  fmt.Sprintf("Sotrs[%v]", idx),
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -982,18 +984,19 @@ func (m *Sotrs) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return SotrsMultiError(errors)
+		return SotrsResponseMultiError(errors)
 	}
 
 	return nil
 }
 
-// SotrsMultiError is an error wrapping multiple validation errors returned by
-// Sotrs.ValidateAll() if the designated constraints aren't met.
-type SotrsMultiError []error
+// SotrsResponseMultiError is an error wrapping multiple validation errors
+// returned by SotrsResponse.ValidateAll() if the designated constraints
+// aren't met.
+type SotrsResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m SotrsMultiError) Error() string {
+func (m SotrsResponseMultiError) Error() string {
 	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -1002,11 +1005,11 @@ func (m SotrsMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m SotrsMultiError) AllErrors() []error { return m }
+func (m SotrsResponseMultiError) AllErrors() []error { return m }
 
-// SotrsValidationError is the validation error returned by Sotrs.Validate if
-// the designated constraints aren't met.
-type SotrsValidationError struct {
+// SotrsResponseValidationError is the validation error returned by
+// SotrsResponse.Validate if the designated constraints aren't met.
+type SotrsResponseValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -1014,22 +1017,22 @@ type SotrsValidationError struct {
 }
 
 // Field function returns field value.
-func (e SotrsValidationError) Field() string { return e.field }
+func (e SotrsResponseValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e SotrsValidationError) Reason() string { return e.reason }
+func (e SotrsResponseValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e SotrsValidationError) Cause() error { return e.cause }
+func (e SotrsResponseValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e SotrsValidationError) Key() bool { return e.key }
+func (e SotrsResponseValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e SotrsValidationError) ErrorName() string { return "SotrsValidationError" }
+func (e SotrsResponseValidationError) ErrorName() string { return "SotrsResponseValidationError" }
 
 // Error satisfies the builtin error interface
-func (e SotrsValidationError) Error() string {
+func (e SotrsResponseValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -1041,14 +1044,14 @@ func (e SotrsValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sSotrs.%s: %s%s",
+		"invalid %sSotrsResponse.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = SotrsValidationError{}
+var _ error = SotrsResponseValidationError{}
 
 var _ interface {
 	Field() string
@@ -1056,7 +1059,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = SotrsValidationError{}
+} = SotrsResponseValidationError{}
 
 // Validate checks the field values on Item with the rules defined in the proto
 // definition for this message. If any rules are violated, the first error
@@ -1243,22 +1246,22 @@ var _ interface {
 	ErrorName() string
 } = ItemValidationError{}
 
-// Validate checks the field values on HistoryList with the rules defined in
-// the proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *HistoryList) Validate() error {
+// Validate checks the field values on HistoryListResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *HistoryListResponse) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on HistoryList with the rules defined in
-// the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in HistoryListMultiError, or
-// nil if none found.
-func (m *HistoryList) ValidateAll() error {
+// ValidateAll checks the field values on HistoryListResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// HistoryListResponseMultiError, or nil if none found.
+func (m *HistoryListResponse) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *HistoryList) validate(all bool) error {
+func (m *HistoryListResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -1272,7 +1275,7 @@ func (m *HistoryList) validate(all bool) error {
 			switch v := interface{}(item).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, HistoryListValidationError{
+					errors = append(errors, HistoryListResponseValidationError{
 						field:  fmt.Sprintf("HistoryList[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -1280,7 +1283,7 @@ func (m *HistoryList) validate(all bool) error {
 				}
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
-					errors = append(errors, HistoryListValidationError{
+					errors = append(errors, HistoryListResponseValidationError{
 						field:  fmt.Sprintf("HistoryList[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -1289,7 +1292,7 @@ func (m *HistoryList) validate(all bool) error {
 			}
 		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				return HistoryListValidationError{
+				return HistoryListResponseValidationError{
 					field:  fmt.Sprintf("HistoryList[%v]", idx),
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -1300,18 +1303,19 @@ func (m *HistoryList) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return HistoryListMultiError(errors)
+		return HistoryListResponseMultiError(errors)
 	}
 
 	return nil
 }
 
-// HistoryListMultiError is an error wrapping multiple validation errors
-// returned by HistoryList.ValidateAll() if the designated constraints aren't met.
-type HistoryListMultiError []error
+// HistoryListResponseMultiError is an error wrapping multiple validation
+// errors returned by HistoryListResponse.ValidateAll() if the designated
+// constraints aren't met.
+type HistoryListResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m HistoryListMultiError) Error() string {
+func (m HistoryListResponseMultiError) Error() string {
 	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -1320,11 +1324,11 @@ func (m HistoryListMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m HistoryListMultiError) AllErrors() []error { return m }
+func (m HistoryListResponseMultiError) AllErrors() []error { return m }
 
-// HistoryListValidationError is the validation error returned by
-// HistoryList.Validate if the designated constraints aren't met.
-type HistoryListValidationError struct {
+// HistoryListResponseValidationError is the validation error returned by
+// HistoryListResponse.Validate if the designated constraints aren't met.
+type HistoryListResponseValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -1332,22 +1336,24 @@ type HistoryListValidationError struct {
 }
 
 // Field function returns field value.
-func (e HistoryListValidationError) Field() string { return e.field }
+func (e HistoryListResponseValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e HistoryListValidationError) Reason() string { return e.reason }
+func (e HistoryListResponseValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e HistoryListValidationError) Cause() error { return e.cause }
+func (e HistoryListResponseValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e HistoryListValidationError) Key() bool { return e.key }
+func (e HistoryListResponseValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e HistoryListValidationError) ErrorName() string { return "HistoryListValidationError" }
+func (e HistoryListResponseValidationError) ErrorName() string {
+	return "HistoryListResponseValidationError"
+}
 
 // Error satisfies the builtin error interface
-func (e HistoryListValidationError) Error() string {
+func (e HistoryListResponseValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -1359,14 +1365,14 @@ func (e HistoryListValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sHistoryList.%s: %s%s",
+		"invalid %sHistoryListResponse.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = HistoryListValidationError{}
+var _ error = HistoryListResponseValidationError{}
 
 var _ interface {
 	Field() string
@@ -1374,24 +1380,24 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = HistoryListValidationError{}
+} = HistoryListResponseValidationError{}
 
-// Validate checks the field values on QueryUpdateSotr with the rules defined
+// Validate checks the field values on UpdateSotrRequest with the rules defined
 // in the proto definition for this message. If any rules are violated, the
 // first error encountered is returned, or nil if there are no violations.
-func (m *QueryUpdateSotr) Validate() error {
+func (m *UpdateSotrRequest) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on QueryUpdateSotr with the rules
+// ValidateAll checks the field values on UpdateSotrRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// QueryUpdateSotrMultiError, or nil if none found.
-func (m *QueryUpdateSotr) ValidateAll() error {
+// UpdateSotrRequestMultiError, or nil if none found.
+func (m *UpdateSotrRequest) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *QueryUpdateSotr) validate(all bool) error {
+func (m *UpdateSotrRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -1402,7 +1408,7 @@ func (m *QueryUpdateSotr) validate(all bool) error {
 		switch v := interface{}(m.GetSotr()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, QueryUpdateSotrValidationError{
+				errors = append(errors, UpdateSotrRequestValidationError{
 					field:  "Sotr",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -1410,7 +1416,7 @@ func (m *QueryUpdateSotr) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, QueryUpdateSotrValidationError{
+				errors = append(errors, UpdateSotrRequestValidationError{
 					field:  "Sotr",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -1419,7 +1425,7 @@ func (m *QueryUpdateSotr) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetSotr()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return QueryUpdateSotrValidationError{
+			return UpdateSotrRequestValidationError{
 				field:  "Sotr",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -1434,7 +1440,7 @@ func (m *QueryUpdateSotr) validate(all bool) error {
 			switch v := interface{}(item).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, QueryUpdateSotrValidationError{
+					errors = append(errors, UpdateSotrRequestValidationError{
 						field:  fmt.Sprintf("HistoryList[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -1442,7 +1448,7 @@ func (m *QueryUpdateSotr) validate(all bool) error {
 				}
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
-					errors = append(errors, QueryUpdateSotrValidationError{
+					errors = append(errors, UpdateSotrRequestValidationError{
 						field:  fmt.Sprintf("HistoryList[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -1451,7 +1457,7 @@ func (m *QueryUpdateSotr) validate(all bool) error {
 			}
 		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				return QueryUpdateSotrValidationError{
+				return UpdateSotrRequestValidationError{
 					field:  fmt.Sprintf("HistoryList[%v]", idx),
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -1462,19 +1468,19 @@ func (m *QueryUpdateSotr) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return QueryUpdateSotrMultiError(errors)
+		return UpdateSotrRequestMultiError(errors)
 	}
 
 	return nil
 }
 
-// QueryUpdateSotrMultiError is an error wrapping multiple validation errors
-// returned by QueryUpdateSotr.ValidateAll() if the designated constraints
+// UpdateSotrRequestMultiError is an error wrapping multiple validation errors
+// returned by UpdateSotrRequest.ValidateAll() if the designated constraints
 // aren't met.
-type QueryUpdateSotrMultiError []error
+type UpdateSotrRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m QueryUpdateSotrMultiError) Error() string {
+func (m UpdateSotrRequestMultiError) Error() string {
 	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -1483,11 +1489,11 @@ func (m QueryUpdateSotrMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m QueryUpdateSotrMultiError) AllErrors() []error { return m }
+func (m UpdateSotrRequestMultiError) AllErrors() []error { return m }
 
-// QueryUpdateSotrValidationError is the validation error returned by
-// QueryUpdateSotr.Validate if the designated constraints aren't met.
-type QueryUpdateSotrValidationError struct {
+// UpdateSotrRequestValidationError is the validation error returned by
+// UpdateSotrRequest.Validate if the designated constraints aren't met.
+type UpdateSotrRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -1495,22 +1501,24 @@ type QueryUpdateSotrValidationError struct {
 }
 
 // Field function returns field value.
-func (e QueryUpdateSotrValidationError) Field() string { return e.field }
+func (e UpdateSotrRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e QueryUpdateSotrValidationError) Reason() string { return e.reason }
+func (e UpdateSotrRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e QueryUpdateSotrValidationError) Cause() error { return e.cause }
+func (e UpdateSotrRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e QueryUpdateSotrValidationError) Key() bool { return e.key }
+func (e UpdateSotrRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e QueryUpdateSotrValidationError) ErrorName() string { return "QueryUpdateSotrValidationError" }
+func (e UpdateSotrRequestValidationError) ErrorName() string {
+	return "UpdateSotrRequestValidationError"
+}
 
 // Error satisfies the builtin error interface
-func (e QueryUpdateSotrValidationError) Error() string {
+func (e UpdateSotrRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -1522,14 +1530,14 @@ func (e QueryUpdateSotrValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sQueryUpdateSotr.%s: %s%s",
+		"invalid %sUpdateSotrRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = QueryUpdateSotrValidationError{}
+var _ error = UpdateSotrRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -1537,4 +1545,4 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = QueryUpdateSotrValidationError{}
+} = UpdateSotrRequestValidationError{}

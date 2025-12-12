@@ -13,7 +13,7 @@ import (
 
 // PStor implements persistent storage.Stor
 type PStor struct {
-	kbv1.UnimplementedStorServer
+	kbv1.UnimplementedStorAPIServer
 	stor    storage.Store
 	lg      *slog.Logger
 	dbmetrx prometheus.Collector
@@ -40,14 +40,14 @@ func NewPStor(cfg *CLI) (*PStor, error) {
 }
 
 // gRPC implementation
-func (ps *PStor) GetDepsBy(ctx context.Context, query *kbv1.QueryDep) (*kbv1.Deps, error) {
+func (ps *PStor) GetDepsBy(ctx context.Context, query *kbv1.DepRequest) (*kbv1.DepsResponse, error) {
 	d, err := ps.stor.GetDepsBy(ctx, query)
-	return &kbv1.Deps{Deps: d}, err
+	return &kbv1.DepsResponse{Deps: d}, err
 }
 
-func (ps *PStor) GetSotrsBy(ctx context.Context, query *kbv1.QuerySotr) (*kbv1.Sotrs, error) {
+func (ps *PStor) GetSotrsBy(ctx context.Context, query *kbv1.SotrRequest) (*kbv1.SotrsResponse, error) {
 	s, err := ps.stor.GetSotrsBy(ctx, query)
-	return &kbv1.Sotrs{Sotrs: s}, err
+	return &kbv1.SotrsResponse{Sotrs: s}, err
 }
 
 func (ps *PStor) Save(ctx context.Context, query *kbv1.Item) (empty *emptypb.Empty, err error) {
@@ -77,8 +77,8 @@ func (ps *PStor) Save(ctx context.Context, query *kbv1.Item) (empty *emptypb.Emp
 	return
 }
 
-func (ps *PStor) Flush(_ context.Context, _ *emptypb.Empty) (*emptypb.Empty, error) {
-	return &emptypb.Empty{}, ps.stor.Flush()
+func (ps *PStor) Flush(ctx context.Context, em *emptypb.Empty) (*emptypb.Empty, error) {
+	return ps.stor.Flush(ctx, em)
 }
 
 func (ps *PStor) Close() error {

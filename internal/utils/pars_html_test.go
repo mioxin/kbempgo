@@ -43,7 +43,7 @@ var (
 		  </td></tr>
 	  </table>
   </div>`
-	midNameText string = `<div class=sotr_td3 onclick="searchG('Антропов Виталий Витальевич', 'sotrSearchList');">
+	midNameText string = `<div class=sotr_td3 onclick="searchG('Антропов Виталий Витальевич', 'SotrsResponseearchList');">
 	<table>
 		<tr>
 		    <td rowspan="2"><img width="26" style="margin-right: 4px; border-radius: 3px;" alt="" src="/avatar/99996324.jpg?v=YI2A7EeWq5" /></td>
@@ -53,7 +53,7 @@ var (
 			<td class="s_3"><span class="s_3"></span> <b></b></td>
 		</tr>
 	</table>
-</div><div class=sotr_td3 onclick="searchG('Антропов Антон Викторович', 'sotrSearchList');">
+</div><div class=sotr_td3 onclick="searchG('Антропов Антон Викторович', 'SotrsResponseearchList');">
 	<table>
 		<tr>
 		    <td rowspan="2"><img width="26" style="margin-right: 4px; border-radius: 3px;" alt="" src="/avatar/12227.jpg?v=RpewGpkwpQ" /></td>
@@ -135,7 +135,7 @@ func BenchmarkParseSotrRegexp(b *testing.B) {
 	}
 }
 
-func BenchmarkParseSotrStrings(b *testing.B) {
+func BenchmarkParseSotrsResponsetrings(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		_ = ParseSotr(sotrText)
 	}
@@ -165,7 +165,7 @@ func TestCheckSotr(t *testing.T) {
 	require.NoError(t, err)
 	defer stor.Close()
 
-	s, err := stor.GetSotrsBy(context.TODO(), &kbv1.QuerySotr{Field: kbv1.QuerySotr_EMPTY, Str: ""})
+	s, err := stor.GetSotrsBy(context.TODO(), &kbv1.SotrRequest{Field: kbv1.SotrRequest_NONE, Str: ""})
 	if err != io.EOF {
 		require.NoError(t, err)
 	}

@@ -15,22 +15,23 @@ import "validate/validate.proto";
 // import "patch/go.proto";
 
 // Stor service provides an interface to storage for kbemp data.
-service Stor {
+service StorAPI {
   // GetDep returns department data
-  rpc GetDepsBy(QueryDep) returns (Deps) {
+  rpc GetDepsBy(DepRequest) returns (DepsResponse) {
     option (google.api.http) = {
       get : "/api/stor/v1/dep/{field}/{str}"
     };
   }
 
   // GetSotr returns employee data by field
-  rpc GetSotrsBy(QuerySotr) returns (Sotrs) {
+  rpc GetSotrsBy(SotrRequest) returns (SotrsResponse) {
     option (google.api.http) = {
       get : "/api/stor/v1/employee/{field}/{str}"
     };
   }
 
   // Flush data
+  // nolint:RPC_REQUEST_RESPONSE_UNIQUE
   rpc Flush(google.protobuf.Empty) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       post : "/api/stor/v1/flush"
@@ -39,6 +40,7 @@ service Stor {
   }
 
   // Save updates Dep data
+  // buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
   rpc Save(Item) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       post : "/api/stor/v1/save"
@@ -51,7 +53,8 @@ service Stor {
   }
 
   // Update sotr if it exists by tabnum field
-  rpc Update(QueryUpdateSotr) returns (google.protobuf.Empty) {
+  // nolint:RPC_REQUEST_RESPONSE_UNIQUE
+  rpc Update(UpdateSotrRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
         patch : "/api/stor/v1/save"
         body : "*"
@@ -59,7 +62,7 @@ service Stor {
   }
 
   // Get sotr history
-  rpc GetHistory(QueryHist) returns (HistoryList) {
+  rpc GetHistory(HistRequest) returns (HistoryListResponse) {
     option (google.api.http) = {
       get : "/api/stor/v1/history/{sotr_id}"
     };
@@ -75,13 +78,13 @@ message Dep {
   bool children = 5;
 }
 
-message Deps {
-  repeated Dep Deps = 1;
+message DepsResponse {
+  repeated Dep deps = 1;
 }
 
-message QueryDep { 
+message DepRequest { 
   enum DBField {
-    EMPTY = 0;
+    NONE = 0;
     IDR = 1;
     PARENT = 4;
   }
@@ -89,9 +92,9 @@ message QueryDep {
   DBField field = 2;
 }
 
-message QuerySotr { 
+message SotrRequest { 
   enum DBField {
-    EMPTY = 0;
+    NONE = 0;
     MOBILE = 1;
     FIO = 2;
     TABNUM = 3;
@@ -101,7 +104,7 @@ message QuerySotr {
   DBField field = 2;
 }
 
-message QueryHist { 
+message HistRequest { 
   string sotr_id = 1;
 }
 
@@ -130,7 +133,7 @@ message History {
   uint64 sotr_id = 4  [ json_name = "sotr_uid" ];
 }
 
-message Sotrs {
+message SotrsResponse {
   repeated Sotr sotrs = 1;
 }
 
@@ -141,11 +144,11 @@ message Item {
   }
 }
 
-message HistoryList {
+message HistoryListResponse {
   repeated History history_list = 1;
 }
 
-message QueryUpdateSotr {
+message UpdateSotrRequest {
   Sotr sotr = 1;
   repeated History history_list = 2;
 }

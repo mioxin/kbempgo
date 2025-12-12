@@ -1,0 +1,11 @@
+{
+    "sotrs": [
+{"idr":"sotr1636","tabnum":"1600","name":"Дед4444 Лариса","midName":"Викторовна","phone":["400-10-52"],"mobile":["+7 (701) 204-00-00"],"email":"Larissa@k.kom","avatar":"/avatar/1600.jpg","grade":"Директор","children":false,"parentId":"razd1.27.2935","date":null},
+{"idr":"sotr3062","tabnum":"2681","name":"Пал4444 Юлия","midName":"Викторовна","phone":["400-16-32"],"mobile":[],"email":"Yuliya@k.kom","avatar":"/avatar/2681.jpg","grade":"Начальник Отдела","children":false,"parentId":"razd1.27.2935.69","date":null},
+{"idr":"sotr4534","tabnum":"63665","name":"Руда4444 Маргарита","midName":"Владимировна","phone":["400-94-45"],"mobile":[],"email":"Margarita@k.kom","avatar":"/image/no_foto.jpg","grade":"Начальник Управления","children":false,"parentId":"razd1.27.2935.37","date":null},
+{"idr":"sotr5397","tabnum":"25301","name":"Иск44444 Гулим","midName":"Ериковна","phone":["400-11-50"],"mobile":["+7 (701) 000-00-20"],"email":"Gulim@k.kom","avatar":"/avatar/25301.jpg","grade":"Главный Специалист","children":false,"parentId":"razd1.27.2935.69","date":null},
+{"idr":"sotr2521","tabnum":"1122","name":"Тк44444 Мария","midName":"Анатольевна","phone":["400-99-91","000-00-00"],"mobile":["+7 (701) 000-60-80"],"email":"Mari@k.kom","avatar":"/avatar/1122.jpg","grade":"Начальник Управления","children":false,"parentId":"razd1.27.2935.3849","date":null},
+{"idr":"sotr5590","tabnum":"52957","name":"Та4444 Сабина","midName":"","phone":["400-30-89"],"mobile":[],"email":"Sabina@k.kom","avatar":"/avatar/52957.jpg","grade":"Начальник Отдела","children":false,"parentId":"razd1.27.2935.37.70","date":null},
+{"idr":"sotr4918","tabnum":"60609","name":"Са44444 Асемгуль","midName":"Абатовна","phone":[],"mobile":["+7 (701) 000-67-00","+7 (701) 000-67-01"],"email":"Assemgul@k.kom","avatar":"/avatar/60609.jpg","grade":"Главный Специалист","children":false,"parentId":"razd1.27.2935.37.70","date":null}
+]
+}

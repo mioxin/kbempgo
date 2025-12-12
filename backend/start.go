@@ -42,7 +42,7 @@ func start(e *CLI, store *PStor) error {
 		sock.Close()
 	}()
 
-	kbv1.RegisterStorServer(server, store)
+	kbv1.RegisterStorAPIServer(server, store)
 	e.Log.Info("Starting gRPC listener on " + e.Grpc.Listen)
 
 	go func() {
@@ -83,7 +83,7 @@ func start(e *CLI, store *PStor) error {
 	}
 
 	err = gw.RegisterAll(
-		kbv1.RegisterStorHandler,
+		kbv1.RegisterStorAPIHandler,
 	)
 	if err != nil {
 		e.Log.Error("gRPC Proxy register failed", "error", err)
