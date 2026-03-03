@@ -100,7 +100,7 @@ func (suite *DBTestSuite) MustQueryCount(t *testing.T, query string, args ...any
 }
 
 type Counts struct {
-	deps, sotrs, sotr_deleteds, phones, mobiles, histories int
+	deps, sotrs, sotrs_deleted, phones, mobiles, histories int
 }
 
 func (cn *Counts) AddDeps(i int) {
@@ -110,7 +110,7 @@ func (cn *Counts) AddSotrs(i int) {
 	cn.sotrs += i
 }
 func (cn *Counts) AddSotrsD(i int) {
-	cn.sotr_deleteds += i
+	cn.sotrs_deleted += i
 }
 func (cn *Counts) AddPhones(i int) {
 	cn.phones += i
@@ -129,7 +129,7 @@ func (suite *DBTestSuite) counts(t *testing.T) *Counts {
 	c := &Counts{}
 	db := suite.store.DB
 
-	for _, tb := range []string{"deps", "sotrs", "sotr_deleteds", "phones", "mobiles", "histories"} {
+	for _, tb := range []string{"deps", "sotrs", "sotrs_deleted", "phones", "mobiles", "histories"} {
 		err := db.Table(tb).Count(&ret).Error
 		suite.Require().NoError(err)
 
@@ -138,8 +138,8 @@ func (suite *DBTestSuite) counts(t *testing.T) *Counts {
 			c.deps = int(int(ret))
 		case "sotrs":
 			c.sotrs = int(ret)
-		case "sotr_deleteds":
-			c.sotr_deleteds = int(ret)
+		case "sotrs_deleted":
+			c.sotrs_deleted = int(ret)
 		case "phones":
 			c.phones = int(ret)
 		case "mobiles":

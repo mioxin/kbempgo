@@ -18,7 +18,7 @@ import (
 	"google.golang.org/protobuf/types/known/emptypb"
 )
 
-var e *employCommand = &employCommand{
+var e *dumpCommand = &dumpCommand{
 	Lg: slog.Default(),
 }
 
@@ -82,35 +82,6 @@ func (c *Gcli) Save(ctx context.Context, in *kbv1.Item, opts ...grpc.CallOption)
 
 	(*count)++
 	// fmt.Printf(">> %#v\n", string(jstr))
-	return nil, nil
-}
-
-func TestInsert(t *testing.T) {
-	counter := 0
-	gcli := new(Gcli)
-	ctx := WithValue(context.Background(), t)
-	ctx = WithValue(ctx, &counter)
-
-	err := e.insert(ctx, "./testdata/tmp/dep.json", gcli, true)
-	assert.NoError(t, err)
-
-	err = e.insert(ctx, "./testdata/tmp/sotr.json", gcli, false)
-	assert.NoError(t, err)
-}
-
-func (c *Gcli) GetDepsBy(ctx context.Context, in *kbv1.DepRequest, opts ...grpc.CallOption) (*kbv1.DepsResponse, error) {
-	return nil, nil
-}
-func (c *Gcli) GetSotrsBy(ctx context.Context, in *kbv1.SotrRequest, opts ...grpc.CallOption) (*kbv1.SotrsResponse, error) {
-	return nil, nil
-}
-func (c *Gcli) Flush(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	return nil, nil
-}
-func (c *Gcli) Update(ctx context.Context, in *kbv1.UpdateSotrRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	return nil, nil
-}
-func (c *Gcli) GetHistory(ctx context.Context, in *kbv1.HistRequest, opts ...grpc.CallOption) (*kbv1.HistoryListResponse, error) {
 	return nil, nil
 }
 

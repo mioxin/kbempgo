@@ -84,3 +84,7 @@ func (ps *PStor) Flush(ctx context.Context, em *emptypb.Empty) (*emptypb.Empty, 
 func (ps *PStor) Close() error {
 	return ps.stor.Close()
 }
+
+func (ps *PStor) GetHistory(ctx context.Context, geq *kbv1.HistRequest) (lhist *kbv1.HistoryListResponse, err error) {
+	return
+}

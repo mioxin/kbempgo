@@ -18,8 +18,9 @@ type CLI struct {
 	worker.Config
 	config.Globals
 
-	Employes employCommand `cmd:"" aliases:"empl" help:"Update or get employes DB"`
-	News     newsCommand   `cmd:"" aliases:"news" help:"Get news and comments."`
+	DumpEmployes dumpCommand `cmd:"" aliases:"dump" help:"Get a full dump of employes to the storage from web sources"`
+	SyncEmployes syncCommand `cmd:"" aliases:"sync" help:"Update employes data in backend service from a local storage or web sources"`
+	News         newsCommand `cmd:"" aliases:"news" help:"Get news and comments from web sources"`
 }
 
 // Main CLI func
@@ -48,8 +49,8 @@ func Main() {
 
 	err = kctx.Run(&cli)
 	if errors.Is(err, context.Canceled) {
-		err = nil
 		cli.Log.Error("end cmd with error", "err", err)
+		err = nil
 	}
 
 	kctx.FatalIfErrorf(err)

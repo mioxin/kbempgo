@@ -23,17 +23,69 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
+// Task for getting response
 type Task struct {
 	Data string
-	Num  int
+	// Number of try to get response
+	Num int
 }
 
 func NewTask(data string) *Task {
 	return &Task{data, 0}
 }
 
+type Queue struct {
+	list *list.List
+	mu   sync.Mutex
+}
+
+func NewQueue() *Queue {
+	return &Queue{
+		list: list.New(),
+	}
+}
+func (q *Queue) Push(data string) {
+	q.withLock(func() {
+		q.list.PushBack(data)
+	})
+}
+
+func (q *Queue) Pop() string {
+	var val string
+	q.withLock(func() {
+		if q.list.Len() == 0 {
+			return
+		}
+		val = q.list.Remove(q.list.Front()).(string)
+	})
+	return val
+}
+
+func (q *Queue) Len() int {
+	var length int
+	q.withLock(func() {
+		length = q.list.Len()
+	})
+	return length
+}
+
+func (q *Queue) withLock(fn func()) {
+	q.mu.Lock()
+	defer q.mu.Unlock()
+	fn()
+}
+
 type ReqMessageError struct {
 	Message string `json:"message"`
+}
+
+func (e *ReqMessageError) Error() string {
+	return e.Message
+}
+
+func (e *ReqMessageError) Is(err error) bool {
+	_, ok := err.(*ReqMessageError)
+	return ok
 }
 
 type TaskLimitExceededError struct {
@@ -58,10 +110,10 @@ type Item interface {
 }
 
 type Worker struct {
-	mu          sync.Mutex
+	// mu          sync.Mutex
 	Name        string
-	QueueDep    *list.List
-	QueueAvatar *list.List
+	QueueDep    *Queue
+	QueueAvatar *Queue
 	Conf        *Config
 	IsData      chan struct{}
 	IsDataA     chan struct{}
@@ -78,9 +130,10 @@ func NewWorker(conf *Config, name string, debugLevel int, logger *slog.Logger) *
 		SetTimeout(conf.HttpReqTimeout).
 		SetLogger(&ReqLogger{Logger: *lg})
 
-	return &Worker{Name: name,
-		QueueDep:    list.New(),
-		QueueAvatar: list.New(),
+	return &Worker{
+		Name:        name,
+		QueueDep:    NewQueue(),
+		QueueAvatar: NewQueue(),
 		Conf:        conf,
 		Lg:          lg,
 		IsData:      isData,
@@ -90,27 +143,28 @@ func NewWorker(conf *Config, name string, debugLevel int, logger *slog.Logger) *
 }
 
 // GetRazd ...
-func (w *Worker) GetRazd(ctx context.Context, in chan Task, limit int32, DepsResponseCount *atomic.Int32, sotrCount *atomic.Int32) (err error) {
+func (w *Worker) GetRazd(ctx context.Context, in chan Task, limit int32, depsCount *atomic.Int32, sotrsCount *atomic.Int32) (err error) {
 	var (
-		errMsg ReqMessageError
+		errMsg *ReqMessageError
 		// cli *req.Client
 	)
 
-	w.Lg.Info("Worker: Start Getting...")
+	w.Lg.Debug("Worker: Start Getting...")
 
 	defer func() {
 		close(w.IsDataA)
 		close(w.IsData)
-		w.Lg.Info("Worker: END")
+		w.Lg.Debug("Worker: END...")
 	}()
 
 	cli := w.httpClient
 
+MAIN_LOOP:
 	for {
 		select {
 
 		case task := <-in:
-			cnt := DepsResponseCount.Load() + sotrCount.Load()
+			cnt := depsCount.Load() + sotrsCount.Load()
 
 			if limit > 0 && cnt > limit {
 				w.Lg.Info("Worker: Count limited", "count", cnt)
@@ -127,46 +181,41 @@ func (w *Worker) GetRazd(ctx context.Context, in chan Task, limit int32, DepsRes
 			// DepsResponse := make([]*kbv1.Dep, 0)
 
 			// retry if successful req but empty DepsResponse
-			resp, err := cli.R().
+			resp, e := cli.R().
 				SetErrorResult(&errMsg). // Unmarshal response body into errMsg automatically if status code >= 400.
 				EnableDump().            // Enable dump at request level, only print dump content if there is an error or some unknown situation occurs to help troubleshoot.
 				// SetSuccessResult(&DepsResponse). // Unmarshal response body into userInfo automatically if status code is between 200 and 299.
-				// SetContext(ctx).
+				SetContext(ctx).
 				Get(w.Conf.UrlRazd + task.Data)
 
 			select {
 			case <-ctx.Done():
-				w.Lg.Info("Worker:", "err", ctx.Err().Error())
+				w.Lg.Info("Worker: cancel done", "err", ctx.Err().Error())
 				return ctx.Err()
 			default:
-				if err := ctx.Err(); err != nil {
-					return err
+				if e != nil {
+					w.Lg.Debug("Worker: error handling", "resp dump", resp.Dump()) // Record raw content when error occurs.
+					err = e
+					return
 				}
-			}
-
-			if err != nil { // Error handling.
-				w.Lg.Error("Worker:", "error handling", err)
-				w.Lg.Debug("Worker:", "resp dump", resp.Dump()) // Record raw content when error occurs.
-
-				break
 			}
 
 			if resp.IsErrorState() { // Status code >= 400.
 				w.Lg.Error("Worker:", "err", errMsg.Message) // Record error message returned.
-
-				break
+				err = errMsg
+				break MAIN_LOOP
 			}
 
 			if resp.IsSuccessState() { // Status code is between 200 and 299.
 
-				body, err := resp.ToBytes()
-				if err != nil {
-					w.Lg.Error("Worker: get body:", "err", err, "delay", resp.TotalTime())
+				body, e := resp.ToBytes()
+				if e != nil {
+					w.Lg.Error("Worker: get body:", "err", e, "delay", resp.TotalTime())
 				}
 
 				var raw []json.RawMessage
-				if err := json.Unmarshal(body, &raw); err != nil {
-					w.Lg.Error("Worker: unmurshal body to []Raw:", "err", err, "delay", resp.TotalTime())
+				if e := json.Unmarshal(body, &raw); e != nil {
+					w.Lg.Error("Worker: unmurshal body to []Raw:", "err", e, "delay", resp.TotalTime())
 				}
 
 				DepsResponse := make([]*kbv1.Dep, len(raw))
@@ -175,8 +224,8 @@ func (w *Worker) GetRazd(ctx context.Context, in chan Task, limit int32, DepsRes
 				for i, rm := range raw {
 					dep := &models.Dep{} // Новое сообщение
 
-					if err := json.Unmarshal([]byte(rm), dep); err != nil {
-						w.Lg.Error("Worker: unmurshal []Raw :", "err", err, "delay", resp.TotalTime())
+					if e := json.Unmarshal([]byte(rm), dep); e != nil {
+						w.Lg.Error("Worker: unmurshal []Raw :", "err", e, "delay", resp.TotalTime())
 					}
 
 					DepsResponse[i] = dep.Conv2Kbv().GetDep()
@@ -195,37 +244,46 @@ func (w *Worker) GetRazd(ctx context.Context, in chan Task, limit int32, DepsRes
 				if len(DepsResponse) == 0 { // && resp.TotalTime() > 4*time.Second {
 					w.Lg.Warn("Worker: Empty response ", "try", task.Num, "req_dep", task.Data, "resp", resp.Dump(), "delay", resp.TotalTime())
 
-					in <- Task{task.Data, task.Num + 1}
+					// requeue with backoff in a goroutine to avoid blocking the caller
+					go func(data string, num int) {
+						backoff := time.Duration(1<<num) * time.Second
+						if backoff > 10*time.Second {
+							backoff = 10 * time.Second
+						}
+						select {
+						case <-time.After(backoff):
+						case <-ctx.Done():
+							return
+						}
+						select {
+						case in <- Task{data, num}:
+						case <-ctx.Done():
+						}
+					}(task.Data, task.Num+1)
 					continue
 				}
 
 				for _, d := range DepsResponse {
 					if d.GetChildren() {
-						w.mu.Lock()
-						w.QueueDep.PushBack(d.Idr)
-						w.mu.Unlock()
-
-						DepsResponseCount.Add(1)
+						w.QueueDep.Push(d.Idr)
+						depsCount.Add(1)
 
 						select {
 						case w.IsData <- struct{}{}:
 						default:
 						}
 					} else {
-						sotrCount.Add(1)
+						sotrsCount.Add(1)
 					}
 
-					err := w.PrepareItem(ctx, d)
-					if err != nil {
-						w.Lg.Error("Worker: Prepare dep", "err", err, "dep", d)
+					e := w.PrepareItem(ctx, d)
+					if e != nil {
+						w.Lg.Error("Worker: Prepare dep", "err", e, "dep", d)
 					}
 				}
 			}
 
-			w.mu.Lock()
 			lenQ := w.QueueDep.Len()
-			w.mu.Unlock()
-
 			w.Lg.Debug("Worker Len of QueueDep:", "len", lenQ)
 
 		case <-ctx.Done():
@@ -236,22 +294,19 @@ func (w *Worker) GetRazd(ctx context.Context, in chan Task, limit int32, DepsRes
 }
 
 // Dispatcher wolking accross worker queues for forwarding idr/avatar to worker input chanal
-func (w *Worker) Dispatcher(ctx context.Context, dispName string, queue *list.List, out chan<- Task, isData <-chan struct{}) {
+func (w *Worker) Dispatcher(ctx context.Context, dispName string, queue *Queue, out chan<- Task, isData <-chan struct{}) {
 	var (
 		count, lenQ int
-		s           string
+		s, message  string
 	)
 
-	defer w.Lg.Info(fmt.Sprintf("Dispatcher %s: END...", dispName))
+	defer func() {
+		w.Lg.Debug(fmt.Sprintf("Dispatcher %s: END %s", dispName, message))
+	}()
 
-	send2chan := func(q *list.List, outCh chan<- Task) (ok bool) {
+	send2chan := func(q *Queue, outCh chan<- Task) (ok bool) {
 		ok = true
-
-		w.mu.Lock()
-
 		lenQ = q.Len()
-
-		w.mu.Unlock()
 
 		if lenQ == 0 {
 			w.Lg.Info(fmt.Sprintf("Dispatcher %s: isData when Queue len =0", dispName))
@@ -259,22 +314,16 @@ func (w *Worker) Dispatcher(ctx context.Context, dispName string, queue *list.Li
 		}
 
 		// get data from queue
-		w.mu.Lock()
-		s = q.Remove(q.Front()).(string)
-		w.mu.Unlock()
+		s = q.Pop()
 
 		// send data to out chanal (razdCh)
 		select {
 		case outCh <- *NewTask(s):
 			count++
 		case <-ctx.Done():
-			w.mu.Lock()
 			lenQ = q.Len()
-			w.mu.Unlock()
-
 			w.Lg.Info(fmt.Sprintf("Dispatcher %s: general cancel:", dispName), "err", ctx.Err().Error(), "QueueLen", lenQ) // , "DepsResponseQueueLen", lenQD)
 			ok = false
-
 			return
 		}
 
@@ -291,10 +340,14 @@ func (w *Worker) Dispatcher(ctx context.Context, dispName string, queue *list.Li
 		select {
 		case _, ok := <-isData:
 			if err := ctx.Err(); err != nil {
+				// w.Lg.Info(fmt.Sprintf("Dispatcher %s: general cancel:", dispName), "err", ctx.Err().Error(), "QueueLen", lenQ)
+				message = err.Error()
 				return
 			}
 
 			if !ok {
+				// w.Lg.Info(fmt.Sprintf("Dispatcher %s: isData chanal close:", dispName), "QueueLen", lenQ)
+				message = "with isData chanel close"
 				return
 			}
 
@@ -302,27 +355,22 @@ func (w *Worker) Dispatcher(ctx context.Context, dispName string, queue *list.Li
 				return
 			}
 
-			w.mu.Lock()
 			lenQ := queue.Len()
-			w.mu.Unlock()
-
 			w.Lg.Info(fmt.Sprintf("Dispatcher %s: Get from queue", dispName), "count", count, "data", s, "QueueLen", lenQ, "delay", time.Since(timeStart))
 
 		case <-ctx.Done():
-			w.mu.Lock()
-			lenQ := queue.Len()
-			w.mu.Unlock()
-
-			w.Lg.Debug(fmt.Sprintf("Dispatcher %s: general cancel in loop:", dispName), "err", ctx.Err().Error(), "QueueLen", lenQ, "IsData", len(isData)) // , "DepsResponseQueueLen", lenQD, "DepsResponseIsData", len(w.isData))
+			// lenQ := queue.Len()
+			// w.Lg.Debug(fmt.Sprintf("Dispatcher %s: general cancel in loop:", dispName), "err", ctx.Err().Error(), "QueueLen", lenQ, "IsData", len(isData)) // , "DepsResponseQueueLen", lenQD, "DepsResponseIsData", len(w.isData))
+			message = "with general cancel in loop"
 
 			return
 		}
-		// }
 	}
 }
 
 // PrepareItem define the item as a DepsResponse or an employee and save one
 func (w *Worker) PrepareItem(ctx context.Context, item models.Item) error {
+	ATTEMPT := 1 // number of attempts for get data if success field = false
 	dep := item.(*kbv1.Dep)
 	dep.Text = html.UnescapeString(dep.Text)
 
@@ -330,9 +378,7 @@ func (w *Worker) PrepareItem(ctx context.Context, item models.Item) error {
 		sotr := utils.ParseSotr(dep.Text)
 
 		// send url Avatar image to queue for download
-		w.mu.Lock()
-		w.QueueAvatar.PushBack(sotr.Avatar)
-		w.mu.Unlock()
+		w.QueueAvatar.Push(sotr.Avatar)
 
 		select {
 		case w.IsDataA <- struct{}{}:
@@ -344,7 +390,7 @@ func (w *Worker) PrepareItem(ctx context.Context, item models.Item) error {
 		sotr.ParentId = dep.Parent
 
 		// define the middle name of employee
-		text, err := w.getData(w.Conf.UrlFio, sotr.Name)
+		text, err := w.getData(ctx, w.Conf.UrlFio, sotr.Name)
 		if err != nil {
 			w.Lg.Error("Get middle name:", "err", err.Error())
 		} else {
@@ -355,29 +401,50 @@ func (w *Worker) PrepareItem(ctx context.Context, item models.Item) error {
 			w.Lg.Warn("Middle name not found", "short_name", sotr.Name)
 		}
 
+		sotrFullName := fmt.Sprintf("%s %s", sotr.Name, sotr.MidName)
+
 		// define mobile phone
-		if len(sotr.Mobile) == 0 {
-			text, err = w.getData(w.Conf.UrlMobile, sotr.Tabnum)
-		}
+		text = ""
+		text, err = w.getData(ctx, w.Conf.UrlSotr, sotr.Tabnum)
 
-		var mob *utils.Mobile
-
-		if err != nil {
-			w.Lg.Error("Mobile not found", "sotr_name", sotr.Name+sotr.MidName, "tabnum", sotr.Tabnum, "err", err)
+		if err != nil || !utils.HasValidMobile(text) {
+			w.Lg.Error("Mobile data not found", "sotr_name", sotrFullName, "tabnum", sotr.Tabnum, "err", err, "text", text)
 		} else {
-			mob, err = utils.ParseMobile(text)
 
-			if err != nil {
-				w.Lg.Error("Mobile parsing", "sotr_name", sotr.Name+sotr.MidName, "text", text, "err", err)
-			} else if !mob.Success {
-				w.Lg.Warn("Mobile get unsuccess", "sotr_name", sotr.Name+sotr.MidName, "tabnum", sotr.Tabnum, "responce", html.UnescapeString(text))
-			}
-			if mob.Data != "" {
-				sotr.Mobile = strings.Split(mob.Data, ",")
-			}
+			var mob *utils.Mobile
 
+			for i := 0; i < ATTEMPT; i++ {
+				// if len(sotr.Mobile) == 0 {
+				// 	break
+				// }
+				text, err = w.getData(ctx, w.Conf.UrlMobile, sotr.Tabnum)
+
+				if err != nil {
+					w.Lg.Error("Mobile not found", "sotr_name", sotrFullName, "tabnum", sotr.Tabnum, "err", err)
+					break
+				}
+
+				mob, err = utils.ParseMobile(text)
+
+				if err != nil {
+					w.Lg.Error("Mobile parsing", "sotr_name", sotrFullName, "text", text, "err", err)
+					break
+				}
+
+				if !mob.Success {
+					w.Lg.Warn(fmt.Sprintf("#%d: Mobile get unsuccess", i+1), "sotr_name", sotrFullName, "tabnum", sotr.Tabnum, "responce", slog.String("message", text)) //html.UnescapeString(text))
+					time.Sleep(time.Duration(1<<(7+i)) * time.Millisecond)
+					continue
+				}
+
+				if mob.Data != "" {
+					sotr.Mobile = strings.Split(mob.Data, ",")
+					w.Lg.Debug(fmt.Sprintf("#%d: Mobile get success", i+1), "sotr_name", sotrFullName, "tabnum", sotr.Tabnum, "responce", slog.String("message", text), "mob.Data", mob.Data) //html.UnescapeString(text))
+				}
+				break
+
+			}
 		}
-
 		item = sotr
 	}
 
@@ -386,19 +453,23 @@ func (w *Worker) PrepareItem(ctx context.Context, item models.Item) error {
 	return err
 }
 
-func (w *Worker) getData(ajaxUrl, query string) (string, error) {
+func (w *Worker) getData(ctx context.Context, ajaxUrl, query string) (string, error) {
 	var (
 		errMsg ReqMessageError
 		body   string // []byte
 	)
 
+	qURL := fmt.Sprintf("%s%s", ajaxUrl, url.PathEscape(query))
+
 	cli := w.httpClient
 	resp, err := cli.R().
 		SetErrorResult(&errMsg). // Unmarshal response body into errMsg automatically if status code >= 400.
-		Get(ajaxUrl + url.PathEscape(query))
+		//	SetContext(ctx).
+		Get(qURL)
+
 	if err != nil { // Error handling.
-		w.Lg.Debug("Get Data: raw content", "url", ajaxUrl, "resp_dump", resp.Dump()) // Record raw content when error occurs.
-		err = fmt.Errorf("get url %s: error handling %w", ajaxUrl, err)
+		w.Lg.Debug("Get Data: raw content", "url", qURL, "resp_dump", resp.Dump()) // Record raw content when error occurs.
+		err = fmt.Errorf("get url %s: error handling %w", qURL, err)
 	}
 
 	if resp.IsErrorState() { // Status code >= 400.
@@ -407,19 +478,20 @@ func (w *Worker) getData(ajaxUrl, query string) (string, error) {
 
 	if resp.IsSuccessState() { // Status code is between 200 and 299.
 		body = resp.String()
+		// fmt.Printf("BODY:\n%s\nDUMP:%s\n", body, resp.Dump())
 	}
 
 	return (body), err
 }
 
 func (w *Worker) GetAvatar(ctx context.Context, in <-chan Task, limit int32,
-	DepsResponseCount *atomic.Int32, sotrCount *atomic.Int32, fileCollection map[string]AvatarInfo) (err error) {
+	depsCount *atomic.Int32, sotrsCount *atomic.Int32, fileCollection map[string]AvatarInfo) error {
 	var errMsg ReqMessageError
 
-	w.Lg.Info("Worker avatar: Start Getting...")
+	w.Lg.Debug("Worker avatar: Start Getting...")
 
 	defer func() {
-		w.Lg.Info("Worker avatar: END")
+		w.Lg.Debug("Worker avatar: END...")
 	}()
 
 	cli := w.httpClient
@@ -432,11 +504,10 @@ func (w *Worker) GetAvatar(ctx context.Context, in <-chan Task, limit int32,
 
 	for {
 		select {
-
 		case task := <-in:
 			ava := task.Data
 
-			cnt := DepsResponseCount.Load() + sotrCount.Load()
+			cnt := depsCount.Load() + sotrsCount.Load()
 			if limit > 0 && cnt > limit {
 				w.Lg.Info("Worker avatar: Count limited", "count", cnt)
 				return &TaskLimitExceededError{val: int(cnt)}
@@ -445,11 +516,12 @@ func (w *Worker) GetAvatar(ctx context.Context, in <-chan Task, limit int32,
 			w.Lg.Debug("Worker avatar:", "avatar", ava)
 
 			// get head for compare file size
-			r := cli.Head(ava).
-				Do()
+			r, e := cli.R().
+				// SetContext(ctx).
+				Head(ava)
 
-			if r.Err != nil {
-				fmt.Println(r.Err.Error(), ava)
+			if e != nil {
+				fmt.Println(e.Error(), ava)
 			}
 
 			filename := filepath.Join(w.Conf.Avatars, ava)
@@ -476,6 +548,7 @@ func (w *Worker) GetAvatar(ctx context.Context, in <-chan Task, limit int32,
 				SetErrorResult(&errMsg). // Unmarshal response body into errMsg automatically if status code >= 400.
 				SetOutputFile(tFilename).
 				SetDownloadCallback(callback).
+				// SetContext(ctx).
 				Get(ava)
 			if err != nil { // Error handling.
 				w.Lg.Error("Worker avatar: request handling", "error", err)
@@ -503,5 +576,5 @@ func (w *Worker) GetAvatar(ctx context.Context, in <-chan Task, limit int32,
 			return ctx.Err()
 		}
 	}
-	return
+	return nil
 }

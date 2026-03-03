@@ -10,11 +10,12 @@ type Config struct {
 	KbUrl          string        `name:"scrape-url" placeholder:"URL" help:"Base Url"`
 	UrlRazd        string        `name:"scrape-razd" env:"KB_URL_RAZD" help:"Url of section"`
 	UrlSotr        string        `name:"scrape-sotr" env:"KB_URL_SOTR" help:"Url of employer"`
-	UrlFio         string        `name:"scrape-fio" env:"KB_URL_FIO" help:"Url of employer full nane"`
+	UrlFio         string        `name:"scrape-fio" env:"KB_URL_FIO" help:"Url of employer full name"`
 	UrlMobile      string        `name:"scrape-mobil" env:"KB_URL_MOBIL" help:"Url of employer mobile"`
 	Avatars        string        `name:"scrape-avatars" env:"KB_AVATARS" help:"Directory for avatar images"`
-	HttpReqTimeout time.Duration `name:"req-timeout" default:"10s" help:"Http request timeout for worker"`
+	HttpReqTimeout time.Duration `name:"req-timeout" default:"6s" help:"Http request timeout for worker"`
 	// WaitDataTimeout time.Duration `name:"wait-timeout" default:"20s" help:"timeout for waiting data in dispatcher of worker"`
+	StorageURL string `name:"scrape-storage" env:"KB_STORAGE" help:"Storage connection string for scraped data. Example: postgres://localhost:5432/db, file:///home/user/dir"`
 
 	Headers []string      `name:"scrape-headers" yaml:"headers" help:"Headers of http requsts as map[string]string in config file"`
 	Store   storage.Store `kong:"-"`

@@ -104,7 +104,7 @@ func (p *PgStore) GetDepsBy(ctx context.Context, q *kbv1.DepRequest) (deps []*kb
 	return
 }
 
-// GetSotr returns employee data
+// GetSotrsBy returns employee data
 func (p *PgStore) GetSotrsBy(ctx context.Context, q *kbv1.SotrRequest) (sotrs []*kbv1.Sotr, err error) {
 	var (
 		datasourceSotrs []datasource.Sotr
@@ -160,7 +160,7 @@ func (p *PgStore) GetSotrsBy(ctx context.Context, q *kbv1.SotrRequest) (sotrs []
 }
 
 // Save Item data to internal maps
-func (p *PgStore) Save(ctx context.Context, item models.Item) (em *emptypb.Empty, err error) {
+func (p *PgStore) Save(_ context.Context, item models.Item) (em *emptypb.Empty, err error) {
 	if item.GetChildren() {
 		// **************************
 		// save Dep
@@ -242,6 +242,7 @@ func (p *PgStore) Flush(ctx context.Context, _ *emptypb.Empty) (_ *emptypb.Empty
 	return
 }
 
+// Create dep's map containing deps as datasource struct and batch inserting ones.
 func (p *PgStore) prepareDepsResponse(tx *gorm.DB) (dsDepMap map[string]*datasource.Dep, err error) {
 	// prepare DepsResponse
 	slDep := make([]*datasource.Dep, 0, 100)
@@ -269,7 +270,7 @@ func (p *PgStore) prepareDepsResponse(tx *gorm.DB) (dsDepMap map[string]*datasou
 	return
 }
 
-// prepare SotrsResponse
+// prepare SotrsResponse. Create slice of sotrs as datasorce structs and batch inserting ones.
 func (p *PgStore) prepareSotrsResponse(tx *gorm.DB, dsDepMap map[string]*datasource.Dep) (slSotr []*datasource.Sotr, err error) {
 	slSotr = make([]*datasource.Sotr, 0, 100)
 
@@ -518,14 +519,14 @@ func deleteQuery(tab string, valuesStr string) (q string, err error) {
 	return
 }
 
-type SqlInsertValuer interface {
+type SQLInsertValuer interface {
 	// format struct as a value string for sql insert query like (value1,value2)
 	// for build query like a
 	// INSERT INTO table (field1, field2) VALUES ((value1,value2),(value1,value2)...)
 	SqlInsertValueFormat() string
 }
 
-func buildValuesStr[T SqlInsertValuer](items []T) string {
+func buildValuesStr[T SQLInsertValuer](items []T) string {
 	var values []string
 	for _, item := range items {
 		values = append(values, item.SqlInsertValueFormat())

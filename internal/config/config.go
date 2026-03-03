@@ -15,7 +15,7 @@ type Globals struct {
 	Env             string          `name:"env" env:"KB_ENV" enum:"local,dev,prod" default:"local" help:"App Enviroment: local, dev, prod"`
 	ConfigFile      kong.ConfigFlag `name:"config-file" short:"c" type:"existingfile" help:"Config file location"`
 	OpTimeout       time.Duration   `name:"op-timeout" default:"1600s" help:"timeout for Main getting"`
-	WaitDataTimeout time.Duration   `name:"wait-timeout" default:"20s" help:"timeout for waiting data in dispatcher of worker"`
+	WaitDataTimeout time.Duration   `name:"wait-timeout" default:"6s" help:"timeout for waiting data in dispatcher of worker"`
 	Debug           int             `name:"debug" short:"d" type:"counter" help:"Enable debug"`
 	DbUrl           string          `name:"db" env:"KB_DB_URL" help:"DB connection string"`
 	LogOutput       string          `name:"log-output" short:"o" default:"" help:"output file for logs, default: stdOut"`

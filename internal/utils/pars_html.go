@@ -77,9 +77,9 @@ func ParseSotr(unescaped string) *kbv1.Sotr {
 
 // parsing mid name
 func ParseMidName(sotr *kbv1.Sotr, unescaped string) string {
-	slText := strings.Split(unescaped, "</div><div class=sotr_td3")
+	slText := strings.SplitSeq(unescaped, "</div><div class=sotr_td3")
 
-	for _, t := range slText {
+	for t := range slText {
 		// Avatar
 		avatar := FindBetween(t, `alt="" src="`, `"`)
 		// Cut avatar query-param
@@ -87,7 +87,7 @@ func ParseMidName(sotr *kbv1.Sotr, unescaped string) string {
 			avatar = avatar[:idx]
 		}
 		// FIO
-		fio := FindBetween(t, `onclick="searchG('`, `', 'SotrsResponseearchList')`)
+		fio := FindBetween(t, `onclick="searchG('`, `', '`)
 		fio = strings.TrimSpace(fio)
 		mid, ok := strings.CutPrefix(fio, sotr.Name)
 		// slog.Debug("PARSE MIDNAME:", "mid", mid, "fio", fio, "avatar", avatar, "sotr.avatar", sotr.Avatar)
@@ -97,6 +97,27 @@ func ParseMidName(sotr *kbv1.Sotr, unescaped string) string {
 	}
 
 	return ""
+}
+
+func HasValidMobile(jsonStr string) bool {
+	var data struct {
+		Success bool `json:"success"`
+		User    struct {
+			Mobile string `json:"mobile"`
+		} `json:"user"`
+	}
+
+	if err := json.Unmarshal([]byte(jsonStr), &data); err != nil {
+		return false
+	}
+
+	mobile := strings.TrimSpace(data.User.Mobile)
+	if mobile == "" || mobile == " " || mobile == "-" || mobile == "—" {
+		return false
+	}
+
+	hasDigit := regexp.MustCompile(`\d`).MatchString(mobile)
+	return hasDigit
 }
 
 type Mobile struct {

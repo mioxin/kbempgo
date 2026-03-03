@@ -171,7 +171,7 @@ func (f *FileStore[T]) saveSotr(sotr *kbv1.Sotr) (err error) {
 		diff, _ := kbv1.CompareSotr(oldSotr, sotr)
 		// if diff exists than save diff to history and update old SotrsResponse
 		if len(diff) > 0 {
-			f.Log.Debug("saved: doublicate have diffs", "nim", len(diff))
+			f.Log.Debug("saved: doublicate have diffs", "num", len(diff))
 
 			hs := make([]*kbv1.History, 0)
 			for _, df := range diff {
@@ -229,7 +229,12 @@ func (f *FileStore[T]) saveSotr(sotr *kbv1.Sotr) (err error) {
 }
 
 func (f *FileStore[T]) Update(_ context.Context, query *kbv1.UpdateSotrRequest) (_ *emptypb.Empty, err error) {
-	b, err := json.Marshal(query.Sotr)
+	marshaler := protojson.MarshalOptions{
+		EmitUnpopulated: true, // for sure includes bool fields =  false/0/""
+	}
+
+	b, err := marshaler.Marshal(query.Sotr)
+	// b, err := json.Marshal(query.Sotr)
 	if err != nil {
 		return
 	}

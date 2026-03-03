@@ -43,7 +43,7 @@ var (
 		  </td></tr>
 	  </table>
   </div>`
-	midNameText string = `<div class=sotr_td3 onclick="searchG('Антропов Виталий Витальевич', 'SotrsResponseearchList');">
+	midNameText []string = []string{`<div class=sotr_td3 onclick="searchG('Антропов Виталий Витальевич', 'SotrsResponseearchList');">
 	<table>
 		<tr>
 		    <td rowspan="2"><img width="26" style="margin-right: 4px; border-radius: 3px;" alt="" src="/avatar/99996324.jpg?v=YI2A7EeWq5" /></td>
@@ -63,11 +63,28 @@ var (
 			<td class="s_3"><span class="s_3">вн</span> <b>408-250</b></td>
 		</tr>
 	</table>
-</div><div class=s_1 style="border-bottom: 1px solid #eeeeee; cursor: pointer; display: flex; align-items: center;justify-content: space-around;padding: 15px 0;"><span class="s_1">← Сюда некуда</span> <span class="s_1">Туда некуда  →</span> </div>`
-
-	sotr kbv1.Sotr = kbv1.Sotr{
-		Name:   "Антропов Антон",
-		Avatar: "/avatar/12227.jpg",
+</div><div class=s_1 style="border-bottom: 1px solid #eeeeee; cursor: pointer; display: flex; align-items: center;justify-content: space-around;padding: 15px 0;"><span class="s_1">← Сюда некуда</span> <span class="s_1">Туда некуда  →</span> </div>`,
+		`<div class=sotr_td3 onclick="searchG('Палий Юлия Викторовна', 'sotrSearchList');">
+					<table>
+						<tr>
+						    <td rowspan="2"><img width="26" style="margin-right: 4px; border-radius: 3px;" alt="" src="/avatar/2681.jpg?v=48H33Koas2" /></td>
+							<td class="s_1"><span style="background:#fdff90">Палий Юлия</span> Викторовна</td>
+						</tr>
+						<tr>
+							<td class="s_3"><span class="s_3">вн</span> <b>400-16-02</b></td>
+						</tr>
+					</table>
+				</div><div class=s_1 style="border-bottom: 1px solid #eeeeee; cursor: pointer; display: flex; align-items: center;justify-content: space-around;padding: 15px 0;"><span class="s_1">← Сюда некуда</span> <span class="s_1">Туда некуда  →</span> </div>`,
+	}
+	sotr []kbv1.Sotr = []kbv1.Sotr{
+		{
+			Name:   "Антропов Антон",
+			Avatar: "/avatar/12227.jpg",
+		},
+		{
+			Name:   "Палий Юлия",
+			Avatar: "/avatar/2681.jpg",
+		},
 	}
 
 	expect *kbv1.Sotr = &kbv1.Sotr{
@@ -79,7 +96,7 @@ var (
 		Avatar: "/avatar/1000380.jpg",
 		Grade:  "Главный бухгалтер",
 	}
-	expectedMidName string = "Викторович"
+	expectedMidName []string = []string{"Викторович", "Викторовна"}
 )
 
 func TestParseSotrRe(t *testing.T) {
@@ -96,8 +113,10 @@ func TestParseSotr(t *testing.T) {
 }
 
 func TestParseMidName(t *testing.T) {
-	mid := ParseMidName(&sotr, midNameText)
-	assert.Equal(t, expectedMidName, mid)
+	for i := range []int{1, 2} {
+		mid := ParseMidName(&sotr[i], midNameText[i])
+		assert.Equal(t, expectedMidName[i], mid)
+	}
 }
 
 type TestCase struct {
@@ -126,6 +145,19 @@ func TestParseMobile(t *testing.T) {
 			assert.NoError(t, ok)
 			assert.Equal(t, tst.expected, *mob)
 		})
+	}
+}
+
+func TestHasValidMobile(t *testing.T) {
+	tests := []string{
+		`{"success":true,"user":{"place":{"place_id":6190,"map_id":69},"placeLink":"https:\/\/www.com","access":true,"phones":["78"],"cansee":false,"canshow":false,"current_user":false,"target_blank":false,"editLink":null,"avatar":"https:\/\/www.com3tdImWeui1","absent":false,"reviews":null,"reviews_link":"\/?type=1610 &r_id=999940952","login":null,"tab_num":null,"motiw_login":null,"motiw_id":null,"canSeeLogins":false,"short_name":"","depth":null,"depth0":null,"depdata":{"url":"\/?type=1297&path=1941.2256","name":"Product Office"},"posts":["Product Manager"],"email":"","mobile":"+7 (747)","hobbyes":null,"isNotKaspiGid":true,"remote":false,"hide_vpn":false,"hide_vacation":false,"hide_numbers":false,"hide_for_deps":false,"birthday":"3 \u0438\u044e\u043b\u044f"}}`,
+		`{"success":true,"user":{"place":{"place_id":6177,"map_id":69},"placeLink":"https:\/\www.com","access":true,"phones":["97"],"cansee":false,"canshow":false,"current_user":false,"target_blank":false,"editLink":null,"avatar":"https:\/\/www.comy9F64Ev7kG","absent":false,"reviews":null,"reviews_link":"\/?type=1610 &r_id=1000465","login":null,"tab_num":null,"motiw_login":null,"motiw_id":null,"canSeeLogins":false,"short_name":"","depth":null,"depth0":null,"depdata":{"url":"\/?type=1297&path=1941.2256","name":"Product Office"},"posts":["Head of Product"],"email":"","mobile":" ","hobbyes":null,"isNotKaspiGid":true,"remote":false,"hide_vpn":false,"hide_vacation":false,"hide_numbers":false,"hide_for_deps":false,"birthday":"25 \u0434\u0435\u043a\u0430\u0431\u0440\u044f"}}`,
+		`{"success":true,"user":{"place":false,"placeLink":false,"access":true,"phones":[],"cansee":false,"canshow":false,"current_user":false,"target_blank":false,"editLink":null,"avatar":"https:\/\/www.comSGV8W1iXKY","absent":false,"reviews":null,"reviews_link":"\/?type=1610 &r_id=8724","login":null,"tab_num":null,"motiw_login":null,"motiw_id":null,"canSeeLogins":false,"short_name":"","depth":null,"depth0":null,"depdata":{"url":"\/?type=1297&path=1941","name":""},"posts":["","Head of Kaspi Travel"],"email":"","mobile":"","hobbyes":null,"isNotKaspiGid":true,"remote":false,"hide_vpn":false,"hide_vacation":false,"hide_numbers":false,"hide_for_deps":false,"birthday":"1 \u0430\u0432\u0433\u0443\u0441\u0442\u0430"}}`,
+	}
+	expected := []bool{true, false, false}
+
+	for i, str := range tests {
+		assert.Equal(t, expected[i], HasValidMobile(str))
 	}
 }
 
