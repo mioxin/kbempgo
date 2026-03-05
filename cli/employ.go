@@ -34,6 +34,10 @@ type dumpCommand struct {
 func (e *dumpCommand) Run(cli *CLI) error {
 	var err error
 
+	if e.Workers <= 0 {
+		return fmt.Errorf("number of workers should be > 0")
+	}
+
 	ctx, cancel := context.WithTimeout(context.Background(), cli.OpTimeout)
 	defer cancel()
 
@@ -50,9 +54,10 @@ func (e *dumpCommand) Run(cli *CLI) error {
 
 	defer func() {
 		cli.Log.Info("MAIN Close storage")
-
-		if err := cli.Store.Close(); err != nil {
-			cli.Log.Error("MAIN close storage", "err", err)
+		if cli.Store != nil {
+			if err := cli.Store.Close(); err != nil {
+				cli.Log.Error("MAIN close storage", "err", err)
+			}
 		}
 	}()
 
@@ -72,7 +77,7 @@ LOOP:
 		select {
 		case item, ok := <-itemsCh:
 			if !ok {
-				break
+				break LOOP
 			}
 			e.Lg.Debug("MAIN Save.", "item", item, "sotrs", sotrCounter, "Deps", depsCounter)
 

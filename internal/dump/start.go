@@ -22,9 +22,12 @@ var (
 	SotrCounter atomic.Int32
 )
 
-func StartDump(ctx context.Context, cancel context.CancelFunc, cfg *Config) <-chan (models.Item) {
+// StartDump starts the dump process.
+// The returned channel will be closed by StartDump after all workers complete.
+// Call cancel() to stop all workers (via context cancellation).
+func StartDump(ctx context.Context, cancel context.CancelFunc, cfg *Config) <-chan models.Item {
+	// output channel for retrieved items
 	outCh := make(chan (models.Item), 1000)
-	//defer close(outCh)
 
 	// *****************************
 	// init request workers
@@ -42,13 +45,14 @@ func StartDump(ctx context.Context, cancel context.CancelFunc, cfg *Config) <-ch
 
 	// start request workers
 	go func() {
-		// var wgD sync.WaitGroup
+
 		ctxw, cancelw := context.WithCancel(ctx)
 		eg, ctxEg := errgroup.WithContext(ctxw)
 
 		razdCh := make(chan worker.Task)
 		avatarCh := make(chan worker.Task)
 
+		defer close(outCh)
 		defer close(razdCh)
 		defer close(avatarCh)
 
@@ -58,12 +62,12 @@ func StartDump(ctx context.Context, cancel context.CancelFunc, cfg *Config) <-ch
 				return w.GetAvatar(ctxEg, avatarCh, int32(cfg.Limit), &(DepsCounter), &(SotrCounter), fileCollection)
 			})
 
-			// start dispatcher DepsResponse
+			// start dispatcher workers for razd and avatar tasks
+			// it should terminate by canceling main context when all workers done and queues for razd&avatar is empty
 			go func() {
 				w.Dispatcher(ctx, w.Name, w.QueueDep, razdCh) //, w.IsData)
 			}()
 
-			// start dispatcher Avatar
 			go func() {
 				w.Dispatcher(ctx, "avatar", w.QueueAvatar, avatarCh) //, w.IsDataA)
 			}()
@@ -88,7 +92,7 @@ func StartDump(ctx context.Context, cancel context.CancelFunc, cfg *Config) <-ch
 			for {
 				select {
 				case <-ctx.Done():
-					cfg.Lg.Info("Main context concel done!")
+					cfg.Lg.Info("Main context cancel done!")
 					return
 
 				case <-timer.C:
@@ -110,9 +114,8 @@ func StartDump(ctx context.Context, cancel context.CancelFunc, cfg *Config) <-ch
 			cfg.Lg.Debug("All workers completed successfully")
 		}
 
+		// terminate dispatcher workers
 		cancel()
-		// wgD.Wait()
-		// ****************************************
 	}()
 
 	return outCh
@@ -121,7 +124,6 @@ func StartDump(ctx context.Context, cancel context.CancelFunc, cfg *Config) <-ch
 // Collect avatars that exits for avoid a double downloading
 func getFileCollection(avatarsPath string, lg *slog.Logger) (fColection map[string]worker.AvatarInfo, err error) {
 	var (
-		num             int
 		key, sNum, hash string
 	)
 
@@ -136,7 +138,7 @@ func getFileCollection(avatarsPath string, lg *slog.Logger) (fColection map[stri
 			return nil
 		}
 
-		num = 1
+		num := 1
 		slNum := strings.Split(strings.Split(info.Name(), ".")[0], " ")
 
 		key = slNum[0]
@@ -153,7 +155,7 @@ func getFileCollection(avatarsPath string, lg *slog.Logger) (fColection map[stri
 		if avaInf, ok := fColection[key]; !ok || avaInf.Num < num {
 			hash, err = worker.HashFile(path)
 			if err != nil {
-				return err
+				lg.Error("getFileCollection:", "err", err, "name", info.Name(), "sNum", sNum)
 			}
 
 			fColection[key] = worker.AvatarInfo{

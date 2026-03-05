@@ -216,6 +216,7 @@ func (w *Worker) GetRazd(ctx context.Context, in chan Task, out chan models.Item
 
 				if e := json.Unmarshal(body, &raw); e != nil {
 					w.Lg.Error("Worker: unmurshal body to []Raw:", "err", e, "delay", resp.TotalTime())
+					break
 				}
 
 				DepsResponse := make([]*kbv1.Dep, len(raw))
@@ -225,6 +226,7 @@ func (w *Worker) GetRazd(ctx context.Context, in chan Task, out chan models.Item
 					dep := &models.Dep{} // Новое сообщение
 					if e := json.Unmarshal([]byte(rm), dep); e != nil {
 						w.Lg.Error("Worker: unmurshal []Raw :", "err", e, "delay", resp.TotalTime())
+						continue
 					}
 					DepsResponse[i] = dep.Conv2Kbv().GetDep()
 				}
@@ -272,10 +274,7 @@ func (w *Worker) GetRazd(ctx context.Context, in chan Task, out chan models.Item
 					} else {
 						sotrsCount.Add(1)
 					}
-					// e := w.PrepareItem(ctx, d)
-					// if e != nil {
-					// 	w.Lg.Error("Worker: Prepare dep", "err", e, "dep", d)
-					// }
+
 					select {
 					case out <- w.PrepareItem(ctx, d):
 					case <-ctx.Done():
@@ -470,7 +469,7 @@ func (w *Worker) GetAvatar(ctx context.Context, in <-chan Task, limit int32,
 
 	callback := func(info req.DownloadInfo) {
 		if info.Response.Response != nil {
-			fmt.Printf("downloaded %.2f%% (%s)\n", float64(info.DownloadedSize)/float64(info.Response.ContentLength)*100.0, info.Response.Request.URL.String())
+			w.Lg.Debug(fmt.Sprintf("downloaded %.2f%% (%s)\n", float64(info.DownloadedSize)/float64(info.Response.ContentLength)*100.0, info.Response.Request.URL.String()))
 		}
 	}
 
@@ -493,7 +492,7 @@ func (w *Worker) GetAvatar(ctx context.Context, in <-chan Task, limit int32,
 				Head(ava)
 
 			if e != nil {
-				fmt.Println(e.Error(), ava)
+				w.Lg.Error("Worker avatar: get head", "error", e.Error(), "avatar", ava)
 			}
 
 			filename := filepath.Join(w.Conf.Avatars, ava)
