@@ -115,16 +115,17 @@ type Worker struct {
 	QueueDep    *Queue
 	QueueAvatar *Queue
 	Conf        *Config
-	IsData      chan struct{}
-	IsDataA     chan struct{}
-	Lg          *slog.Logger
-	httpClient  *req.Client
+	// IsData       chan struct{}
+	// IsDataA      chan struct{}
+	Lg           *slog.Logger
+	httpClient   *req.Client
+	PollInterval *time.Duration
 }
 
 func NewWorker(conf *Config, name string, debugLevel int, logger *slog.Logger) *Worker {
 	lg := logger.With("worker", name)
-	isData := make(chan struct{}, 1500)
-	IsDataA := make(chan struct{}, 1500)
+	// isData := make(chan struct{}, 1500)
+	// IsDataA := make(chan struct{}, 1500)
 	cli := httpclient.NewHTTPClient(debugLevel, conf.Headers)
 	cli.SetBaseURL(conf.KbUrl).
 		SetTimeout(conf.HttpReqTimeout).
@@ -136,34 +137,34 @@ func NewWorker(conf *Config, name string, debugLevel int, logger *slog.Logger) *
 		QueueAvatar: NewQueue(),
 		Conf:        conf,
 		Lg:          lg,
-		IsData:      isData,
-		IsDataA:     IsDataA,
-		httpClient:  cli,
+		// IsData:       isData,
+		// IsDataA:      IsDataA,
+		httpClient:   cli,
+		PollInterval: &conf.DispPollInterval,
 	}
 }
 
 // GetRazd ...
-func (w *Worker) GetRazd(ctx context.Context, in chan Task, limit int32, depsCount *atomic.Int32, sotrsCount *atomic.Int32) (err error) {
+func (w *Worker) GetRazd(ctx context.Context, in chan Task, out chan models.Item, limit int32, depsCount *atomic.Int32, sotrsCount *atomic.Int32) (err error) {
 	var (
 		errMsg *ReqMessageError
-		// cli *req.Client
+		raw    []json.RawMessage
 	)
 
 	w.Lg.Debug("Worker: Start Getting...")
-
-	defer func() {
-		close(w.IsDataA)
-		close(w.IsData)
-		w.Lg.Debug("Worker: END...")
-	}()
+	defer w.Lg.Debug("Worker: END...")
+	// defer close(w.IsDataA)
+	// defer close(w.IsData)
 
 	cli := w.httpClient
 
-MAIN_LOOP:
 	for {
 		select {
 
-		case task := <-in:
+		case task, ok := <-in:
+			if !ok {
+				return
+			}
 			cnt := depsCount.Load() + sotrsCount.Load()
 
 			if limit > 0 && cnt > limit {
@@ -203,7 +204,7 @@ MAIN_LOOP:
 			if resp.IsErrorState() { // Status code >= 400.
 				w.Lg.Error("Worker:", "err", errMsg.Message) // Record error message returned.
 				err = errMsg
-				break MAIN_LOOP
+				return
 			}
 
 			if resp.IsSuccessState() { // Status code is between 200 and 299.
@@ -213,7 +214,6 @@ MAIN_LOOP:
 					w.Lg.Error("Worker: get body:", "err", e, "delay", resp.TotalTime())
 				}
 
-				var raw []json.RawMessage
 				if e := json.Unmarshal(body, &raw); e != nil {
 					w.Lg.Error("Worker: unmurshal body to []Raw:", "err", e, "delay", resp.TotalTime())
 				}
@@ -223,11 +223,9 @@ MAIN_LOOP:
 
 				for i, rm := range raw {
 					dep := &models.Dep{} // Новое сообщение
-
 					if e := json.Unmarshal([]byte(rm), dep); e != nil {
 						w.Lg.Error("Worker: unmurshal []Raw :", "err", e, "delay", resp.TotalTime())
 					}
-
 					DepsResponse[i] = dep.Conv2Kbv().GetDep()
 				}
 
@@ -267,18 +265,20 @@ MAIN_LOOP:
 					if d.GetChildren() {
 						w.QueueDep.Push(d.Idr)
 						depsCount.Add(1)
-
-						select {
-						case w.IsData <- struct{}{}:
-						default:
-						}
+						// select {
+						// case w.IsData <- struct{}{}:
+						// default:
+						// }
 					} else {
 						sotrsCount.Add(1)
 					}
-
-					e := w.PrepareItem(ctx, d)
-					if e != nil {
-						w.Lg.Error("Worker: Prepare dep", "err", e, "dep", d)
+					// e := w.PrepareItem(ctx, d)
+					// if e != nil {
+					// 	w.Lg.Error("Worker: Prepare dep", "err", e, "dep", d)
+					// }
+					select {
+					case out <- w.PrepareItem(ctx, d):
+					case <-ctx.Done():
 					}
 				}
 			}
@@ -294,73 +294,47 @@ MAIN_LOOP:
 }
 
 // Dispatcher wolking accross worker queues for forwarding idr/avatar to worker input chanal
-func (w *Worker) Dispatcher(ctx context.Context, dispName string, queue *Queue, out chan<- Task, isData <-chan struct{}) {
+func (w *Worker) Dispatcher(ctx context.Context, dispName string, queue *Queue, out chan<- Task) { // , isData <-chan struct{}
 	var (
 		count, lenQ int
 		s, message  string
+		timeStart   time.Time
 	)
 
+	w.Lg.Debug(fmt.Sprintf("Dispatcher %s: Getting data from Queue...", dispName))
 	defer func() {
 		w.Lg.Debug(fmt.Sprintf("Dispatcher %s: END %s", dispName, message))
 	}()
 
-	send2chan := func(q *Queue, outCh chan<- Task) (ok bool) {
-		ok = true
-		lenQ = q.Len()
-
-		if lenQ == 0 {
-			w.Lg.Info(fmt.Sprintf("Dispatcher %s: isData when Queue len =0", dispName))
-			return
-		}
-
-		// get data from queue
-		s = q.Pop()
-
-		// send data to out chanal (razdCh)
-		select {
-		case outCh <- *NewTask(s):
-			count++
-		case <-ctx.Done():
-			lenQ = q.Len()
-			w.Lg.Info(fmt.Sprintf("Dispatcher %s: general cancel:", dispName), "err", ctx.Err().Error(), "QueueLen", lenQ) // , "DepsResponseQueueLen", lenQD)
-			ok = false
-			return
-		}
-
-		return
-	}
+	ticker := time.NewTicker(*w.PollInterval)
+	defer ticker.Stop()
 
 	for {
-		// if the dispatcher faster a workers then isData indicate new data in the queue
-		// if w.QueueDep.Len() == 0 {
-		w.Lg.Debug(fmt.Sprintf("Dispatcher %s: Getting data from Queue...", dispName))
-
-		timeStart := time.Now()
-
 		select {
-		case _, ok := <-isData:
-			if err := ctx.Err(); err != nil {
-				// w.Lg.Info(fmt.Sprintf("Dispatcher %s: general cancel:", dispName), "err", ctx.Err().Error(), "QueueLen", lenQ)
-				message = err.Error()
-				return
-			}
+		case <-ticker.C:
+			for queue.Len() > 0 {
+				timeStart = time.Now()
+				// get data from queue
+				s = queue.Pop()
 
-			if !ok {
-				// w.Lg.Info(fmt.Sprintf("Dispatcher %s: isData chanal close:", dispName), "QueueLen", lenQ)
-				message = "with isData chanel close"
-				return
-			}
+				// send data to out chanal (razdCh)
+				select {
+				case out <- *NewTask(s):
+					count++
 
-			if !send2chan(queue, out) {
-				return
+				case <-ctx.Done():
+					// return task to queue
+					queue.Push(s)
+					// TODO save queue for continue in the next run
+					lenQ = queue.Len()
+					w.Lg.Info(fmt.Sprintf("Dispatcher %s: general cancel:", dispName), "err", ctx.Err().Error(), "QueueLen", lenQ) // , "DepsResponseQueueLen", lenQD)
+					return
+				}
+				lenQ = queue.Len()
+				w.Lg.Info(fmt.Sprintf("Dispatcher %s: Get from queue", dispName), "count", count, "data", s, "QueueLen", lenQ, "delay", time.Since(timeStart))
 			}
-
-			lenQ := queue.Len()
-			w.Lg.Info(fmt.Sprintf("Dispatcher %s: Get from queue", dispName), "count", count, "data", s, "QueueLen", lenQ, "delay", time.Since(timeStart))
 
 		case <-ctx.Done():
-			// lenQ := queue.Len()
-			// w.Lg.Debug(fmt.Sprintf("Dispatcher %s: general cancel in loop:", dispName), "err", ctx.Err().Error(), "QueueLen", lenQ, "IsData", len(isData)) // , "DepsResponseQueueLen", lenQD, "DepsResponseIsData", len(w.isData))
 			message = "with general cancel in loop"
 
 			return
@@ -369,7 +343,7 @@ func (w *Worker) Dispatcher(ctx context.Context, dispName string, queue *Queue, 
 }
 
 // PrepareItem define the item as a DepsResponse or an employee and save one
-func (w *Worker) PrepareItem(ctx context.Context, item models.Item) error {
+func (w *Worker) PrepareItem(ctx context.Context, item models.Item) models.Item {
 	ATTEMPT := 1 // number of attempts for get data if success field = false
 	dep := item.(*kbv1.Dep)
 	dep.Text = html.UnescapeString(dep.Text)
@@ -380,11 +354,10 @@ func (w *Worker) PrepareItem(ctx context.Context, item models.Item) error {
 		// send url Avatar image to queue for download
 		w.QueueAvatar.Push(sotr.Avatar)
 
-		select {
-		case w.IsDataA <- struct{}{}:
-		default:
-		}
-
+		// select {
+		// case w.IsDataA <- struct{}{}:
+		// default:
+		// }
 		sotr.Children = dep.Children
 		sotr.Idr = dep.Idr
 		sotr.ParentId = dep.Parent
@@ -447,13 +420,12 @@ func (w *Worker) PrepareItem(ctx context.Context, item models.Item) error {
 		}
 		item = sotr
 	}
+	// _, err := w.Conf.Store.Save(ctx, item)
 
-	_, err := w.Conf.Store.Save(ctx, item)
-
-	return err
+	return item
 }
 
-func (w *Worker) getData(ctx context.Context, ajaxUrl, query string) (string, error) {
+func (w *Worker) getData(_ context.Context, ajaxUrl, query string) (string, error) {
 	var (
 		errMsg ReqMessageError
 		body   string // []byte
@@ -548,7 +520,6 @@ func (w *Worker) GetAvatar(ctx context.Context, in <-chan Task, limit int32,
 				SetErrorResult(&errMsg). // Unmarshal response body into errMsg automatically if status code >= 400.
 				SetOutputFile(tFilename).
 				SetDownloadCallback(callback).
-				// SetContext(ctx).
 				Get(ava)
 			if err != nil { // Error handling.
 				w.Lg.Error("Worker avatar: request handling", "error", err)
