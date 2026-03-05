@@ -110,13 +110,10 @@ type Item interface {
 }
 
 type Worker struct {
-	// mu          sync.Mutex
-	Name        string
-	QueueDep    *Queue
-	QueueAvatar *Queue
-	Conf        *Config
-	// IsData       chan struct{}
-	// IsDataA      chan struct{}
+	Name         string
+	QueueDep     *Queue
+	QueueAvatar  *Queue
+	Conf         *Config
 	Lg           *slog.Logger
 	httpClient   *req.Client
 	PollInterval *time.Duration
@@ -124,21 +121,17 @@ type Worker struct {
 
 func NewWorker(conf *Config, name string, debugLevel int, logger *slog.Logger) *Worker {
 	lg := logger.With("worker", name)
-	// isData := make(chan struct{}, 1500)
-	// IsDataA := make(chan struct{}, 1500)
 	cli := httpclient.NewHTTPClient(debugLevel, conf.Headers)
 	cli.SetBaseURL(conf.KbUrl).
 		SetTimeout(conf.HttpReqTimeout).
 		SetLogger(&ReqLogger{Logger: *lg})
 
 	return &Worker{
-		Name:        name,
-		QueueDep:    NewQueue(),
-		QueueAvatar: NewQueue(),
-		Conf:        conf,
-		Lg:          lg,
-		// IsData:       isData,
-		// IsDataA:      IsDataA,
+		Name:         name,
+		QueueDep:     NewQueue(),
+		QueueAvatar:  NewQueue(),
+		Conf:         conf,
+		Lg:           lg,
 		httpClient:   cli,
 		PollInterval: &conf.DispPollInterval,
 	}
@@ -150,12 +143,8 @@ func (w *Worker) GetRazd(ctx context.Context, in chan Task, out chan models.Item
 		errMsg *ReqMessageError
 		raw    []json.RawMessage
 	)
-
 	w.Lg.Debug("Worker: Start Getting...")
 	defer w.Lg.Debug("Worker: END...")
-	// defer close(w.IsDataA)
-	// defer close(w.IsData)
-
 	cli := w.httpClient
 
 	for {
@@ -246,10 +235,7 @@ func (w *Worker) GetRazd(ctx context.Context, in chan Task, out chan models.Item
 
 					// requeue with backoff in a goroutine to avoid blocking the caller
 					go func(data string, num int) {
-						backoff := time.Duration(1<<num) * time.Second
-						if backoff > 10*time.Second {
-							backoff = 10 * time.Second
-						}
+						backoff := min(time.Duration(1<<num)*time.Second, 10*time.Second)
 						select {
 						case <-time.After(backoff):
 						case <-ctx.Done():
@@ -267,10 +253,6 @@ func (w *Worker) GetRazd(ctx context.Context, in chan Task, out chan models.Item
 					if d.GetChildren() {
 						w.QueueDep.Push(d.Idr)
 						depsCount.Add(1)
-						// select {
-						// case w.IsData <- struct{}{}:
-						// default:
-						// }
 					} else {
 						sotrsCount.Add(1)
 					}
@@ -353,10 +335,6 @@ func (w *Worker) PrepareItem(ctx context.Context, item models.Item) models.Item 
 		// send url Avatar image to queue for download
 		w.QueueAvatar.Push(sotr.Avatar)
 
-		// select {
-		// case w.IsDataA <- struct{}{}:
-		// default:
-		// }
 		sotr.Children = dep.Children
 		sotr.Idr = dep.Idr
 		sotr.ParentId = dep.Parent
@@ -385,10 +363,7 @@ func (w *Worker) PrepareItem(ctx context.Context, item models.Item) models.Item 
 
 			var mob *utils.Mobile
 
-			for i := 0; i < ATTEMPT; i++ {
-				// if len(sotr.Mobile) == 0 {
-				// 	break
-				// }
+			for i := range ATTEMPT {
 				text, err = w.getData(ctx, w.Conf.UrlMobile, sotr.Tabnum)
 
 				if err != nil {

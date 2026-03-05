@@ -25,7 +25,7 @@ type ClientConfig struct {
 	DialKeepAliveTime    time.Duration  `name:"dial-keepalive-time" json:"dial-keepalive-time" help:"Keepalive time"`
 	DialKeepAliveTimeout time.Duration  `name:"dial-keepalive-timeout" json:"dial-keepalive-timeout" default:"10s" help:"Keepalive timeout"`
 	PermitWithoutStream  bool           `name:"permit-without-stream" json:"permit-without-stream" negatable:"" default:"true" help:"Allow to connect to server wihout stream support"`
-	SSHProxy             SSHProxyConfig `embed:"" prefix:"ssh-proxy-" json:"ssh-proxy,omitempty" help:"Use SSH tunneling for connection"`
+	SSHProxy             SSHProxyConfig `embed:"" prefix:"ssh-proxy-" json:"ssh-proxy" help:"Use SSH tunneling for connection"`
 }
 
 // SetDefaults apply defaults
