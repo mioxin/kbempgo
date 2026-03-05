@@ -2,7 +2,6 @@ package file
 
 import (
 	"context"
-	"fmt"
 	"io"
 	"log/slog"
 	"testing"
@@ -20,7 +19,7 @@ func TestGetDepsBy(t *testing.T) {
 		Text:     "Управление разработки",
 		Children: true,
 	}
-	stor, err := NewFileStore[*kbv1.Dep]("./testdata", slog.Default())
+	stor, err := NewFileStore("./testdata", slog.Default())
 
 	require.NoError(t, err)
 	defer stor.Close()
@@ -77,7 +76,7 @@ func TestSotrsResponseBy(t *testing.T) {
 
 	d := make([]*kbv1.Sotr, 0)
 
-	stor, err := NewFileStore[*kbv1.Sotr]("./testdata", slog.Default())
+	stor, err := NewFileStore("./testdata", slog.Default())
 
 	require.NoError(t, err)
 	defer stor.Close()
@@ -97,95 +96,5 @@ func TestSotrsResponseBy(t *testing.T) {
 			}
 			// stor.flS.Seek(0, io.SeekStart)
 		})
-	}
-}
-
-// func TestSotrsResponseByTabnum(t *testing.T) {
-
-// 	var fields = []field{
-// 		{
-// 			name:  "mobile",
-// 			value: "+7 (775) 017-36-00",
-// 			err:   nil,
-// 		},
-// 		{
-// 			name:  "invalid field",
-// 			value: "",
-// 			err:   &FieldNameError{"invalid field"},
-// 		},
-// 	}
-
-// 	stor, err := NewFileStore[*kbv1.Sotr]("./testdata")
-
-// 	require.NoError(t, err)
-// 	defer stor.Close()
-
-// 	for _, f := range fields {
-// 		d := make([]*kbv1.Sotr, 0, 3)
-
-// 		t.Run(f.name, func(t *testing.T) {
-// 			d, err = stor.GetSotrsByField(context.TODO(), f.name, &kbv1.QueryString{Str: f.value})
-
-// 			if err != io.EOF && err != nil {
-// 				require.IsType(t, f.err, err)
-// 			} else {
-// 				assert.Equal(t, []*kbv1.Sotr{&expectSotr}, d)
-// 			}
-// 			stor.flS.Seek(0, io.SeekStart)
-// 		})
-// 	}
-// }
-
-func BenchmarkGetSotrByTabnum(b *testing.B) {
-	stor, err := NewFileStore[*kbv1.Sotr]("./testdata", slog.Default())
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	defer stor.Close()
-
-	for i := 0; i < b.N; i++ {
-		_, _ = stor.GetSotrByTabnum(context.TODO(), &kbv1.SotrRequest{Str: "59029"})
-	}
-
-}
-
-func BenchmarkGetSotrByField(b *testing.B) {
-	stor, err := NewFileStore[*kbv1.Sotr]("./testdata", slog.Default())
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	defer stor.Close()
-
-	for i := 0; i < b.N; i++ {
-		_, _ = stor.GetSotrByField(context.TODO(), "tabnum", &kbv1.SotrRequest{Str: "59029"})
-	}
-}
-
-func BenchmarkGetDepByIdr(b *testing.B) {
-	stor, err := NewFileStore[*kbv1.Sotr]("./testdata", slog.Default())
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	defer stor.Close()
-
-	for i := 0; i < b.N; i++ {
-		_, _ = stor.GetDepsBy(context.TODO(), &kbv1.DepRequest{Str: "razd1941.840"})
-	}
-
-}
-
-func BenchmarkGetDepByIdr1(b *testing.B) {
-	stor, err := NewFileStore[*kbv1.Sotr]("./testdata", slog.Default())
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	defer stor.Close()
-
-	for i := 0; i < b.N; i++ {
-		_, _ = stor.GetDepByIdr1(context.TODO(), &kbv1.DepRequest{Str: "razd1941.840"})
 	}
 }

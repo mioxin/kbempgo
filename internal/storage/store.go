@@ -62,7 +62,7 @@ func NewStore(source string, log *slog.Logger) (st Store, err error) {
 			break
 		}
 
-		st, err = file.NewFileStore[models.Item](s, log)
+		st, err = file.NewFileStore(s, log)
 	default:
 		err = fmt.Errorf("error create Store, invalid db type in the source \"%v\" (%s)", dbType, source)
 	}

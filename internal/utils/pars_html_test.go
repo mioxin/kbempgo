@@ -192,7 +192,7 @@ func TestCheckSotr(t *testing.T) {
 
 	t.Skip("test for local test a scraped data")
 
-	stor, err := file.NewFileStore[*kbv1.Sotr]("../../.tmp", slog.Default())
+	stor, err := file.NewFileStore("../../.tmp", slog.Default())
 
 	require.NoError(t, err)
 	defer stor.Close()

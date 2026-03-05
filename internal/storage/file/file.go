@@ -3,7 +3,6 @@ package file
 import (
 	"bufio"
 	"context"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
@@ -31,7 +30,7 @@ func (e FieldNameError) Error() string {
 }
 
 // string of directory path contains DepsResponse.json and SotrsResponse.json
-type FileStore[T models.Item] struct {
+type FileStore struct {
 	kbv1.UnimplementedStorAPIServer
 
 	BaseDir         string
@@ -41,7 +40,7 @@ type FileStore[T models.Item] struct {
 	Log             *slog.Logger
 }
 
-func NewFileStore[T models.Item](fname string, log *slog.Logger) (*FileStore[T], error) {
+func NewFileStore(fname string, log *slog.Logger) (*FileStore, error) {
 	err := os.MkdirAll(fname, 0750)
 	if err != nil {
 		return nil, err
@@ -61,7 +60,7 @@ func NewFileStore[T models.Item](fname string, log *slog.Logger) (*FileStore[T],
 		return nil, err
 	}
 
-	return &FileStore[T]{
+	return &FileStore{
 		BaseDir: fname,
 		rwrDep:  bufio.NewReadWriter(bufio.NewReader(flD), bufio.NewWriter(flD)),
 		rwrSotr: bufio.NewReadWriter(bufio.NewReader(flS), bufio.NewWriter(flS)),
@@ -71,7 +70,7 @@ func NewFileStore[T models.Item](fname string, log *slog.Logger) (*FileStore[T],
 	}, nil
 }
 
-func (f *FileStore[T]) Save(_ context.Context, item T) (_ *emptypb.Empty, err error) {
+func (f *FileStore) Save(_ context.Context, item models.Item) (_ *emptypb.Empty, err error) {
 
 	if !item.GetChildren() {
 		if sotr, ok := any(item).(*kbv1.Sotr); ok {
@@ -101,8 +100,9 @@ func (f *FileStore[T]) Save(_ context.Context, item T) (_ *emptypb.Empty, err er
 	return
 }
 
-func (f *FileStore[T]) saveDep(dep *kbv1.Dep) (err error) {
+func (f *FileStore) saveDep(dep *kbv1.Dep) (err error) {
 	var DepsResponse []*kbv1.Dep
+	var b []byte
 
 	// get dep if exists for define double raw
 	DepsResponse, err = f.GetDepsBy(context.Background(), &kbv1.DepRequest{Field: kbv1.DepRequest_IDR, Str: dep.Idr})
@@ -120,7 +120,7 @@ func (f *FileStore[T]) saveDep(dep *kbv1.Dep) (err error) {
 	marshaler := protojson.MarshalOptions{
 		EmitUnpopulated: true, // for sure includes bool fields =  false/0/""
 	}
-	b, err := marshaler.Marshal(dep)
+	b, err = marshaler.Marshal(dep)
 	if err != nil {
 		return
 	}
@@ -139,7 +139,7 @@ func (f *FileStore[T]) saveDep(dep *kbv1.Dep) (err error) {
 	return
 }
 
-func (f *FileStore[T]) saveSotr(sotr *kbv1.Sotr) (err error) {
+func (f *FileStore) saveSotr(sotr *kbv1.Sotr) (err error) {
 
 	ctx := context.Background()
 	var SotrsResponse []*kbv1.Sotr
@@ -228,13 +228,12 @@ func (f *FileStore[T]) saveSotr(sotr *kbv1.Sotr) (err error) {
 	return
 }
 
-func (f *FileStore[T]) Update(_ context.Context, query *kbv1.UpdateSotrRequest) (_ *emptypb.Empty, err error) {
+func (f *FileStore) Update(_ context.Context, query *kbv1.UpdateSotrRequest) (_ *emptypb.Empty, err error) {
 	marshaler := protojson.MarshalOptions{
 		EmitUnpopulated: true, // for sure includes bool fields =  false/0/""
 	}
 
 	b, err := marshaler.Marshal(query.Sotr)
-	// b, err := json.Marshal(query.Sotr)
 	if err != nil {
 		return
 	}
@@ -248,7 +247,7 @@ func (f *FileStore[T]) Update(_ context.Context, query *kbv1.UpdateSotrRequest) 
 	return
 }
 
-func (f *FileStore[T]) Flush(ctx context.Context, _ *emptypb.Empty) (_ *emptypb.Empty, err error) {
+func (f *FileStore) Flush(ctx context.Context, _ *emptypb.Empty) (_ *emptypb.Empty, err error) {
 	f.mt.Lock()
 	defer f.mt.Unlock()
 
@@ -270,7 +269,7 @@ func (f *FileStore[T]) Flush(ctx context.Context, _ *emptypb.Empty) (_ *emptypb.
 	return
 }
 
-func (f *FileStore[T]) Close() (err error) {
+func (f *FileStore) Close() (err error) {
 	f.mt.Lock()
 	defer f.mt.Unlock()
 
@@ -303,7 +302,7 @@ func (f *FileStore[T]) Close() (err error) {
 	return errors.Join(errs...)
 }
 
-func (f *FileStore[T]) GetDepsBy(ctx context.Context, query *kbv1.DepRequest) (DepsResponse []*kbv1.Dep, err error) {
+func (f *FileStore) GetDepsBy(ctx context.Context, query *kbv1.DepRequest) (DepsResponse []*kbv1.Dep, err error) {
 	f.mt.Lock()
 	defer f.mt.Unlock()
 	f.flD.Seek(0, io.SeekStart)
@@ -365,7 +364,7 @@ func (f *FileStore[T]) GetDepsBy(ctx context.Context, query *kbv1.DepRequest) (D
 	return
 }
 
-func (f *FileStore[T]) GetSotrsBy(ctx context.Context, query *kbv1.SotrRequest) (SotrsResponse []*kbv1.Sotr, err error) {
+func (f *FileStore) GetSotrsBy(ctx context.Context, query *kbv1.SotrRequest) (SotrsResponse []*kbv1.Sotr, err error) {
 	var s string
 
 	f.mt.Lock()
@@ -434,201 +433,6 @@ func (f *FileStore[T]) GetSotrsBy(ctx context.Context, query *kbv1.SotrRequest) 
 	return
 }
 
-func (f *FileStore[T]) GetDepByIdr1(ctx context.Context, idr *kbv1.DepRequest) (dep *kbv1.Dep, err error) {
-	var s string
-	f.mt.Lock()
-	defer f.mt.Unlock()
-
-	sComp := fmt.Sprintf("{\"id\":\"%s\",", idr.Str)
-
-	for err != io.EOF {
-		s, err = f.rwrDep.ReadString('\n')
-		if err != nil {
-			return
-		}
-		if strings.HasPrefix(s, sComp) {
-			err = json.Unmarshal([]byte(s), dep)
-			if err != nil {
-				return
-			}
-			break
-		}
-	}
-
-	return
-}
-
-func (f *FileStore[T]) GetSotrByTabnum(ctx context.Context, tabnum *kbv1.SotrRequest) (SotrsResponse *kbv1.Sotr, err error) {
-	var s string
-	sComp := fmt.Sprintf("\"tabnum\":\"%s\",", tabnum.Str)
-	SotrsResponse = &kbv1.Sotr{}
-
-	for err != io.EOF {
-		s, err = f.rwrSotr.ReadString('\n')
-
-		if err != nil {
-			return
-		}
-
-		if strings.Contains(s, sComp) {
-			err = json.Unmarshal([]byte(s), SotrsResponse)
-
-			if err != nil {
-				return
-			}
-			break
-		}
-	}
-
-	return
-}
-
-func (f *FileStore[T]) GetSotrByField(ctx context.Context, field string, quuery *kbv1.SotrRequest) (SotrsResponse *kbv1.Sotr, err error) {
-	var (
-		s          string
-		fieldValue string
-	)
-
-	SotrsResponse = &kbv1.Sotr{}
-
-	for err != io.EOF {
-		s, err = f.rwrSotr.ReadString('\n')
-		if err != nil {
-			return
-		}
-
-		err = json.Unmarshal([]byte(s), SotrsResponse)
-		if err != nil {
-			f.Log.Error("GetSotrByField: unmurshall json", "error", err, "field", field, "json", s)
-			continue
-		}
-
-		switch field {
-		case "tabnum":
-			fieldValue = SotrsResponse.Tabnum
-		case "fio":
-			fieldValue = SotrsResponse.Name
-		default:
-			err = &FieldNameError{Name: field}
-			return
-		}
-
-		if fieldValue == quuery.Str {
-			break
-		}
-	}
-
-	return
-}
-
-// // Migrate apply migrations to the DB
-// func (f *FileStore[T]) Migrate(ctx context.Context, down bool) error {
-// 	return nil
-// }
-
-// // Retention deletes entries older than passed time
-// func (f *FileStore[T]) Retention(ctx context.Context, olderThan time.Time) error {
-// 	return nil
-// }
-
-func (f *FileStore[T]) PromCollector() prometheus.Collector {
+func (f *FileStore) PromCollector() prometheus.Collector {
 	return nil
 }
-
-// func Save(ctx context.Context, query *kbv1.Item) (empty *emptypb.Empty, err error) {
-// 	empty = &emptypb.Empty{}
-
-// 	switch item := query.Var.(type) {
-// 	case *kbv1.Item_Dep:
-// 		var dep []*kbv1.Dep
-
-// 		// get dep if exists for define double raw
-// 		dep, err = ps.stor.GetDepsBy(ctx, &kbv1.DepRequest{Field: kbv1.DepRequest_IDR, Str: item.Dep.Idr})
-// 		if err != nil {
-// 			return
-// 		}
-
-// 		// check double raw
-// 		for _, d := range dep {
-// 			if d.Parent == item.Dep.Parent && d.Text == item.Dep.Text {
-// 				ps.lg.Debug("Save GetDepBy: Dep exist", "IDR", item.Dep.Idr, "dep", dep)
-// 				return
-// 			}
-// 		}
-// 		ps.lg.Debug("Save Dep to Stor:", "item.dep", item.Dep)
-
-// 		_, err = ps.stor.Save(ctx, item.Dep)
-// 		if err != nil {
-// 			return
-// 		}
-
-// 	case *kbv1.Item_Sotr:
-// 		var SotrsResponse []*kbv1.Sotr
-
-// 		// get SotrsResponse if exists for define double raw
-// 		SotrsResponse, err = ps.stor.GetSotrsBy(ctx, &kbv1.SotrRequest{Field: kbv1.SotrRequest_TABNUM, Str: item.Sotr.Tabnum})
-// 		if err != nil {
-// 			return
-// 		}
-
-// 		// doublicates not found
-// 		if len(SotrsResponse) == 0 {
-// 			_, err = ps.stor.Save(ctx, item.Sotr)
-// 			ps.lg.Debug("Save Sotr to Stor:", "item.SotrsResponse", item.Sotr)
-// 			if err != nil {
-// 				err = fmt.Errorf("error save Sotr to Stor: %w", err)
-// 				return
-// 			}
-// 			return
-// 		}
-
-// 		ps.lg.Debug("Save GetDepBy: Sotr exist", "TABNUM", item.Sotr.Tabnum, "SotrsResponse", SotrsResponse)
-
-// 		sort.Slice(SotrsResponse, func(i, j int) bool {
-// 			if SotrsResponse[i].Date == nil {
-// 				return true
-// 			}
-// 			if SotrsResponse[j].Date == nil {
-// 				return false
-// 			}
-// 			return SotrsResponse[i].Date.AsTime().Before(SotrsResponse[j].Date.AsTime())
-// 		})
-// 		// get newest raw
-// 		oldSotr := SotrsResponse[len(SotrsResponse)-1]
-
-// 		// if double raw exists then compare for define difference
-// 		diff, _ := kbv1.CompareSotr(oldSotr, item.Sotr)
-// 		// if diff exists than save diff to history and update old SotrsResponse
-// 		if len(diff) > 0 {
-// 			hs := make([]*kbv1.History, 0)
-// 			for _, df := range diff {
-
-// 				value := ""
-
-// 				switch t := df.Val.(type) {
-// 				case string:
-// 					value = string(t)
-// 				case []string:
-// 					value = strings.Join(t, ",")
-// 				}
-
-// 				hs = append(hs, &kbv1.History{
-// 					Date:     timestamppb.Now(),
-// 					Field:    df.FieldName,
-// 					OldValue: value,
-// 					SotrId:   oldSotr.Id,
-// 				})
-// 			}
-// 			_, err = ps.stor.Update(ctx, &kbv1.UpdateSotrRequest{Sotr: item.Sotr, HistoryListResponse: hs})
-// 			ps.lg.Debug("Update Sotr to Stor:", "item.SotrsResponse", item.Sotr)
-// 		} else {
-// 			ps.lg.Debug("Sotr exist in Stor:", "item.SotrsResponse", item.Sotr)
-// 		}
-
-// 	default:
-// 		err = fmt.Errorf("can't save invalid query %v", query)
-// 	}
-
-// 	ps.lg.Debug("Saved item", "item", query.Var, "err", err)
-// 	return
-// }
